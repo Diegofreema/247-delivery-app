@@ -6,4 +6,11 @@ export const defaultStyle = StyleSheet.create({
 
     flex: 1,
   },
+  pressable: {
+    opacity: 0.5,
+  },
 });
+
+export const textStyle = {
+  color: 'black',
+};

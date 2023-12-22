@@ -22,4 +22,5 @@ export const colors = {
   textBg: '#ECECEC',
   placeHolderColor: '#8D8D8D',
   btnColor: '#009B50',
+  productCard: '#D8D8D880',
 };

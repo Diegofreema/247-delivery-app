@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -42,11 +43,14 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
+  const query = new QueryClient();
 
   return (
-    <ToastProvider>
-      <RootLayoutNav />
-    </ToastProvider>
+    <QueryClientProvider client={query}>
+      <ToastProvider>
+        <RootLayoutNav />
+      </ToastProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -58,6 +62,10 @@ function RootLayoutNav() {
       <Stack initialRouteName="index">
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="productDetail/[product]"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ThemeProvider>
   );

@@ -14,6 +14,7 @@ import { useToast } from 'react-native-toast-notifications';
 import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
 import { useRouter } from 'expo-router';
+import { MyButton } from '../components/Mybutton';
 type Props = {};
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -100,16 +101,20 @@ const Login = (props: Props) => {
                 errorMessage={errorMessagePassword}
               />
             </>
-
-            <Button
+            <MyButton
+              title="Login"
+              onPress={() => router.push('/(tabs)')}
               color={colors.btnColor}
-              onPress={() => handleSubmit()}
+            />
+            {/* <Button
+              color={colors.btnColor}
+              onPress={() => router.push('/(tabs)')}
               buttonStyle={{ marginTop: 20, height: 50 }}
               radius={25}
               loading={isSubmitting}
             >
               Login
-            </Button>
+            </Button> */}
           </View>
         </View>
       </SafeAreaView>
