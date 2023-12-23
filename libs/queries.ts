@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useStoreId } from '../hooks/useAuth';
 import { products } from './goods';
-import { PickUp } from '../types';
+import { PickUp, PrintData } from '../types';
 
 export const useGetPickupQuery = () => {
   const { id } = useStoreId();
@@ -97,7 +97,7 @@ export const useGetPrint = (id: string) => {
         data = [...response.data];
       }
 
-      return data;
+      return data as PrintData[];
     },
   });
 };

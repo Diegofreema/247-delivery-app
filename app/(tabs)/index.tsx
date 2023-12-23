@@ -69,12 +69,10 @@ export default function TabOneScreen() {
           backgroundColor: 'white',
         }}
       >
-        <ActivityIndicator size={50} color={colors.btnColor} />
+        <ActivityIndicator size={100} color={colors.btnColor} />
       </View>
     );
   }
-
-  console.log(products);
 
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
@@ -96,7 +94,6 @@ export default function TabOneScreen() {
               formattedSellerInfo[0]?.split('Dealer Name: ');
             const formattedLocation =
               formattedSellerInfo[2]?.split('Location: ');
-            console.log(formattedName?.[1], formattedLocation?.[1]);
 
             return (
               <View style={[styles.container]}>

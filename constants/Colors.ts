@@ -23,4 +23,5 @@ export const colors = {
   placeHolderColor: '#8D8D8D',
   btnColor: '#009B50',
   productCard: '#D8D8D880',
+  btnGray: '#ECECEC',
 };

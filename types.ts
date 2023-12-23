@@ -17,3 +17,15 @@ export type PickUp = {
   salesreference: string;
   sellerinfo: string;
 };
+
+export type PrintData = {
+  Product: string;
+  Statename: string;
+  addres: string;
+  community: string;
+  customername: string;
+  phone: string;
+  qty: string;
+  salesreference: string;
+  total: string;
+};
