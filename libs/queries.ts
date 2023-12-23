@@ -39,8 +39,6 @@ export const useGetDeliverQuery = () => {
         `https://247api.netpro.software/api.aspx?api=deliverylist&agentid=${id}`
       );
 
-      console.log('response', response.status);
-
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {
         data.push(response.data);

@@ -25,6 +25,7 @@ import {
 import { colors } from '../../constants/Colors';
 import { MyButton } from '../../components/Mybutton';
 import { ActivityIndicator } from 'react-native';
+import { usePickUp } from '../../libs/mutation';
 
 type Props = {};
 
@@ -34,6 +35,7 @@ const ProductDetail = (props: Props) => {
 
   const { data, isFetching, isError, isPaused, isPending, refetch } =
     useGetPickupQuery();
+  const { isPending: isPickUpPending, mutateAsync } = usePickUp();
   const [retry, setRetry] = useState(false);
 
   const handleRetry = () => {
@@ -344,8 +346,9 @@ const ProductDetail = (props: Props) => {
 
           <MyButton
             title="Pick up from Merchant"
-            onPress={() => console.warn('Pick up from Merchant')}
+            onPress={() => mutateAsync(singleProduct?.id)}
             color={colors.btnColor}
+            loading={isPickUpPending}
           />
           <MyButton
             title="Print Receipt"

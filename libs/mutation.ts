@@ -5,9 +5,11 @@ import { useToast } from 'react-native-toast-notifications';
 export const usePickUp = () => {
   const toast = useToast();
   const pickUp = async (id: string) => {
+    console.log('id', id);
     const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=deliverypickupbutton&saleid=${id}`
+      `https://247api.netpro.software/api.aspx?api=deliverypickupbutton&saleid=${10053}`
     );
+    console.log('response', response);
 
     return response.data;
   };
@@ -32,6 +34,8 @@ export const usePickUp = () => {
       });
     },
     onError: (error) => {
+      console.log('error', error);
+
       return toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',
