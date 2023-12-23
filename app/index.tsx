@@ -44,7 +44,7 @@ const Login = (props: Props) => {
         `https://247api.netpro.software/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
       );
 
-      console.log(response);
+      // console.log(response.data);
 
       if (response?.data === 'incorrect credentials') {
         return toast.show('Incorrect credentials', {
@@ -66,7 +66,10 @@ const Login = (props: Props) => {
         });
       }
 
+      console.log(response.data, 'response.data');
+
       setId(response.data);
+      resetForm();
       router.push('/(tabs)');
     },
   });
@@ -103,7 +106,7 @@ const Login = (props: Props) => {
             </>
             <MyButton
               title="Login"
-              onPress={() => router.push('/(tabs)')}
+              onPress={handleSubmit}
               color={colors.btnColor}
             />
             {/* <Button

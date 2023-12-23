@@ -10,6 +10,8 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import * as Updates from 'expo-updates';
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -33,7 +35,22 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+  // useEffect(() => {
+  //   async function onFetchUpdateAsync() {
+  //     try {
+  //       const update = await Updates.checkForUpdateAsync();
 
+  //       if (update.isAvailable) {
+  //         await Updates.fetchUpdateAsync();
+  //         await Updates.reloadAsync();
+  //       }
+  //     } catch (error) {
+  //       // You can also add an alert() to see the error message in case of an error when fetching updates.
+  //       console.log(error);
+  //     }
+  //   }
+  //   onFetchUpdateAsync();
+  // }, []);
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -66,6 +83,7 @@ function RootLayoutNav() {
           name="productDetail/[product]"
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="[printRef]" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );

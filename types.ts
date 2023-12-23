@@ -7,3 +7,13 @@ export type LoggedUserType = {
   productInCart: string;
   statename: string;
 };
+
+export type PickUp = {
+  product: string;
+  datex: string;
+  price: string;
+  qty: string;
+  id: string;
+  salesreference: string;
+  sellerinfo: string;
+};
