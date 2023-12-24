@@ -84,6 +84,10 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="[printRef]" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="deliveryDetails/[productId]"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ThemeProvider>
   );

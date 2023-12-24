@@ -343,18 +343,17 @@ const ProductDetail = (props: Props) => {
               </Text>
             </View>
           </View>
-
-          <MyButton
-            title="Pick up from Merchant"
-            onPress={() => mutateAsync(singleProduct?.id)}
-            color={colors.btnColor}
-            loading={isPickUpPending}
-          />
           <MyButton
             title="Print Receipt"
             onPress={() => router.push(`/${singleProduct?.id}`)}
             color={colors.btnGray}
             textColor="black"
+          />
+          <MyButton
+            title="Pick up from Merchant"
+            onPress={() => mutateAsync(singleProduct?.id)}
+            color={colors.btnColor}
+            loading={isPickUpPending}
           />
         </View>
       </ScrollView>

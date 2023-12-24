@@ -1,23 +1,28 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 import { useToast } from 'react-native-toast-notifications';
 
 export const usePickUp = () => {
   const toast = useToast();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const pickUp = async (id: string) => {
     console.log('id', id);
     const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=deliverypickupbutton&saleid=${10053}`
+      `https://247api.netpro.software/api.aspx?api=deliverypickupbutton&saleid=${id}`
     );
     console.log('response', response);
 
     return response.data;
   };
   return useMutation({
-    mutationKey: ['pickUp'],
+    mutationKey: ['pickUpBtn'],
     mutationFn: pickUp,
     onSuccess: (data) => {
       if (data === 'saved') {
+        queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
+        router.push('/(tabs)');
         return toast.show('Product has been picked up', {
           type: 'success',
           placement: 'bottom',

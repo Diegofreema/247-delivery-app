@@ -20,10 +20,9 @@ import { useStoreId } from '../../hooks/useAuth';
 import { useGetPickupQuery } from '../../libs/queries';
 import { useState } from 'react';
 import { MyButton } from '../../components/Mybutton';
+import { EmptyBag } from '../../components/EmptyBag';
 
 export default function TabOneScreen() {
-  const { width } = useWindowDimensions();
-
   const {
     data: products,
     isFetching,
@@ -36,6 +35,7 @@ export default function TabOneScreen() {
   const { id } = useStoreId();
   console.log(id, 'ahhhhhjsagf');
   const [retry, setRetry] = useState(false);
+  console.log(products, 'products');
 
   const handleRetry = () => {
     refetch();
@@ -257,13 +257,7 @@ export default function TabOneScreen() {
             );
           }}
           keyExtractor={(item, i) => item?.id + i}
-          ListEmptyComponent={
-            <Text
-              style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}
-            >
-              No Products To Pickup
-            </Text>
-          }
+          ListEmptyComponent={<EmptyBag text="No products to pick up now" />}
         />
       </View>
     </View>

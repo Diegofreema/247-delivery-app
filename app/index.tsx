@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Input } from '@rneui/themed';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { defaultStyle } from '../constants';
 import { HeaderComponent } from '../components/Header';
@@ -15,6 +15,7 @@ import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { MyButton } from '../components/Mybutton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 type Props = {};
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -22,8 +23,31 @@ const validationSchema = yup.object().shape({
 });
 const Login = (props: Props) => {
   const toast = useToast();
-  const { setId } = useStoreId();
+  const { setId, getUser, setUser, id, getId, user } = useStoreId();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const startLogoutTimer = async () => {
+    const logoutTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    // Store the logout time in AsyncStorage
+    const logoutTimestamp = new Date().getTime() + logoutTime;
+    await AsyncStorage.setItem('logoutTimestamp', logoutTimestamp.toString());
+  };
+  useEffect(() => {
+    getId();
+    getUser();
+    setMounted(true);
+  }, []);
+  console.log(id?.length > 0, user);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    if (id?.length > 0) {
+      router.replace('/(tabs)/');
+    }
+  }, [mounted, id, router]);
+
   const {
     values,
     touched,

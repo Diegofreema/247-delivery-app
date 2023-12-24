@@ -29,3 +29,13 @@ export type PrintData = {
   salesreference: string;
   total: string;
 };
+
+export type Delivered = {
+  BuyerInfo: string;
+  datex: string;
+  id: string;
+  price: string;
+  product: string;
+  qty: '4';
+  salesreference: string;
+};

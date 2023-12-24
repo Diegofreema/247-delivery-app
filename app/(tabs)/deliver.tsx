@@ -18,6 +18,7 @@ import { useRouter } from 'expo-router';
 import { useGetDeliverQuery } from '../../libs/queries';
 import { MyButton } from '../../components/Mybutton';
 import { useState } from 'react';
+import { EmptyBag } from '../../components/EmptyBag';
 
 export default function TabTwoScreen() {
   const { width } = useWindowDimensions();
@@ -49,178 +50,193 @@ export default function TabTwoScreen() {
     );
   }
 
-  console.log(data, 'deliver');
-
   return (
-    <View style={[defaultStyle.container, { flex: 1, paddingTop: 20 }]}>
-      <HeaderComponent>Products To Deliver</HeaderComponent>
-      <View style={{ marginBottom: 20 }} />
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 30,
-          backgroundColor: 'white',
-        }}
-        data={delivered}
-        renderItem={({ item, index }) => (
-          <View style={[styles.container]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                backgroundColor: 'transparent',
-                paddingHorizontal: 10,
-              }}
-            >
-              <Text
-                style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
-              >{`Product ${index + 1}`}</Text>
-              <Pressable
-                onPress={() => router.push(`/productDetail/${item?.id}`)}
-                style={({ pressed }) => [
-                  {
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={[defaultStyle.container, { flex: 1, paddingTop: 20 }]}>
+        <HeaderComponent>Products To Deliver</HeaderComponent>
+        <View style={{ marginBottom: 20 }} />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 30,
+            backgroundColor: 'white',
+          }}
+          data={data}
+          renderItem={({ item, index }) => {
+            const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
+
+            const formattedName = formattedBuyersInfo[0].replace(
+              /<strong>(.*?)<\/strong>/g,
+              '$1'
+            );
+            const formattedAddress = formattedBuyersInfo[2];
+
+            return (
+              <View style={[styles.container]}>
+                <View
+                  style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    gap: 4,
+                    justifyContent: 'space-between',
                     backgroundColor: 'transparent',
-                  },
-
-                  { opacity: pressed ? 0.8 : 1 },
-                ]}
-              >
-                <Text
-                  style={[
-                    textStyle,
-                    { fontWeight: 'bold', color: colors.btnColor },
-                  ]}
+                    paddingHorizontal: 10,
+                  }}
                 >
-                  View details
-                </Text>
-                <FontAwesome
-                  name="angle-right"
-                  size={24}
-                  color={colors.btnColor}
-                />
-              </Pressable>
-            </View>
-            <Divider style={{ marginVertical: 13 }} />
-            <View
-              style={{ paddingHorizontal: 10, backgroundColor: 'transparent' }}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 5,
-                  backgroundColor: 'transparent',
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: 'gray',
-                    position: 'absolute',
-                    left: 8,
-                    width: 9,
-                    height: 9,
-                    top: 33,
-                    borderRadius: 6,
-                  }}
-                />
-                <View
-                  style={{
-                    backgroundColor: 'gray',
-                    position: 'absolute',
-                    left: 12,
-                    width: 1,
-                    height: 37,
-                    top: 45,
-                  }}
-                />
-                <View
-                  style={{
-                    backgroundColor: 'gray',
-                    position: 'absolute',
-                    left: 8,
-                    width: 9,
-                    height: 9,
-                    top: 85,
-                    borderRadius: 6,
-                  }}
-                />
-                <Entypo name="location-pin" size={24} color={colors.btnColor} />
-                <View style={{ backgroundColor: 'transparent' }}>
-                  <Text style={{ color: 'gray' }}>Address</Text>
                   <Text
-                    style={{ fontSize: 14, color: 'black', fontWeight: '600' }}
-                  >
-                    {item.location}
-                  </Text>
-                </View>
-              </View>
+                    style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
+                  >{`Product ${index + 1}`}</Text>
+                  <Pressable
+                    onPress={() => router.push(`/deliveryDetails/${item?.id}`)}
+                    style={({ pressed }) => [
+                      {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 4,
+                        backgroundColor: 'transparent',
+                      },
 
-              <View
-                style={{
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginTop: 45,
-                }}
-              >
+                      { opacity: pressed ? 0.8 : 1 },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        textStyle,
+                        { fontWeight: 'bold', color: colors.btnColor },
+                      ]}
+                    >
+                      View details
+                    </Text>
+                    <FontAwesome
+                      name="angle-right"
+                      size={24}
+                      color={colors.btnColor}
+                    />
+                  </Pressable>
+                </View>
+                <Divider style={{ marginVertical: 13 }} />
                 <View
                   style={{
+                    paddingHorizontal: 10,
                     backgroundColor: 'transparent',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 5,
                   }}
                 >
-                  <Feather name="user" size={24} color="#FF0000" />
                   <View
                     style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 5,
                       backgroundColor: 'transparent',
                     }}
                   >
-                    <Text style={{ color: 'gray' }}>Name</Text>
-                    <Text
+                    <View
                       style={{
-                        fontSize: 14,
-                        color: 'black',
-                        fontWeight: '600',
+                        backgroundColor: 'gray',
+                        position: 'absolute',
+                        left: 8,
+                        width: 9,
+                        height: 9,
+                        top: 33,
+                        borderRadius: 6,
+                      }}
+                    />
+                    <View
+                      style={{
+                        backgroundColor: 'gray',
+                        position: 'absolute',
+                        left: 12,
+                        width: 1,
+                        height: 37,
+                        top: 45,
+                      }}
+                    />
+                    <View
+                      style={{
+                        backgroundColor: 'gray',
+                        position: 'absolute',
+                        left: 8,
+                        width: 9,
+                        height: 9,
+                        top: 85,
+                        borderRadius: 6,
+                      }}
+                    />
+                    <Entypo
+                      name="location-pin"
+                      size={24}
+                      color={colors.btnColor}
+                    />
+                    <View style={{ backgroundColor: 'transparent' }}>
+                      <Text style={{ color: 'gray' }}>Address</Text>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: 'black',
+                          fontWeight: '600',
+                        }}
+                      >
+                        {formattedAddress}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      backgroundColor: 'transparent',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginTop: 45,
+                    }}
+                  >
+                    <View
+                      style={{
+                        backgroundColor: 'transparent',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 5,
                       }}
                     >
-                      {item.name}
-                    </Text>
+                      <Feather name="user" size={24} color="#FF0000" />
+                      <View
+                        style={{
+                          backgroundColor: 'transparent',
+                        }}
+                      >
+                        <Text style={{ color: 'gray' }}>Name</Text>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            color: 'black',
+                            fontWeight: '600',
+                          }}
+                        >
+                          {formattedName}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: '#ECECEC',
+                        padding: 12,
+                        borderRadius: 20,
+                        gap: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Feather name="map" size={20} color="black" />
+                      <Text style={{ color: 'black' }}>View on map</Text>
+                    </View>
                   </View>
                 </View>
-                <View
-                  style={{
-                    backgroundColor: '#ECECEC',
-                    padding: 12,
-                    borderRadius: 20,
-                    gap: 5,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Feather name="map" size={20} color="black" />
-                  <Text style={{ color: 'black' }}>View on map</Text>
-                </View>
               </View>
-            </View>
-          </View>
-        )}
-        keyExtractor={(item, i) => item?.id + i}
-        ListEmptyComponent={
-          <Text
-            style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}
-          >
-            No Products To Deliver
-          </Text>
-        }
-      />
+            );
+          }}
+          keyExtractor={(item, i) => item?.id + i}
+          ListEmptyComponent={<EmptyBag text="No products to deliver" />}
+        />
+      </View>
     </View>
   );
 }
