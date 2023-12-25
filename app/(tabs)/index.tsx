@@ -33,9 +33,8 @@ export default function TabOneScreen() {
   } = useGetPickupQuery();
   const router = useRouter();
   const { id } = useStoreId();
-  console.log(id, 'ahhhhhjsagf');
+
   const [retry, setRetry] = useState(false);
-  console.log(products, 'products');
 
   const handleRetry = () => {
     refetch();
@@ -89,6 +88,15 @@ export default function TabOneScreen() {
           }}
           data={products}
           renderItem={({ item, index }) => {
+            const {
+              datex,
+              id,
+              price,
+              product,
+              qty,
+              salesreference,
+              sellerinfo,
+            } = item;
             const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
             const formattedName =
               formattedSellerInfo[0]?.split('Dealer Name: ');
@@ -110,7 +118,20 @@ export default function TabOneScreen() {
                     style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
                   >{`Product ${index + 1}`}</Text>
                   <Pressable
-                    onPress={() => router.push(`/productDetail/${item?.id}`)}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/productDetail/[product]',
+                        params: {
+                          datex,
+                          id,
+                          price,
+                          product,
+                          qty,
+                          salesreference,
+                          sellerinfo,
+                        },
+                      })
+                    }
                     style={({ pressed }) => [
                       {
                         flexDirection: 'row',

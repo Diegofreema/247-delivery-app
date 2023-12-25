@@ -90,8 +90,8 @@ export default function TabLayout() {
           options={{
             title: 'Return',
             tabBarIcon: ({ size, focused }) => (
-              <Ionicons
-                name="return-down-back"
+              <Entypo
+                name="back"
                 size={size}
                 style={{ marginBottom: -3 }}
                 color={focused ? colors.btnColor : 'black'}

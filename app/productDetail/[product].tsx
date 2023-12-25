@@ -9,10 +9,9 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useGetPickupQuery } from '../../libs/queries';
-import { products } from '../../libs/goods';
+import { useGetPickupQuery2 } from '../../libs/queries';
 import { NavHeader } from '../../components/NavHeader';
-import { Divider, Image } from '@rneui/themed';
+import { Divider, Image, Skeleton } from '@rneui/themed';
 import { defaultStyle } from '../../constants';
 import {
   AntDesign,
@@ -24,18 +23,33 @@ import {
 } from '@expo/vector-icons';
 import { colors } from '../../constants/Colors';
 import { MyButton } from '../../components/Mybutton';
-import { ActivityIndicator } from 'react-native';
 import { usePickUp } from '../../libs/mutation';
+import { LinearComponent } from '../../components/LinearComponent';
+import Animated, {
+  SlideInLeft,
+  SlideInRight,
+  SlideOutLeft,
+  SlideOutRight,
+} from 'react-native-reanimated';
 
-type Props = {};
+type Props = {
+  product: string;
+};
 
-const ProductDetail = (props: Props) => {
-  const { product } = useLocalSearchParams();
+const ProductDetail = () => {
+  const { product } = useLocalSearchParams<Props>();
   const router = useRouter();
 
-  const { data, isFetching, isError, isPaused, isPending, refetch } =
-    useGetPickupQuery();
   const { isPending: isPickUpPending, mutateAsync } = usePickUp();
+  const {
+    data: products,
+    isFetching,
+    isError,
+    isPaused,
+    isPending,
+    refetch,
+  } = useGetPickupQuery2();
+
   const [retry, setRetry] = useState(false);
 
   const handleRetry = () => {
@@ -55,7 +69,9 @@ const ProductDetail = (props: Props) => {
         <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
           Something went wrong
         </Text>
-        <MyButton title="Retry" onPress={handleRetry} />
+        <View style={{ backgroundColor: 'white', width: '60%' }}>
+          <MyButton title="Retry" onPress={handleRetry} />
+        </View>
       </View>
     );
   }
@@ -65,23 +81,56 @@ const ProductDetail = (props: Props) => {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+
           backgroundColor: 'white',
+          paddingBottom: 20,
         }}
       >
-        <ActivityIndicator size={100} color={colors.btnColor} />
+        <Animated.View
+          entering={SlideInLeft}
+          exiting={SlideOutLeft}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            marginHorizontal: 20,
+          }}
+        >
+          <NavHeader title="Product details" />
+
+          <Skeleton
+            LinearGradientComponent={LinearComponent}
+            animation="wave"
+            style={{
+              width: '100%',
+              flex: 1,
+              borderRadius: 20,
+              marginTop: 20,
+            }}
+          />
+          <Skeleton
+            LinearGradientComponent={LinearComponent}
+            animation="wave"
+            style={{
+              width: '100%',
+              height: 50,
+              borderRadius: 25,
+              marginTop: 20,
+            }}
+          />
+        </Animated.View>
       </View>
     );
   }
 
-  const singleProduct = data?.filter((item) => item?.id === product)[0];
-
+  const singleProduct = products?.find((item) => item?.id === product);
   const formattedSellerInfo = singleProduct?.sellerinfo?.split('<br/>');
-  const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
-  const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
-  const formattedPhoneNumber = formattedSellerInfo[1]?.split('Phone Number: ');
-  const formattedState = formattedSellerInfo[3]?.split('State: ');
+  const formattedName = formattedSellerInfo?.[0]?.split('Dealer Name: ');
+  const formattedLocation = formattedSellerInfo?.[2]?.split('Location: ');
+  const formattedPhoneNumber =
+    formattedSellerInfo?.[1]?.split('Phone Number: ');
+  const formattedState = formattedSellerInfo?.[3]?.split('State: ');
   const openDialScreen = () => {
     let number = '';
     if (Platform.OS === 'ios') {
@@ -103,7 +152,11 @@ const ProductDetail = (props: Props) => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
+        <Animated.View
+          entering={SlideInRight}
+          exiting={SlideOutRight}
+          style={[defaultStyle.container, { backgroundColor: 'white' }]}
+        >
           <View
             style={[
               styles.container,
@@ -246,8 +299,15 @@ const ProductDetail = (props: Props) => {
                 </Text>
               </View>
 
-              <Text style={{ fontWeight: 'bold', color: 'black', flex: 1 }}>
-                {singleProduct.salesreference}
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'black',
+                  flex: 1,
+                  marginRight: -10,
+                }}
+              >
+                {singleProduct?.salesreference}
               </Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
@@ -305,7 +365,7 @@ const ProductDetail = (props: Props) => {
                 <Text style={{ color: 'black' }}>Product</Text>
               </View>
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                {singleProduct?.product}
+                {product}
               </Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
@@ -345,17 +405,17 @@ const ProductDetail = (props: Props) => {
           </View>
           <MyButton
             title="Print Receipt"
-            onPress={() => router.push(`/${singleProduct?.id}`)}
+            onPress={() => router.push(`/${product}`)}
             color={colors.btnGray}
             textColor="black"
           />
           <MyButton
             title="Pick up from Merchant"
-            onPress={() => mutateAsync(singleProduct?.id)}
+            onPress={() => mutateAsync(product)}
             color={colors.btnColor}
             loading={isPickUpPending}
           />
-        </View>
+        </Animated.View>
       </ScrollView>
     </>
   );

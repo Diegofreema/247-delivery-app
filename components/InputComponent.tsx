@@ -1,6 +1,7 @@
 import { Input } from '@rneui/themed';
 import { StyleSheet, View, Text, KeyboardTypeOptions } from 'react-native';
 import { colors } from '../constants/Colors';
+import { IconNode } from '@rneui/base';
 
 type Props = {
   value: string;
@@ -9,6 +10,7 @@ type Props = {
   keyboardType?: KeyboardTypeOptions;
   secured?: boolean;
   errorMessage?: any;
+  rightIcon?: IconNode;
 };
 
 export const InputComponent = ({
@@ -18,9 +20,11 @@ export const InputComponent = ({
   keyboardType,
   secured = false,
   errorMessage,
+  rightIcon: RightIcon,
 }: Props): JSX.Element => {
   return (
     <Input
+      rightIcon={RightIcon}
       placeholder={placeholder}
       containerStyle={{
         justifyContent: 'center',

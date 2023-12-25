@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Linking,
   Platform,
   Pressable,
@@ -9,7 +10,8 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { useGetDeliverQuery2 } from '../../libs/queries';
+import { useGetDeliverQuery, useGetPickupQuery } from '../../libs/queries';
+import { products } from '../../libs/goods';
 import { NavHeader } from '../../components/NavHeader';
 import { Divider, Image } from '@rneui/themed';
 import { defaultStyle } from '../../constants';
@@ -23,54 +25,39 @@ import {
 } from '@expo/vector-icons';
 import { colors } from '../../constants/Colors';
 import { MyButton } from '../../components/Mybutton';
+import { useDeliver, usePickUp, useReturn } from '../../libs/mutation';
+import { SignatureComponent } from '../../components/SignatureComponent';
+import { BottomSheet } from '@rneui/themed';
 import { BottomComponent } from '../../components/BottomComponent';
-import { Skeleton } from '@rneui/themed';
+import { useSignature } from '../../hooks/useGetSig';
+import { Params } from '../../types';
+import { Skeleton } from '@rneui/base';
 import { LinearComponent } from '../../components/LinearComponent';
 import Animated, {
-  FadeIn,
-  FadeOut,
   SlideInLeft,
   SlideInRight,
   SlideOutLeft,
   SlideOutRight,
 } from 'react-native-reanimated';
-type Props = {
-  productId: string;
-};
 
-const DetailDelivery = () => {
-  const { productId } = useLocalSearchParams<Props>();
-  const [isVisible, setIsVisible] = useState(false);
-  const { data, isFetching, isError, isPaused, refetch, isPending } =
-    useGetDeliverQuery2();
+type Props = {};
 
-  const [retry, setRetry] = useState(false);
+const DetailDelivery = (props: Props) => {
+  const {
+    address,
+    date,
+    id,
+    info,
+    name,
+    price,
+    product,
+    productId,
+    quantity,
+    salesreference,
+  }: Params = useLocalSearchParams();
+  const { mutateAsync, isPending } = useReturn();
 
-  const handleRetry = () => {
-    refetch();
-    setRetry((prev) => !prev);
-  };
-  if (isError || isPaused) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'white',
-        }}
-      >
-        <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
-          Something went wrong
-        </Text>
-        <View style={{ backgroundColor: 'white', width: '60%' }}>
-          <MyButton title="Retry" onPress={handleRetry} />
-        </View>
-      </View>
-    );
-  }
-
-  if (isFetching || isPending) {
+  if (!id) {
     return (
       <View
         style={{
@@ -118,8 +105,8 @@ const DetailDelivery = () => {
     );
   }
 
-  const singleData = data?.filter((product) => product?.id === productId)[0];
-  const formattedBuyersInfo = singleData?.BuyerInfo?.split('<br/>');
+  const formattedBuyersInfo = info?.split(',');
+
   const formattedName = formattedBuyersInfo[0].replace(
     /<strong>(.*?)<\/strong>/g,
     '$1'
@@ -127,9 +114,6 @@ const DetailDelivery = () => {
   const formattedAddress = formattedBuyersInfo[2];
   const formattedNumber = formattedBuyersInfo[1];
   const formattedCommunity = formattedBuyersInfo[3];
-  const next = () => {
-    setIsVisible(true);
-  };
   const openDialScreen = () => {
     let number = '';
     if (Platform.OS === 'ios') {
@@ -151,12 +135,10 @@ const DetailDelivery = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <Animated.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          style={defaultStyle.container}
-        >
-          <View
+        <View style={defaultStyle.container}>
+          <Animated.View
+            entering={SlideInRight}
+            exiting={SlideOutRight}
             style={[styles.container, { marginTop: 20, paddingVertical: 20 }]}
           >
             <View style={{ paddingHorizontal: 15 }}>
@@ -261,7 +243,7 @@ const DetailDelivery = () => {
                   marginRight: -10,
                 }}
               >
-                {singleData?.salesreference}
+                {salesreference}
               </Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
@@ -276,9 +258,7 @@ const DetailDelivery = () => {
                 <Text style={{ color: 'black' }}>Date</Text>
               </View>
 
-              <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                {singleData.datex}
-              </Text>
+              <Text style={{ fontWeight: 'bold', color: 'black' }}>{date}</Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
 
@@ -307,7 +287,7 @@ const DetailDelivery = () => {
                 <Text style={{ color: 'black' }}>Product</Text>
               </View>
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                {singleData?.product}
+                {product}
               </Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
@@ -324,7 +304,7 @@ const DetailDelivery = () => {
                 <Text style={{ color: 'black' }}>Quantity</Text>
               </View>
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                {singleData?.qty}
+                {quantity}
               </Text>
             </View>
             <Divider style={{ marginVertical: 13 }} />
@@ -341,20 +321,16 @@ const DetailDelivery = () => {
                 <Text style={{ color: 'black' }}>Price</Text>
               </View>
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                ₦{singleData?.price}
+                ₦{price}
               </Text>
             </View>
-          </View>
+          </Animated.View>
           <MyButton
-            title="Confirm Delivery"
-            onPress={() => setIsVisible(true)}
+            title="Return Product"
+            onPress={() => mutateAsync(id)}
+            loading={isPending}
           />
-        </Animated.View>
-        <BottomComponent
-          id={singleData?.id}
-          isVisible={isVisible}
-          onHide={() => setIsVisible(false)}
-        />
+        </View>
       </ScrollView>
     </>
   );

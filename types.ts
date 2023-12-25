@@ -39,3 +39,16 @@ export type Delivered = {
   qty: '4';
   salesreference: string;
 };
+
+export type Params = {
+  address: string;
+  date: string;
+  id: string;
+  info: string;
+  name: string;
+  price: string;
+  product: string;
+  productId: string;
+  quantity: string;
+  salesreference: string;
+};

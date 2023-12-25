@@ -33,7 +33,14 @@ export default function TabTwoScreen() {
   };
   if (isError || isPaused) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'white',
+        }}
+      >
         <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
           Something went wrong
         </Text>
@@ -44,15 +51,28 @@ export default function TabTwoScreen() {
 
   if (isFetching || isPending) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'white',
+        }}
+      >
         <ActivityIndicator size={100} color={colors.btnColor} />
       </View>
     );
   }
+  console.log(data);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={[defaultStyle.container, { flex: 1, paddingTop: 20 }]}>
+      <View
+        style={[
+          defaultStyle.container,
+          { flex: 1, paddingTop: 20, backgroundColor: 'white' },
+        ]}
+      >
         <HeaderComponent>Products To Deliver</HeaderComponent>
         <View style={{ marginBottom: 20 }} />
         <FlatList
@@ -71,6 +91,7 @@ export default function TabTwoScreen() {
               '$1'
             );
             const formattedAddress = formattedBuyersInfo[2];
+            const formattedCommunity = formattedBuyersInfo[3];
 
             return (
               <View style={[styles.container]}>
@@ -87,7 +108,11 @@ export default function TabTwoScreen() {
                     style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
                   >{`Product ${index + 1}`}</Text>
                   <Pressable
-                    onPress={() => router.push(`/deliveryDetails/${item?.id}`)}
+                    onPress={() =>
+                      router.push({
+                        pathname: `/deliveryDetails/${item?.id}`,
+                      })
+                    }
                     style={({ pressed }) => [
                       {
                         flexDirection: 'row',
@@ -215,7 +240,8 @@ export default function TabTwoScreen() {
                         </Text>
                       </View>
                     </View>
-                    <View
+                    <Pressable
+                      onPress={() => router.push(`/map/${formattedCommunity}`)}
                       style={{
                         backgroundColor: '#ECECEC',
                         padding: 12,
@@ -227,7 +253,7 @@ export default function TabTwoScreen() {
                     >
                       <Feather name="map" size={20} color="black" />
                       <Text style={{ color: 'black' }}>View on map</Text>
-                    </View>
+                    </Pressable>
                   </View>
                 </View>
               </View>

@@ -30,6 +30,32 @@ export const useGetPickupQuery = () => {
     },
   });
 };
+export const useGetPickupQuery2 = () => {
+  const { id } = useStoreId();
+  console.log(id);
+
+  return useQuery({
+    queryKey: ['pickup2'],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://247api.netpro.software/api.aspx?api=deliverypickupdata&agentid=${id}`
+      );
+
+      console.log(response, 'response');
+
+      let data = [];
+      if (Object.prototype.toString.call(response.data) === '[object Object]') {
+        data.push(response.data);
+      } else if (
+        Object.prototype.toString.call(response.data) === '[object Array]'
+      ) {
+        data = [...response.data];
+      }
+
+      return data as PickUp[];
+    },
+  });
+};
 export const useGetDeliverQuery = () => {
   const { id } = useStoreId();
   return useQuery({
@@ -52,16 +78,14 @@ export const useGetDeliverQuery = () => {
     },
   });
 };
-export const useGeReturn = () => {
+export const useGetDeliverQuery2 = () => {
   const { id } = useStoreId();
   return useQuery({
-    queryKey: ['delivery'],
+    queryKey: ['delivery2'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://247api.netpro.software/api.aspx?api=deliveryreturnlist&agentid=1&emailaddress=jarcesoft@yahoo.com`
+        `https://247api.netpro.software/api.aspx?api=deliverylist&agentid=${id}`
       );
-
-      console.log('response', response.status);
 
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {
@@ -72,10 +96,32 @@ export const useGeReturn = () => {
         data = [...response.data];
       }
 
-      return data;
+      return data as Delivered[];
     },
   });
 };
+// export const useGeReturn = (email?: string) => {
+//   const { id } = useStoreId();
+//   return useQuery({
+//     queryKey: ['return', email],
+//     queryFn: async () => {
+//       const response = await
+
+//       console.log('response', response.status);
+
+//       let data = [];
+//       if (Object.prototype.toString.call(response.data) === '[object Object]') {
+//         data.push(response.data);
+//       } else if (
+//         Object.prototype.toString.call(response.data) === '[object Array]'
+//       ) {
+//         data = [...response.data];
+//       }
+
+//       return data as Delivered[];
+//     },
+//   });
+// };
 export const useGetPrint = (id: string) => {
   return useQuery({
     queryKey: ['printData', id],
