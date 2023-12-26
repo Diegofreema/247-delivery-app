@@ -22,8 +22,15 @@ import { EmptyBag } from '../../components/EmptyBag';
 
 export default function TabTwoScreen() {
   const { width } = useWindowDimensions();
-  const { data, isFetching, isError, isPaused, refetch, isPending } =
-    useGetDeliverQuery();
+  const {
+    data,
+    isFetching,
+    isError,
+    isPaused,
+    refetch,
+    isPending,
+    isRefetching,
+  } = useGetDeliverQuery();
   const router = useRouter();
   const [retry, setRetry] = useState(false);
 
@@ -49,7 +56,7 @@ export default function TabTwoScreen() {
     );
   }
 
-  if (isFetching || isPending) {
+  if (isPending) {
     return (
       <View
         style={{
@@ -76,6 +83,8 @@ export default function TabTwoScreen() {
         <HeaderComponent>Products To Deliver</HeaderComponent>
         <View style={{ marginBottom: 20 }} />
         <FlatList
+          onRefresh={refetch}
+          refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 1,

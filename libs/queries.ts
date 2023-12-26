@@ -6,7 +6,6 @@ import { Delivered, PickUp, PrintData } from '../types';
 
 export const useGetPickupQuery = () => {
   const { id } = useStoreId();
-  console.log(id);
 
   return useQuery({
     queryKey: ['pickup'],
@@ -14,8 +13,6 @@ export const useGetPickupQuery = () => {
       const response = await axios.get(
         `https://247api.netpro.software/api.aspx?api=deliverypickupdata&agentid=${id}`
       );
-
-      console.log(response, 'response');
 
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {
@@ -28,11 +25,13 @@ export const useGetPickupQuery = () => {
 
       return data as PickUp[];
     },
+    // refetchInterval: 60000 / 2,
+    refetchIntervalInBackground: true,
+    staleTime: 60000 / 2,
   });
 };
 export const useGetPickupQuery2 = () => {
   const { id } = useStoreId();
-  console.log(id);
 
   return useQuery({
     queryKey: ['pickup2'],
@@ -40,8 +39,6 @@ export const useGetPickupQuery2 = () => {
       const response = await axios.get(
         `https://247api.netpro.software/api.aspx?api=deliverypickupdata&agentid=${id}`
       );
-
-      console.log(response, 'response');
 
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {

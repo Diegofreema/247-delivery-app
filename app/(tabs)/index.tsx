@@ -1,41 +1,118 @@
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
-  ScrollView,
   StyleSheet,
-  useWindowDimensions,
+  AppState,
 } from 'react-native';
-
-import EditScreenInfo from '../../components/EditScreenInfo';
+import { useIsFetching } from '@tanstack/react-query';
 import { Text, View } from '../../components/Themed';
 import { defaultStyle, textStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
-import { products } from '../../libs/goods';
 import { colors } from '../../constants/Colors';
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Divider } from '@rneui/themed';
 import { useRouter } from 'expo-router';
 import { useStoreId } from '../../hooks/useAuth';
 import { useGetPickupQuery } from '../../libs/queries';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MyButton } from '../../components/Mybutton';
 import { EmptyBag } from '../../components/EmptyBag';
+import * as Notifications from 'expo-notifications';
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
 
+const BACKGROUND_FETCH_TASK = 'background-fetch';
+import * as Device from 'expo-device';
+import { PickUp } from '../../types';
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+const notificationfn = async () => {
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'Pick up notification',
+      body: 'New Products Available For Pickup',
+    },
+    trigger: null,
+  });
+};
 export default function TabOneScreen() {
   const {
-    data: products,
+    data,
     isFetching,
     isError,
     isPaused,
     isPending,
     refetch,
+    isRefetching,
   } = useGetPickupQuery();
   const router = useRouter();
   const { id } = useStoreId();
 
   const [retry, setRetry] = useState(false);
+  const [products, setProducts] = useState<PickUp[] | undefined>(data);
+  TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+    console.log(`running in the background`);
+    refetch();
+    setProducts((prev) => {
+      const checkForNewData = data?.filter(
+        ({ id }) => !prev?.map(({ id: prevId }) => prevId).includes(id)
+      );
 
+      if (checkForNewData && checkForNewData?.length > 0) {
+        console.log('New data');
+
+        notificationfn();
+      } else {
+        console.log('No new data');
+      }
+
+      return prev && data ? [...prev, ...data] : data ? [...data] : products;
+    });
+    console.log('finished in the background');
+
+    // Be sure to return the successful result type!
+    return BackgroundFetch.BackgroundFetchResult.NewData;
+  });
+  const [expoPushToken, setExpoPushToken] = useState<string | undefined>('');
+  const [notification, setNotification] =
+    useState<Notifications.Notification>();
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  console.log(isFetching);
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+    if (notificationListener?.current) {
+      notificationListener.current =
+        Notifications?.addNotificationReceivedListener((notification) => {
+          setNotification(notification);
+        });
+    }
+
+    responseListener.current =
+      Notifications?.addNotificationResponseReceivedListener((response) => {
+        return response;
+      });
+
+    return () => {
+      Notifications?.removeNotificationSubscription(
+        notificationListener?.current as any
+      );
+      Notifications?.removeNotificationSubscription(
+        responseListener?.current as any
+      );
+    };
+  }, []);
   const handleRetry = () => {
     refetch();
     setRetry((prev) => !prev);
@@ -73,13 +150,24 @@ export default function TabOneScreen() {
     );
   }
 
+  async function registerBackgroundFetchAsync() {
+    return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+      minimumInterval: 60, // 15 minutes
+      stopOnTerminate: false, // android only,
+      startOnBoot: true, // android only
+    });
+  }
+  registerBackgroundFetchAsync();
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
+
         <View style={{ marginBottom: 20 }} />
 
         <FlatList
+          onRefresh={refetch}
+          refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 1,
@@ -88,15 +176,6 @@ export default function TabOneScreen() {
           }}
           data={products}
           renderItem={({ item, index }) => {
-            const {
-              datex,
-              id,
-              price,
-              product,
-              qty,
-              salesreference,
-              sellerinfo,
-            } = item;
             const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
             const formattedName =
               formattedSellerInfo[0]?.split('Dealer Name: ');
@@ -118,20 +197,7 @@ export default function TabOneScreen() {
                     style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
                   >{`Product ${index + 1}`}</Text>
                   <Pressable
-                    onPress={() =>
-                      router.push({
-                        pathname: '/productDetail/[product]',
-                        params: {
-                          datex,
-                          id,
-                          price,
-                          product,
-                          qty,
-                          salesreference,
-                          sellerinfo,
-                        },
-                      })
-                    }
+                    onPress={() => router.push(`/productDetail/${item?.id}`)}
                     style={({ pressed }) => [
                       {
                         flexDirection: 'row',
@@ -283,6 +349,45 @@ export default function TabOneScreen() {
       </View>
     </View>
   );
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert("Permissions weren't granted!");
+      return;
+    }
+    // Learn more about projectId:
+    // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+    token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+      })
+    ).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
 }
 
 const styles = StyleSheet.create({

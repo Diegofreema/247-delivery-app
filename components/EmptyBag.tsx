@@ -1,6 +1,6 @@
-import { Image } from '@rneui/themed';
-import { StyleSheet, View, Text } from 'react-native';
-
+import { StyleSheet, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { Image } from 'expo-image';
 type Props = {
   text: string;
 };
@@ -17,9 +17,12 @@ export const EmptyBag = ({ text }: Props): JSX.Element => {
     >
       <Image
         source={require('../assets/images/emptyBag.png')}
-        style={{ width: 200, height: 200 }}
+        style={{ width: 150, height: 150 }}
+        contentFit="cover"
+        transition={250}
       />
-      <Text
+      <Animated.Text
+        entering={FadeIn.duration(500)}
         style={{
           color: 'black',
           fontSize: 20,
@@ -28,7 +31,7 @@ export const EmptyBag = ({ text }: Props): JSX.Element => {
         }}
       >
         {text}
-      </Text>
+      </Animated.Text>
     </View>
   );
 };

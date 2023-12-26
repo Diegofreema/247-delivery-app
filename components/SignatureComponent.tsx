@@ -14,8 +14,10 @@ export const SignatureComponent = ({}: Props): JSX.Element => {
 
   // Called after ref.current.readSignature() reads a non-empty base64 string
   const handleOK = (signature: string) => {
+    console.log(signature);
+
     setUri(signature);
-    onGet(signature);
+    onGet({ imgUri: signature, salesId: null });
     // onOK(signature); // Callback from Component props
   };
 
