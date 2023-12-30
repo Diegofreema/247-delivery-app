@@ -2,7 +2,7 @@
   "expo": {
     "name": "247Delivery",
     "slug": "rider-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -24,7 +24,12 @@
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.diegodark.riderapp"
+      "package": "com.diegodark.riderapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDlmhtRTF4Ah3zVtdmq1qmcxy2H5r7M6YI"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +48,12 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ],

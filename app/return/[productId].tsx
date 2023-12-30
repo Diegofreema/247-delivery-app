@@ -68,7 +68,6 @@ const DetailDelivery = (props: Props) => {
         }}
       >
         <Animated.View
-          entering={SlideInLeft}
           exiting={SlideOutLeft}
           style={{
             flex: 1,

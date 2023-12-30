@@ -81,7 +81,6 @@ const DetailDelivery = () => {
         }}
       >
         <Animated.View
-          entering={SlideInLeft}
           exiting={SlideOutLeft}
           style={{
             flex: 1,

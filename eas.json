@@ -16,7 +16,8 @@
       },
       "channel": "preview",
       "env": {
-        "EXPO_PUBLIC_PROJECT_ID": "75ab69a9-1ec0-4aa2-b5c6-cc9e754682ed"
+        "EXPO_PUBLIC_PROJECT_ID": "75ab69a9-1ec0-4aa2-b5c6-cc9e754682ed",
+        "EXPO_PUBLIC_API_KEY": "AIzaSyDlmhtRTF4Ah3zVtdmq1qmcxy2H5r7M6YI"
       }
     },
     "production": {}

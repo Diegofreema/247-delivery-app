@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
-  title: string;
+  title?: string;
 };
 
 export const NavHeader = ({ title }: Props): JSX.Element => {

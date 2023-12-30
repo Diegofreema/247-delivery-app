@@ -19,6 +19,7 @@ import { useGetDeliverQuery } from '../../libs/queries';
 import { MyButton } from '../../components/Mybutton';
 import { useState } from 'react';
 import { EmptyBag } from '../../components/EmptyBag';
+import Animated, { SlideInUp } from 'react-native-reanimated';
 
 export default function TabTwoScreen() {
   const { width } = useWindowDimensions();
@@ -82,7 +83,8 @@ export default function TabTwoScreen() {
       >
         <HeaderComponent>Products To Deliver</HeaderComponent>
         <View style={{ marginBottom: 20 }} />
-        <FlatList
+        <Animated.FlatList
+          entering={SlideInUp.delay(100).springify()}
           onRefresh={refetch}
           refreshing={isRefetching}
           showsVerticalScrollIndicator={false}

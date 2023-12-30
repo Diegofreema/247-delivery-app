@@ -25,6 +25,7 @@ import { Delivered } from '../../types';
 import axios from 'axios';
 import { useStoreId } from '../../hooks/useAuth';
 import { useReturnStore } from '../../hooks/useReturn';
+import Animated, { SlideInUp } from 'react-native-reanimated';
 
 export default function TabTwoScreen() {
   const { width } = useWindowDimensions();
@@ -95,21 +96,24 @@ export default function TabTwoScreen() {
       >
         <HeaderComponent>Products To Return</HeaderComponent>
         <View style={{ marginBottom: 20 }} />
-        <InputComponent
-          rightIcon={
-            <AntDesign
-              name="search1"
-              size={24}
-              color="black"
-              onPress={getProductsToReturn}
+
+        <Animated.FlatList
+          ListHeaderComponent={
+            <InputComponent
+              rightIcon={
+                <AntDesign
+                  name="search1"
+                  size={24}
+                  color="black"
+                  onPress={getProductsToReturn}
+                />
+              }
+              onChangeText={setEmail}
+              value={email}
+              placeholder="Search by  email"
             />
           }
-          onChangeText={setEmail}
-          value={email}
-          placeholder="Search by  email"
-        />
-
-        <FlatList
+          entering={SlideInUp.delay(100).springify()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 1,
