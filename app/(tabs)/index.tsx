@@ -1,29 +1,18 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Alert,
-} from 'react-native';
-import { Text, View } from '../../components/Themed';
-import { defaultStyle, textStyle } from '../../constants';
+import { ActivityIndicator, Platform, StyleSheet, Alert } from 'react-native';
+import { View } from '../../components/Themed';
+import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
 import { colors } from '../../constants/Colors';
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
-import { Divider } from '@rneui/themed';
-import { useRouter } from 'expo-router';
-import { useStoreId } from '../../hooks/useAuth';
 import { useGetPickupQuery } from '../../libs/queries';
 import { useEffect, useRef, useState } from 'react';
-import { MyButton } from '../../components/Mybutton';
 import { EmptyBag } from '../../components/EmptyBag';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import { PickUp } from '../../types';
-import axios from 'axios';
 import Animated, { SlideInUp } from 'react-native-reanimated';
+import { PickUpItem } from '../../components/PickUpItem';
+import { ErrorComponent } from '../../components/ErrorComponent';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -31,15 +20,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true,
   }),
 });
-const notificationfn = async () => {
-  Notifications.scheduleNotificationAsync({
-    content: {
-      title: 'Pick up notification',
-      body: 'New Products Available For Pickup',
-    },
-    trigger: null,
-  });
-};
+
 export default function TabOneScreen() {
   const {
     data,
@@ -50,10 +31,7 @@ export default function TabOneScreen() {
     refetch,
     isRefetching,
   } = useGetPickupQuery();
-  const router = useRouter();
-  const { id } = useStoreId();
 
-  const [retry, setRetry] = useState(false);
   const [products, setProducts] = useState<PickUp[] | undefined>(data);
 
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>('');
@@ -87,26 +65,9 @@ export default function TabOneScreen() {
       );
     };
   }, []);
-  const handleRetry = () => {
-    refetch();
-    setRetry((prev) => !prev);
-  };
+
   if (isError || isPaused) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'white',
-        }}
-      >
-        <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
-          Something went wrong
-        </Text>
-        <MyButton title="Retry" onPress={handleRetry} />
-      </View>
-    );
+    return <ErrorComponent refetch={refetch} />;
   }
 
   if (isFetching || isPending) {
@@ -142,174 +103,9 @@ export default function TabOneScreen() {
             backgroundColor: 'white',
           }}
           data={products}
-          renderItem={({ item, index }) => {
-            const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
-            const formattedName =
-              formattedSellerInfo[0]?.split('Dealer Name: ');
-            const formattedLocation =
-              formattedSellerInfo[2]?.split('Location: ');
-
-            return (
-              <View style={[styles.container]}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: 'transparent',
-                    paddingHorizontal: 10,
-                  }}
-                >
-                  <Text
-                    style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
-                  >{`Product ${index + 1}`}</Text>
-                  <Pressable
-                    onPress={() => router.push(`/productDetail/${item?.id}`)}
-                    style={({ pressed }) => [
-                      {
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 4,
-                        backgroundColor: 'transparent',
-                      },
-
-                      { opacity: pressed ? 0.8 : 1 },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        textStyle,
-                        { fontWeight: 'bold', color: colors.btnColor },
-                      ]}
-                    >
-                      View details
-                    </Text>
-                    <FontAwesome
-                      name="angle-right"
-                      size={24}
-                      color={colors.btnColor}
-                    />
-                  </Pressable>
-                </View>
-                <Divider style={{ marginVertical: 13 }} />
-                <View
-                  style={{
-                    paddingHorizontal: 10,
-                    backgroundColor: 'transparent',
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 5,
-                      backgroundColor: 'transparent',
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: 'gray',
-                        position: 'absolute',
-                        left: 8,
-                        width: 9,
-                        height: 9,
-                        top: 33,
-                        borderRadius: 6,
-                      }}
-                    />
-                    <View
-                      style={{
-                        backgroundColor: 'gray',
-                        position: 'absolute',
-                        left: 12,
-                        width: 1,
-                        height: 37,
-                        top: 45,
-                      }}
-                    />
-                    <View
-                      style={{
-                        backgroundColor: 'gray',
-                        position: 'absolute',
-                        left: 8,
-                        width: 9,
-                        height: 9,
-                        top: 85,
-                        borderRadius: 6,
-                      }}
-                    />
-                    <Entypo
-                      name="location-pin"
-                      size={24}
-                      color={colors.btnColor}
-                    />
-                    <View style={{ backgroundColor: 'transparent' }}>
-                      <Text style={{ color: 'gray' }}>Address</Text>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          color: 'black',
-                          fontWeight: '600',
-                        }}
-                      >
-                        {formattedLocation}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View
-                    style={{
-                      backgroundColor: 'transparent',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: 45,
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: 'transparent',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 5,
-                      }}
-                    >
-                      <Feather name="user" size={24} color="#FF0000" />
-                      <View
-                        style={{
-                          backgroundColor: 'transparent',
-                        }}
-                      >
-                        <Text style={{ color: 'gray' }}>Name</Text>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            color: 'black',
-                            fontWeight: '600',
-                          }}
-                        >
-                          {formattedName}
-                        </Text>
-                      </View>
-                    </View>
-                    <View
-                      style={{
-                        backgroundColor: '#ECECEC',
-                        padding: 12,
-                        borderRadius: 20,
-                        gap: 5,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Feather name="map" size={20} color="black" />
-                      <Text style={{ color: 'black' }}>View on map</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
+          renderItem={({ item, index }) => (
+            <PickUpItem {...item} index={index} />
+          )}
           keyExtractor={(item, i) => item?.id + i}
           ListEmptyComponent={<EmptyBag text="No products to pick up now" />}
         />

@@ -1,15 +1,9 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Tabs } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
-import Colors, { colors } from '../../constants/Colors';
+import { colors } from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  Entypo,
-  Feather,
-  Ionicons,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text } from '@rneui/themed';
 
 /**

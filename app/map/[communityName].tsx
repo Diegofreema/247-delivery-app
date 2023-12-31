@@ -133,7 +133,7 @@ const MapScreen = (props: Props) => {
           title="Your current location"
         >
           <Image
-            source={require('../../assets/images/truck.png')}
+            source={require('../../assets/images/truckk.png')}
             style={styles.img}
           />
         </Marker>

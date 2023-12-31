@@ -18,8 +18,8 @@ export const useStoreId = create<AuthStore>((set) => ({
   setId: async (newId) => {
     const logoutTime = 24 * 60 * 60 * 1000;
     try {
-      const logoutTimestamp = new Date().getTime() + logoutTime;
-      await AsyncStorage.setItem('logoutTimestamp', logoutTimestamp.toString());
+      const logoutTime = new Date().getTime() + logoutTime;
+      await AsyncStorage.setItem('logoutTime', logoutTime.toString());
       await AsyncStorage.setItem('id', newId.toString());
       set({ id: newId });
     } catch (error) {

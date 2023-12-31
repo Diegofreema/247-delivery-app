@@ -36,7 +36,7 @@ export type Delivered = {
   id: string;
   price: string;
   product: string;
-  qty: '4';
+  qty: string;
   salesreference: string;
 };
 

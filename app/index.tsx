@@ -27,18 +27,17 @@ const Login = (props: Props) => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const startLogoutTimer = async () => {
-    const logoutTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const logoutTimeVar = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
     // Store the logout time in AsyncStorage
-    const logoutTimestamp = new Date().getTime() + logoutTime;
-    await AsyncStorage.setItem('logoutTimestamp', logoutTimestamp.toString());
+    const logoutTime = new Date().getTime() + logoutTimeVar;
+    await AsyncStorage.setItem('logoutTime', logoutTime.toString());
   };
   useEffect(() => {
     getId();
     getUser();
     setMounted(true);
   }, []);
-  console.log(id?.length > 0, user);
 
   useEffect(() => {
     if (!mounted) return;
@@ -68,8 +67,6 @@ const Login = (props: Props) => {
         `https://247api.netpro.software/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
       );
 
-      // console.log(response.data);
-
       if (response?.data === 'incorrect credentials') {
         return toast.show('Incorrect credentials', {
           type: 'danger',
@@ -90,9 +87,8 @@ const Login = (props: Props) => {
         });
       }
 
-      console.log(response.data, 'response.data');
-
       setId(response.data);
+      startLogoutTimer();
       resetForm();
       router.push('/(tabs)');
     },
