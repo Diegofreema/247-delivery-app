@@ -86,10 +86,8 @@ const MapScreen = (props: Props) => {
   };
 
   const calculateBearing = (start: typeof origin, end: typeof destination) => {
-    const lat1 = start.latitude;
-    const lon1 = start.longitude;
-    const lat2 = end.latitude;
-    const lon2 = end.longitude;
+    const { latitude: lat1, longitude: lon1 } = start;
+    const { latitude: lat2, longitude: lon2 } = end;
 
     const dLon = lon2 - lon1;
     const y = Math.sin(dLon) * Math.cos(lat2);
@@ -97,13 +95,14 @@ const MapScreen = (props: Props) => {
       Math.cos(lat1) * Math.sin(lat2) -
       Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
 
-    const bearing = Math.atan2(y, x);
+    let bearing = Math.atan2(y, x);
+    if (bearing < 0) {
+      bearing += 2 * Math.PI; // convert to positive angle
+    }
+
     const degrees = (bearing * (180 / Math.PI) + 360) % 360;
 
-    // Adjust the degrees to ensure the image is not upside down
-    const adjustedDegrees = degrees > 180 ? degrees - 360 : degrees;
-
-    return adjustedDegrees;
+    return degrees;
   };
 
   return (

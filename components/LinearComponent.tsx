@@ -1,4 +1,3 @@
-import { StyleSheet, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export const LinearComponent = (): JSX.Element => {
@@ -9,5 +8,3 @@ export const LinearComponent = (): JSX.Element => {
     />
   );
 };
-
-const styles = StyleSheet.create({});
