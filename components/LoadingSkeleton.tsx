@@ -30,7 +30,7 @@ export const LoadingSkeleton = (): JSX.Element => {
 
         <Skeleton
           LinearGradientComponent={LinearComponent}
-          animation="wave"
+          animation="pulse"
           style={{
             width: '100%',
             flex: 1,
@@ -40,7 +40,7 @@ export const LoadingSkeleton = (): JSX.Element => {
         />
         <Skeleton
           LinearGradientComponent={LinearComponent}
-          animation="wave"
+          animation="pulse"
           style={{
             width: '100%',
             height: 50,
