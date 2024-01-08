@@ -90,13 +90,27 @@ export default function TabOneScreen() {
     );
   }
 
+  const sendPushNotification = async () => {
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: [expoPushToken],
+        title: 'Your title',
+        body: 'Body of your push notification',
+      }),
+    });
+  };
+
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
 
         <View style={{ marginBottom: 20 }} />
-
+        <Button title="Send Push" onPress={sendPushNotification} />
         <Animated.FlatList
           entering={SlideInUp.delay(100).springify()}
           onRefresh={refetch}
@@ -112,7 +126,7 @@ export default function TabOneScreen() {
             <PickUpItem {...item} index={index} />
           )}
           keyExtractor={(item, i) => item?.id + i}
-          ListEmptyComponent={<EmptyBag text="No products to pick up now" />}
+          ListEmptyComponent={<EmptyBag text="No product to pick up now" />}
         />
       </View>
     </View>

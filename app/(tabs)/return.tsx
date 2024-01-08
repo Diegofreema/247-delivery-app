@@ -33,7 +33,6 @@ export default function TabTwoScreen() {
     }
   }, [salesId]);
   const getProductsToReturn = async () => {
-    console.log('pressed');
     if (email === '') return;
     setLoading(true);
     try {

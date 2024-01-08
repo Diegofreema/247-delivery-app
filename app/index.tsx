@@ -26,13 +26,7 @@ const Login = (props: Props) => {
   const { setId, getUser, setUser, id, getId, user } = useStoreId();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const startLogoutTimer = async () => {
-    const logoutTimeVar = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-    // Store the logout time in AsyncStorage
-    const logoutTime = new Date().getTime() + logoutTimeVar;
-    await AsyncStorage.setItem('logoutTime', logoutTime.toString());
-  };
   useEffect(() => {
     getId();
     getUser();
@@ -88,9 +82,9 @@ const Login = (props: Props) => {
       }
 
       setId(response.data);
-      startLogoutTimer();
+
       resetForm();
-      router.push('/(tabs)');
+      router.replace('/(tabs)');
     },
   });
   const errorMessageEmail = touched.email && errors.email && errors.email;
