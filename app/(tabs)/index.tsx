@@ -13,6 +13,9 @@ import { PickUp } from '../../types';
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
+import { Button } from 'react-native';
+import axios from 'axios';
+import { useStoreId } from '../../hooks/useAuth';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -32,6 +35,8 @@ export default function TabOneScreen() {
     isRefetching,
   } = useGetPickupQuery();
 
+  const { id } = useStoreId();
+
   const [products, setProducts] = useState<PickUp[] | undefined>(data);
 
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>('');
@@ -41,7 +46,7 @@ export default function TabOneScreen() {
   const responseListener = useRef<Notifications.Subscription>();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
+    registerForPushNotificationsAsync(id).then((token) =>
       setExpoPushToken(token)
     );
     if (notificationListener?.current) {
@@ -114,7 +119,7 @@ export default function TabOneScreen() {
   );
 }
 
-async function registerForPushNotificationsAsync() {
+async function registerForPushNotificationsAsync(id: string) {
   let token;
 
   if (Platform?.OS === 'android') {
@@ -148,7 +153,11 @@ async function registerForPushNotificationsAsync() {
         projectId: Constants?.expoConfig?.extra?.eas.projectId,
       })
     ).data;
-    console.log(token);
+    const res = await axios.post(
+      `https://247api.netpro.software/api.aspx?api=deliveryupdateagentref&agentid=${id}&agentRef=${token} `
+    );
+
+    console.log(res, 'token');
   } else {
     alert('Must use physical device for Push Notifications');
   }

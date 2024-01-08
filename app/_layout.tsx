@@ -101,8 +101,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
     <ThemeProvider value={DefaultTheme}>
       <StatusBar barStyle={'dark-content'} />
