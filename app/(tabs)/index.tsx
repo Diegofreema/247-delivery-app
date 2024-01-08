@@ -75,7 +75,7 @@ export default function TabOneScreen() {
     return <ErrorComponent refetch={refetch} />;
   }
 
-  if (isFetching || isPending) {
+  if (isPending) {
     return (
       <View
         style={{
@@ -171,7 +171,7 @@ async function registerForPushNotificationsAsync(id: string) {
       `https://247api.netpro.software/api.aspx?api=deliveryupdateagentref&agentid=${id}&agentRef=${token} `
     );
 
-    console.log(res, 'token');
+    console.log(res?.data, 'token');
   } else {
     alert('Must use physical device for Push Notifications');
   }

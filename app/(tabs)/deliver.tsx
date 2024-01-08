@@ -73,7 +73,7 @@ export default function TabTwoScreen() {
             <ProductCards {...item} index={index} />
           )}
           keyExtractor={(item, i) => item?.id + i}
-          ListEmptyComponent={<EmptyBag text="No products to deliver" />}
+          ListEmptyComponent={<EmptyBag text="No product to deliver" />}
         />
       </View>
     </View>
