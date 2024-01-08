@@ -17,8 +17,10 @@ import Animated, {
 type Props = {};
 const apiKey = process.env.EXPO_PUBLIC_API_KEY || '';
 const MapScreen = (props: Props) => {
-  const { communityName } = useLocalSearchParams();
-
+  const { communityName } = useLocalSearchParams<{ communityName: string }>();
+  console.log('communityName', communityName);
+  const lat = Number(communityName?.split('-')[0]);
+  const lng = Number(communityName?.split('-')[1]);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -81,8 +83,8 @@ const MapScreen = (props: Props) => {
   };
 
   const destination = {
-    latitude: 5.310866,
-    longitude: 7.125232,
+    latitude: lat,
+    longitude: lng,
   };
 
   const calculateBearing = (start: typeof origin, end: typeof destination) => {
@@ -100,9 +102,10 @@ const MapScreen = (props: Props) => {
       bearing += 2 * Math.PI; // convert to positive angle
     }
 
-    const degrees = (bearing * (180 / Math.PI) + 360) % 360;
+    const degrees = (bearing * (120 / Math.PI) + 360) % 360;
+    const adjustedDegrees = (degrees + 180) % 360; // add 180 degrees
 
-    return degrees;
+    return adjustedDegrees;
   };
 
   return (
@@ -148,13 +151,7 @@ const MapScreen = (props: Props) => {
           timePrecision="now"
         />
 
-        <Marker
-          coordinate={{
-            latitude: 5.310866,
-            longitude: 7.125232,
-          }}
-          title="Your destination"
-        />
+        <Marker coordinate={destination} title="Your destination" />
       </MapView>
     </Animated.View>
   );

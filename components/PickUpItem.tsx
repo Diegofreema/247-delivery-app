@@ -158,7 +158,14 @@ export const PickUpItem = (item: PickUp & Props): JSX.Element => {
             }}
           >
             <Feather name="map" size={20} color="black" />
-            <Text style={{ color: 'black' }}>View on map</Text>
+            <Text
+              onPress={() =>
+                router.push(`/map/${item?.Latitude + '-' + item?.Longitude}`)
+              }
+              style={{ color: 'black' }}
+            >
+              View on map
+            </Text>
           </View>
         </View>
       </View>

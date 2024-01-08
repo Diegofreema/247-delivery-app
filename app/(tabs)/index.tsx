@@ -27,7 +27,7 @@ Notifications.setNotificationHandler({
 export default function TabOneScreen() {
   const {
     data,
-    isFetching,
+
     isError,
     isPaused,
     isPending,
@@ -103,6 +103,8 @@ export default function TabOneScreen() {
       }),
     });
   };
+  console.log(data);
+  console.log(products);
 
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
@@ -121,7 +123,7 @@ export default function TabOneScreen() {
             paddingBottom: 30,
             backgroundColor: 'white',
           }}
-          data={products}
+          data={data}
           renderItem={({ item, index }) => (
             <PickUpItem {...item} index={index} />
           )}
