@@ -9,6 +9,7 @@ import Animated, { SlideInUp } from 'react-native-reanimated';
 import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import registerNNPushToken from 'native-notify';
+import axios from 'axios';
 
 const appId = process.env.EXPO_PUBLIC_APP_ID;
 const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
@@ -44,7 +45,15 @@ export default function TabOneScreen() {
       </View>
     );
   }
-
+  const send = async () => {
+    await axios.post('https://app.nativenotify.com/api/notification', {
+      appId: 18094,
+      appToken: 'XrpSQHg242Xgsh6GkilQD8',
+      title: 'Push title here as a string',
+      body: 'Push message here as a string',
+      dateSent: Date.now(),
+    });
+  };
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
