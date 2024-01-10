@@ -2,7 +2,7 @@
   "expo": {
     "name": "247Delivery",
     "slug": "rider-app",
-    "version": "1.0.3",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",

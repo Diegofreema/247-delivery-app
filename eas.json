@@ -5,24 +5,25 @@
   "build": {
     "development": {
       "developmentClient": true,
-
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
-      "node": "18.18.0",
-      "android": {
-        "buildType": "apk"
-      },
       "channel": "preview",
       "env": {
         "EXPO_PUBLIC_PROJECT_ID": "75ab69a9-1ec0-4aa2-b5c6-cc9e754682ed",
+
         "EXPO_PUBLIC_API_KEY": "AIzaSyDlmhtRTF4Ah3zVtdmq1qmcxy2H5r7M6YI",
+
         "EXPO_PUBLIC_APP_ID": "18094",
+
         "EXPO_PUBLIC_APP_TOKEN": "XrpSQHg242Xgsh6GkilQD8"
       }
     },
-    "production": {}
+    "production": {
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}

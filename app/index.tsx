@@ -1,3 +1,5 @@
+import { registerIndieID } from 'native-notify';
+import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,10 +8,8 @@ import { HeaderComponent } from '../components/Header';
 import { TextComponent } from '../components/TextComponent';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { registerIndieID } from 'native-notify';
 import { colors } from '../constants/Colors';
 import { InputComponent } from '../components/InputComponent';
-import axios from 'axios';
 import { useToast } from 'react-native-toast-notifications';
 import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
@@ -35,19 +35,19 @@ const Login = (props: Props) => {
   //   console.log('🚀 ~ loginFunc ~ id:', subId);
   // };
 
-  // useEffect(() => {
-  //   getId();
-  //   getUser();
-  //   setMounted(true);
-  // }, []);
+  useEffect(() => {
+    getId();
+    getUser();
+    setMounted(true);
+  }, []);
 
-  // useEffect(() => {
-  //   if (!mounted) return;
+  useEffect(() => {
+    if (!mounted) return;
 
-  //   if (id?.length > 0) {
-  //     router.replace('/(tabs)/');
-  //   }
-  // }, [mounted, id, router]);
+    if (id?.length > 0) {
+      router.replace(`/(tabs)/${id}`);
+    }
+  }, [mounted, id, router]);
 
   const {
     values,
@@ -89,7 +89,11 @@ const Login = (props: Props) => {
         });
       }
 
-      registerIndieID(response.data, appId, appToken);
+      try {
+        registerIndieID(response.data, appId, appToken);
+      } catch (error) {
+        console.log('🚀 ~ onSubmit: ~ error:', error);
+      }
       setId(response.data);
 
       resetForm();
