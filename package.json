@@ -43,6 +43,7 @@
     "expo-updates": "~0.18.19",
     "expo-web-browser": "~12.3.2",
     "formik": "^2.4.5",
+    "native-notify": "^3.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
