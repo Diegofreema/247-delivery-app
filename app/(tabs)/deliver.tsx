@@ -57,14 +57,13 @@ export default function TabTwoScreen() {
         ]}
       >
         <HeaderComponent>Products To Deliver</HeaderComponent>
-        <View style={{ marginBottom: 20 }} />
+        <View style={{ marginBottom: 10 }} />
         <Animated.FlatList
           entering={SlideInUp.delay(100).springify()}
           onRefresh={refetch}
           refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            flexGrow: 1,
             paddingBottom: 30,
             backgroundColor: 'white',
           }}

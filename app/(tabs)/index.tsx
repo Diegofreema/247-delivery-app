@@ -45,29 +45,27 @@ export default function TabOneScreen() {
       </View>
     );
   }
-  const send = async () => {
-    await axios.post('https://app.nativenotify.com/api/notification', {
-      appId: 18094,
-      appToken: 'XrpSQHg242Xgsh6GkilQD8',
-      title: 'Push title here as a string',
-      body: 'Push message here as a string',
-      dateSent: Date.now(),
-    });
-  };
+  // const send = async () => {
+  //   await axios.post('https://app.nativenotify.com/api/notification', {
+  //     appId: 18094,
+  //     appToken: 'XrpSQHg242Xgsh6GkilQD8',
+  //     title: 'Push title here as a string',
+  //     body: 'Push message here as a string',
+  //     dateSent: Date.now(),
+  //   });
+  // };
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
 
-        <View style={{ marginBottom: 20 }} />
-
+        <View style={{ marginBottom: 10 }} />
         <Animated.FlatList
           entering={SlideInUp.delay(100).springify()}
           onRefresh={refetch}
           refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            flexGrow: 1,
             paddingBottom: 30,
             backgroundColor: 'white',
           }}
