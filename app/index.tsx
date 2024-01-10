@@ -1,5 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, Input } from '@rneui/themed';
+import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { defaultStyle } from '../constants';
@@ -15,12 +14,15 @@ import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { MyButton } from '../components/Mybutton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { registerIndieID } from 'native-notify';
 type Props = {};
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
+
+const appId = process.env.EXPO_PUBLIC_APP_ID;
+const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = (props: Props) => {
   const toast = useToast();
   const { setId, getUser, setUser, id, getId, user } = useStoreId();
@@ -82,7 +84,7 @@ const Login = (props: Props) => {
       }
 
       setId(response.data);
-
+      registerIndieID(response.data, appId, appToken);
       resetForm();
       router.replace('/(tabs)');
     },
