@@ -7,11 +7,12 @@ import { textStyle } from '../constants';
 import { Delivered } from '../types';
 import { useRouter } from 'expo-router';
 
-type Props = {
+interface Props extends Delivered {
   index: number;
-};
+  pickUp?: boolean;
+}
 
-export const ProductCards = (item: Delivered & Props): JSX.Element => {
+export const ProductCards = (item: Props): JSX.Element => {
   const router = useRouter();
   const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
 
@@ -34,7 +35,7 @@ export const ProductCards = (item: Delivered & Props): JSX.Element => {
       >
         <Text
           style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
-        >{`Product ${item?.index + 1}`}</Text>
+        >{`Product ${item.index + 1}`}</Text>
         <Pressable
           onPress={() =>
             router.push({
@@ -157,20 +158,22 @@ export const ProductCards = (item: Delivered & Props): JSX.Element => {
               </Text>
             </View>
           </View>
-          <Pressable
-            onPress={() => router.push(`/map/${formattedCommunity}`)}
-            style={{
-              backgroundColor: '#ECECEC',
-              padding: 12,
-              borderRadius: 20,
-              gap: 5,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Feather name="map" size={20} color="black" />
-            <Text style={{ color: 'black' }}>View on map</Text>
-          </Pressable>
+          {/* {item?.pickUp && (
+            <Pressable
+              onPress={() => router.push(`/map/${formattedCommunity}`)}
+              style={{
+                backgroundColor: '#ECECEC',
+                padding: 12,
+                borderRadius: 20,
+                gap: 5,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Feather name="map" size={20} color="black" />
+              <Text style={{ color: 'black' }}>View on map</Text>
+            </Pressable>
+          )} */}
         </View>
       </View>
     </View>

@@ -30,7 +30,7 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="index"
+          name="[productId]"
           options={{
             title: 'Pick up',
             tabBarIcon: ({ size, focused }) => (

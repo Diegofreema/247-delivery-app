@@ -1,15 +1,15 @@
+import registerNNPushToken from 'native-notify';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { SplashScreen, Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Updates from 'expo-updates';
-import { useStoreId } from '../hooks/useAuth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,45 +23,20 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
+const appId = process.env.EXPO_PUBLIC_APP_ID;
+const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 export default function RootLayout() {
-  const router = useRouter();
-  const { removeUser, removeId } = useStoreId();
+  registerNNPushToken(appId, appToken);
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-  const handleLogout = async () => {
-    removeUser();
-    removeId();
 
-    await AsyncStorage.removeItem('logoutTimestamp');
-
-    router.replace('/');
-  };
-
-  useEffect(() => {
-    if (mounted) {
-      const getLogoutTime = async () => {
-        const logoutTimestamp = await AsyncStorage.getItem('logoutTimestamp');
-        if (!logoutTimestamp) return;
-
-        const remainingTime = parseInt(logoutTimestamp) - new Date().getTime();
-        if (remainingTime <= 0) {
-          handleLogout();
-        }
-      };
-      getLogoutTime();
-    }
-  }, [AsyncStorage, handleLogout, mounted]);
   useEffect(() => {
     async function onFetchUpdateAsync() {
       try {

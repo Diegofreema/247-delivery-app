@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Button, StyleSheet } from 'react-native';
 import { View } from '../../components/Themed';
 import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
@@ -8,13 +8,13 @@ import { EmptyBag } from '../../components/EmptyBag';
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
-import registerNNPushToken from 'native-notify';
 import axios from 'axios';
-
-const appId = process.env.EXPO_PUBLIC_APP_ID;
-const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
+import { useStoreId } from '../../hooks/useAuth';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function TabOneScreen() {
+  const { productId } = useLocalSearchParams<{ productId: string }>();
+
   const {
     data,
 
@@ -23,9 +23,9 @@ export default function TabOneScreen() {
     isPending,
     refetch,
     isRefetching,
-  } = useGetPickupQuery();
+  } = useGetPickupQuery(productId);
 
-  registerNNPushToken(appId, appToken);
+  //
 
   if (isError || isPaused) {
     return <ErrorComponent refetch={refetch} />;
@@ -45,20 +45,20 @@ export default function TabOneScreen() {
       </View>
     );
   }
-  // const send = async () => {
-  //   await axios.post('https://app.nativenotify.com/api/notification', {
-  //     appId: 18094,
-  //     appToken: 'XrpSQHg242Xgsh6GkilQD8',
-  //     title: 'Push title here as a string',
-  //     body: 'Push message here as a string',
-  //     dateSent: Date.now(),
-  //   });
-  // };
+  const send = async () => {
+    await axios.post(`https://app.nativenotify.com/api/indie/notification`, {
+      subID: '1',
+      appId: 18094,
+      appToken: 'XrpSQHg242Xgsh6GkilQD8',
+      title: 'put your push notification title here as a string',
+      message: 'put your push notification message here as a string',
+    });
+  };
   return (
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
-
+        <Button title="send" onPress={send} />
         <View style={{ marginBottom: 10 }} />
         <Animated.FlatList
           entering={SlideInUp.delay(100).springify()}

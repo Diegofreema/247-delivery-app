@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useGetPickupQuery2 } from '../../libs/queries';
@@ -50,18 +50,20 @@ const ProductDetail = () => {
       >
         <ProductDetailCard product={product} singleProduct={singleProduct} />
 
-        <MyButton
-          title="Print Receipt"
-          onPress={() => router.push(`/${product}`)}
-          color={colors.btnGray}
-          textColor="black"
-        />
-        <MyButton
-          title="Pick up from Merchant"
-          onPress={() => mutateAsync(product)}
-          color={colors.btnColor}
-          loading={isPickUpPending}
-        />
+        <View style={{ marginHorizontal: 20 }}>
+          <MyButton
+            title="Print Receipt"
+            onPress={() => router.push(`/${product}`)}
+            color={colors.btnGray}
+            textColor="black"
+          />
+          <MyButton
+            title="Pick up from Merchant"
+            onPress={() => mutateAsync(product)}
+            color={colors.btnColor}
+            loading={isPickUpPending}
+          />
+        </View>
       </ScrollView>
     </>
   );

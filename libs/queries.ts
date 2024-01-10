@@ -4,8 +4,8 @@ import { useStoreId } from '../hooks/useAuth';
 import { products } from './goods';
 import { Delivered, PickUp, PrintData } from '../types';
 
-export const useGetPickupQuery = () => {
-  const { id } = useStoreId();
+export const useGetPickupQuery = (id: string) => {
+  console.log('🚀 ~ useGetPickupQuery ~ id:', id);
 
   return useQuery({
     queryKey: ['pickup'],

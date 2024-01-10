@@ -6,6 +6,7 @@ import { HeaderComponent } from '../components/Header';
 import { TextComponent } from '../components/TextComponent';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { registerIndieID } from 'native-notify';
 import { colors } from '../constants/Colors';
 import { InputComponent } from '../components/InputComponent';
 import axios from 'axios';
@@ -14,7 +15,6 @@ import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { MyButton } from '../components/Mybutton';
-import { registerIndieID } from 'native-notify';
 type Props = {};
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -26,29 +26,35 @@ const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = (props: Props) => {
   const toast = useToast();
   const { setId, getUser, setUser, id, getId, user } = useStoreId();
+
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    getId();
-    getUser();
-    setMounted(true);
-  }, []);
+  // const loginFunc = (subId: string) => {
 
-  useEffect(() => {
-    if (!mounted) return;
+  //   console.log('🚀 ~ loginFunc ~ id:', subId);
+  // };
 
-    if (id?.length > 0) {
-      router.replace('/(tabs)/');
-    }
-  }, [mounted, id, router]);
+  // useEffect(() => {
+  //   getId();
+  //   getUser();
+  //   setMounted(true);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!mounted) return;
+
+  //   if (id?.length > 0) {
+  //     router.replace('/(tabs)/');
+  //   }
+  // }, [mounted, id, router]);
 
   const {
     values,
     touched,
     errors,
     handleChange,
-    handleBlur,
+
     handleSubmit,
     isSubmitting,
     resetForm,
@@ -83,10 +89,11 @@ const Login = (props: Props) => {
         });
       }
 
-      setId(response.data);
       registerIndieID(response.data, appId, appToken);
+      setId(response.data);
+
       resetForm();
-      router.replace('/(tabs)');
+      router.replace(`/(tabs)/${response.data}`);
     },
   });
   const errorMessageEmail = touched.email && errors.email && errors.email;
