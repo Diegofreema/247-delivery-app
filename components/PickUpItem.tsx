@@ -1,30 +1,36 @@
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import { PickUp } from '../types';
 import { textStyle } from '../constants';
 import { useRouter } from 'expo-router';
 import { colors } from '../constants/Colors';
 import { Divider } from '@rneui/themed';
-import Animated, {
-  SlideInLeft,
-  SlideInRight,
-  SlideInUp,
-} from 'react-native-reanimated';
+
+import { useEffect, useRef } from 'react';
 interface Props extends PickUp {
   index: number;
 }
 
 export const PickUpItem = (item: Props): JSX.Element => {
   const router = useRouter();
+  const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
+  const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
   const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
   const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
   const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
-  const animatedDirection =
-    item?.index % 2 === 0
-      ? SlideInRight.delay(100).springify()
-      : SlideInLeft.delay(100).springify();
+
   return (
-    <Animated.View entering={animatedDirection} style={[styles.container]}>
+    <Animated.View
+      style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
+    >
       <View
         style={{
           flexDirection: 'row',

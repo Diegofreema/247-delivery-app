@@ -1,12 +1,13 @@
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Divider } from '@rneui/base';
-import { Pressable } from 'react-native';
+import { Animated, Pressable } from 'react-native';
 import { StyleSheet, View, Text } from 'react-native';
 import { colors } from '../constants/Colors';
 import { textStyle } from '../constants';
 import { Delivered } from '../types';
 import { useRouter } from 'expo-router';
-import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated';
+
+import { useEffect, useRef } from 'react';
 
 interface Props extends Delivered {
   index: number;
@@ -15,6 +16,16 @@ interface Props extends Delivered {
 
 export const ProductCards = (item: Props): JSX.Element => {
   const router = useRouter();
+  const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
+  const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
   const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
 
   const formattedName = formattedBuyersInfo[0].replace(
@@ -23,12 +34,11 @@ export const ProductCards = (item: Props): JSX.Element => {
   );
   const formattedAddress = formattedBuyersInfo[2];
   const formattedCommunity = formattedBuyersInfo[3];
-  const animatedDirection =
-    item?.index % 2 === 0
-      ? SlideInRight.delay(100).springify()
-      : SlideInLeft.delay(100).springify();
+
   return (
-    <Animated.View entering={animatedDirection} style={[styles.container]}>
+    <Animated.View
+      style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
+    >
       <View
         style={{
           flexDirection: 'row',

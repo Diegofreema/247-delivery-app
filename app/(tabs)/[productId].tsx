@@ -1,15 +1,14 @@
-import { ActivityIndicator, Button, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { View } from '../../components/Themed';
 import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
 import { colors } from '../../constants/Colors';
 import { useGetPickupQuery } from '../../libs/queries';
 import { EmptyBag } from '../../components/EmptyBag';
-import Animated, { SlideInUp } from 'react-native-reanimated';
+// import Animated, { SlideInUp } from 'react-native-reanimated';
 import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import axios from 'axios';
-import { useStoreId } from '../../hooks/useAuth';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function TabOneScreen() {
