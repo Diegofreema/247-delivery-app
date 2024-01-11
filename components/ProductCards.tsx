@@ -6,6 +6,7 @@ import { colors } from '../constants/Colors';
 import { textStyle } from '../constants';
 import { Delivered } from '../types';
 import { useRouter } from 'expo-router';
+import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated';
 
 interface Props extends Delivered {
   index: number;
@@ -22,8 +23,12 @@ export const ProductCards = (item: Props): JSX.Element => {
   );
   const formattedAddress = formattedBuyersInfo[2];
   const formattedCommunity = formattedBuyersInfo[3];
+  const animatedDirection =
+    item?.index % 2 === 0
+      ? SlideInRight.delay(100).springify()
+      : SlideInLeft.delay(100).springify();
   return (
-    <View style={[styles.container]}>
+    <Animated.View entering={animatedDirection} style={[styles.container]}>
       <View
         style={{
           flexDirection: 'row',
@@ -176,7 +181,7 @@ export const ProductCards = (item: Props): JSX.Element => {
           )} */}
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

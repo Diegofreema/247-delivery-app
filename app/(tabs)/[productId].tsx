@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { ActivityIndicator, Button, FlatList, StyleSheet } from 'react-native';
 import { View } from '../../components/Themed';
 import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
@@ -60,14 +60,13 @@ export default function TabOneScreen() {
         <HeaderComponent>Products To Pick Up</HeaderComponent>
         {/* <Button title="send" onPress={send} /> */}
         <View style={{ marginBottom: 10 }} />
-        <Animated.FlatList
-          entering={SlideInUp.delay(100).springify()}
+        <FlatList
           onRefresh={refetch}
           refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 30,
-            backgroundColor: 'green',
+            backgroundColor: 'white',
           }}
           style={{ flex: 1 }}
           data={data}

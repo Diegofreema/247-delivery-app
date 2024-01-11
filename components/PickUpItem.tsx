@@ -5,18 +5,26 @@ import { textStyle } from '../constants';
 import { useRouter } from 'expo-router';
 import { colors } from '../constants/Colors';
 import { Divider } from '@rneui/themed';
-
-type Props = {
+import Animated, {
+  SlideInLeft,
+  SlideInRight,
+  SlideInUp,
+} from 'react-native-reanimated';
+interface Props extends PickUp {
   index: number;
-};
+}
 
-export const PickUpItem = (item: PickUp & Props): JSX.Element => {
+export const PickUpItem = (item: Props): JSX.Element => {
   const router = useRouter();
   const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
   const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
   const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
+  const animatedDirection =
+    item?.index % 2 === 0
+      ? SlideInRight.delay(100).springify()
+      : SlideInLeft.delay(100).springify();
   return (
-    <View style={[styles.container]}>
+    <Animated.View entering={animatedDirection} style={[styles.container]}>
       <View
         style={{
           flexDirection: 'row',
@@ -169,7 +177,7 @@ export const PickUpItem = (item: PickUp & Props): JSX.Element => {
           </View>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

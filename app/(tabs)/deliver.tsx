@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  FlatList,
   StyleSheet,
   useWindowDimensions,
 } from 'react-native';
@@ -58,8 +59,7 @@ export default function TabTwoScreen() {
       >
         <HeaderComponent>Products To Deliver</HeaderComponent>
         <View style={{ marginBottom: 10 }} />
-        <Animated.FlatList
-          entering={SlideInUp.delay(100).springify()}
+        <FlatList
           onRefresh={refetch}
           refreshing={isRefetching}
           showsVerticalScrollIndicator={false}
