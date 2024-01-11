@@ -25,7 +25,7 @@ const appId = process.env.EXPO_PUBLIC_APP_ID;
 const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = (props: Props) => {
   const toast = useToast();
-  const { setId, getUser, setUser, id, getId, user } = useStoreId();
+  const { setId, id, getId } = useStoreId();
 
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -37,7 +37,7 @@ const Login = (props: Props) => {
 
   useEffect(() => {
     getId();
-    getUser();
+
     setMounted(true);
   }, []);
 
