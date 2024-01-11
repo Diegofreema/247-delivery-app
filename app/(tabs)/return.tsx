@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
 import { View } from '../../components/Themed';
 import { defaultStyle } from '../../constants';
@@ -96,13 +96,14 @@ export default function TabTwoScreen() {
           value={email}
           placeholder="Search by  email"
         />
-        <Animated.FlatList
-          entering={SlideInUp.delay(100).springify()}
+
+        <FlatList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 30,
             backgroundColor: 'white',
           }}
+          style={{ flex: 1 }}
           data={returnProducts}
           renderItem={({ item, index }) => (
             <ProductCards {...item} index={index} />

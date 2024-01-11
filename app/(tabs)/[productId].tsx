@@ -58,7 +58,7 @@ export default function TabOneScreen() {
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
-        <Button title="send" onPress={send} />
+        {/* <Button title="send" onPress={send} /> */}
         <View style={{ marginBottom: 10 }} />
         <Animated.FlatList
           entering={SlideInUp.delay(100).springify()}
@@ -67,8 +67,9 @@ export default function TabOneScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 30,
-            backgroundColor: 'white',
+            backgroundColor: 'green',
           }}
+          style={{ flex: 1 }}
           data={data}
           renderItem={({ item, index }) => (
             <PickUpItem {...item} index={index} />
