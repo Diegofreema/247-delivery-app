@@ -1,24 +1,34 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View, Animated } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import MapViewDirections from 'react-native-maps-directions';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Image } from 'expo-image';
-import { Skeleton } from '@rneui/themed';
-import { LinearComponent } from '../../components/LinearComponent';
+
 import { Back } from '../../components/Back';
-import Animated, {
-  SlideInLeft,
-  SlideInRight,
-  SlideOutLeft,
-  SlideOutRight,
-} from 'react-native-reanimated';
+
 import { MapSkeleton } from '../../components/MapSkeleton';
 type Props = {};
 const apiKey = process.env.EXPO_PUBLIC_API_KEY || '';
 const MapScreen = (props: Props) => {
   const { communityName } = useLocalSearchParams<{ communityName: string }>();
+  const mapContainerAnim = useRef(new Animated.Value(1000)).current;
+  useEffect(() => {
+    Animated.timing(mapContainerAnim, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+
+    return () => {
+      Animated.timing(mapContainerAnim, {
+        toValue: 1000,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    };
+  }, []);
   console.log('communityName', communityName);
   const lat = Number(communityName?.split('-')[0]);
   const lng = Number(communityName?.split('-')[1]);
@@ -99,12 +109,11 @@ const MapScreen = (props: Props) => {
 
   return (
     <Animated.View
-      entering={SlideInRight}
-      exiting={SlideOutRight}
       style={{
         flex: 1,
 
         backgroundColor: 'white',
+        transform: [{ translateX: mapContainerAnim }],
       }}
     >
       <Back />

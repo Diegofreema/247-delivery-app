@@ -90,11 +90,8 @@ const Login = (props: Props) => {
         });
       }
 
-      try {
-        registerIndieID(response.data, appId, appToken);
-      } catch (error) {
-        console.log('🚀 ~ onSubmit: ~ error:', error);
-      }
+      registerIndieID(response.data, appId, appToken);
+
       setId(response.data);
 
       resetForm();
