@@ -15,6 +15,9 @@ import { useStoreId } from '../../hooks/useAuth';
 export default function TabOneScreen() {
   const { productId } = useLocalSearchParams<{ productId: string }>();
   const { id } = useStoreId();
+  console.log('🚀 ~ TabOneScreen ~ id:', id);
+
+  const agentId = productId || id;
   const {
     data,
 
@@ -23,7 +26,7 @@ export default function TabOneScreen() {
     isPending,
     refetch,
     isRefetching,
-  } = useGetPickupQuery(id);
+  } = useGetPickupQuery(agentId);
 
   //
 

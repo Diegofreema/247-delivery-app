@@ -10,7 +10,7 @@ interface AuthStore {
 }
 
 export const useStoreId = create<AuthStore>((set) => ({
-  id: '',
+  id: null,
   setId: async (newId) => {
     try {
       await AsyncStorage.setItem('id', newId.toString());
@@ -20,10 +20,10 @@ export const useStoreId = create<AuthStore>((set) => ({
     }
   },
   removeId: async () => {
+    set({ id: null });
+
     try {
       await AsyncStorage.removeItem('id');
-      await AsyncStorage.removeItem('user');
-      set({ id: '' });
     } catch (error) {
       console.error('Error removing ID from local storage:', error);
     }

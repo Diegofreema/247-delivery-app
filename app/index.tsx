@@ -26,6 +26,7 @@ const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = (props: Props) => {
   const toast = useToast();
   const { setId, id, getId } = useStoreId();
+  console.log('🚀 ~ Login ~ id:', id);
 
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -44,7 +45,7 @@ const Login = (props: Props) => {
   useEffect(() => {
     if (!mounted) return;
 
-    if (id?.length > 0) {
+    if (id !== null) {
       router.replace(`/(tabs)/${id}`);
     }
   }, [mounted, id, router]);

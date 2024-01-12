@@ -10,14 +10,14 @@ export const MapSkeleton = ({}: Props): JSX.Element => {
   useEffect(() => {
     Animated.timing(skeletonAnim, {
       toValue: 0,
-      duration: 500,
+      duration: 100,
       useNativeDriver: true,
     }).start();
 
     return () => {
       Animated.timing(skeletonAnim, {
         toValue: -1000,
-        duration: 500,
+        duration: 100,
         useNativeDriver: true,
       }).start();
     };
