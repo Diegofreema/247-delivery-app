@@ -5,8 +5,9 @@ import {
   Platform,
   Linking,
   Pressable,
+  Animated,
 } from 'react-native';
-import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
+
 import { defaultStyle } from '../constants';
 import { Divider } from '@rneui/base';
 import {
@@ -20,6 +21,7 @@ import {
 import { PickUp } from '../types';
 import { colors } from '../constants/Colors';
 import { Image } from 'expo-image';
+import { useEffect, useRef } from 'react';
 type Prop = {
   singleProduct?: {
     product: string;
@@ -36,6 +38,22 @@ export const ProductDetailCard = ({
   product,
   singleProduct,
 }: Prop): JSX.Element => {
+  const slideAnim = useRef(new Animated.Value(1000)).current;
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+
+    return () => {
+      Animated.timing(slideAnim, {
+        toValue: 1000,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    };
+  }, []);
   const formattedSellerInfo = singleProduct?.sellerinfo?.split('<br/>');
   const formattedName = formattedSellerInfo?.[0]?.split('Dealer Name: ');
   const formattedLocation = formattedSellerInfo?.[2]?.split('Location: ');
@@ -53,9 +71,10 @@ export const ProductDetailCard = ({
   };
   return (
     <Animated.View
-      entering={SlideInRight}
-      exiting={SlideOutRight}
-      style={[defaultStyle.container, { backgroundColor: 'white' }]}
+      style={[
+        defaultStyle.container,
+        { backgroundColor: 'white', transform: [{ translateX: slideAnim }] },
+      ]}
     >
       <View
         style={[

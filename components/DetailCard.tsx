@@ -1,4 +1,11 @@
-import { StyleSheet, View, Text, Linking, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Linking,
+  Pressable,
+  Animated,
+} from 'react-native';
 import { MyButton } from './Mybutton';
 import {
   AntDesign,
@@ -8,19 +15,36 @@ import {
   Ionicons,
   MaterialIcons,
 } from '@expo/vector-icons';
-import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
+
 import { defaultStyle } from '../constants';
 import { Divider } from '@rneui/base';
 import { Platform } from 'react-native';
 import { Delivered } from '../types';
 import { colors } from '../constants/Colors';
 import { Image } from 'expo-image';
+import { useEffect, useRef } from 'react';
 
 type Props = {
   setIsVisible?: (val: boolean) => void;
 };
 
 export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
+  const slideAnim = useRef(new Animated.Value(1000)).current;
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+
+    return () => {
+      Animated.timing(slideAnim, {
+        toValue: 1000,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    };
+  }, []);
   const formattedBuyersInfo = singleData?.BuyerInfo?.split('<br/>');
   const formattedName = formattedBuyersInfo[0].replace(
     /<strong>(.*?)<\/strong>/g,
@@ -41,9 +65,10 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
   };
   return (
     <Animated.View
-      entering={SlideInRight}
-      exiting={SlideOutRight}
-      style={defaultStyle.container}
+      style={[
+        defaultStyle.container,
+        { transform: [{ translateX: slideAnim }] },
+      ]}
     >
       <View style={[styles.container, { marginTop: 20, paddingVertical: 20 }]}>
         <View style={{ paddingHorizontal: 15 }}>

@@ -22,6 +22,14 @@ export const PickUpItem = (item: Props): JSX.Element => {
       duration: 1000,
       useNativeDriver: true,
     }).start();
+
+    return () => {
+      Animated.timing(slideAnim, {
+        toValue: -1000,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    };
   }, []);
   const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
   const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');

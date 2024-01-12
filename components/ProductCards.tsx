@@ -25,6 +25,14 @@ export const ProductCards = (item: Props): JSX.Element => {
       duration: 1000,
       useNativeDriver: true,
     }).start();
+
+    return () => {
+      Animated.timing(slideAnim, {
+        toValue: -1000,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    };
   }, []);
   const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
 

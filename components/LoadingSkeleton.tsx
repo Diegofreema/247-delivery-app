@@ -1,12 +1,29 @@
-import { View } from 'react-native';
-import Animated, { SlideOutLeft } from 'react-native-reanimated';
+import { View, Animated } from 'react-native';
+
 import { NavHeader } from './NavHeader';
 import { Skeleton } from '@rneui/base';
 import { LinearComponent } from './LinearComponent';
+import { useEffect, useRef } from 'react';
 
 type Props = {};
 
 export const LoadingSkeleton = (): JSX.Element => {
+  const skeletonAnim = useRef(new Animated.Value(-1000)).current;
+  useEffect(() => {
+    Animated.timing(skeletonAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+    return () => {
+      Animated.timing(skeletonAnim, {
+        toValue: -1000,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    };
+  }, []);
   return (
     <View
       style={{
@@ -17,13 +34,13 @@ export const LoadingSkeleton = (): JSX.Element => {
       }}
     >
       <Animated.View
-        exiting={SlideOutLeft}
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: 'white',
           marginHorizontal: 20,
+          transform: [{ translateX: skeletonAnim }],
         }}
       >
         <NavHeader title="Product details" />

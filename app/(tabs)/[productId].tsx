@@ -10,10 +10,11 @@ import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
+import { useStoreId } from '../../hooks/useAuth';
 
 export default function TabOneScreen() {
   const { productId } = useLocalSearchParams<{ productId: string }>();
-
+  const { id } = useStoreId();
   const {
     data,
 
@@ -22,7 +23,7 @@ export default function TabOneScreen() {
     isPending,
     refetch,
     isRefetching,
-  } = useGetPickupQuery(productId);
+  } = useGetPickupQuery(id);
 
   //
 

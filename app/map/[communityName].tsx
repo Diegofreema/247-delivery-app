@@ -14,6 +14,7 @@ import Animated, {
   SlideOutLeft,
   SlideOutRight,
 } from 'react-native-reanimated';
+import { MapSkeleton } from '../../components/MapSkeleton';
 type Props = {};
 const apiKey = process.env.EXPO_PUBLIC_API_KEY || '';
 const MapScreen = (props: Props) => {
@@ -63,19 +64,7 @@ const MapScreen = (props: Props) => {
   }, []);
 
   if (!location) {
-    return (
-      <Animated.View
-        entering={SlideInLeft}
-        exiting={SlideOutLeft}
-        style={{ flex: 1 }}
-      >
-        <Skeleton
-          animation="pulse"
-          LinearGradientComponent={LinearComponent}
-          style={{ width: '100%', height: '100%' }}
-        />
-      </Animated.View>
-    );
+    return <MapSkeleton />;
   }
   const origin = {
     latitude: location?.coords?.latitude as number,
