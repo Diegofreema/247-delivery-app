@@ -15,7 +15,7 @@ import { Modal } from '../components/Modal';
 import { useStoreId } from '../hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { MyButton } from '../components/Mybutton';
-type Props = {};
+
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
@@ -23,7 +23,7 @@ const validationSchema = yup.object().shape({
 
 const appId = process.env.EXPO_PUBLIC_APP_ID;
 const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
-const Login = (props: Props) => {
+const Login = () => {
   const toast = useToast();
   const { setId, id, getId } = useStoreId();
   console.log('🚀 ~ Login ~ id:', id);
@@ -89,8 +89,9 @@ const Login = (props: Props) => {
           animationType: 'slide-in',
         });
       }
+      const stringId: string = response.data.toString();
 
-      registerIndieID(response.data, appId, appToken);
+      registerIndieID(stringId, appId, appToken);
 
       setId(response.data);
 

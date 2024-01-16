@@ -94,7 +94,7 @@ export default function TabTwoScreen() {
           }
           onChangeText={setEmail}
           value={email}
-          placeholder="Search by  email"
+          placeholder="Search by customer's registered email"
         />
 
         <FlatList
