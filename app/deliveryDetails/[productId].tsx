@@ -26,6 +26,7 @@ const DetailDelivery = () => {
   }
 
   const singleData = data?.filter((product) => product?.id === productId)[0];
+  console.log('🚀 ~ DetailDelivery ~ singleData:', singleData);
 
   const next = () => {
     setIsVisible(true);

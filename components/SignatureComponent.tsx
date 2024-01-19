@@ -3,7 +3,9 @@ import { Image } from 'react-native';
 import { StyleSheet, View, Text } from 'react-native';
 import Signature, { SignatureViewRef } from 'react-native-signature-canvas';
 import { MyButton } from './Mybutton';
+
 import { useSignature } from '../hooks/useGetSig';
+
 type Props = {};
 
 export const SignatureComponent = ({}: Props): JSX.Element => {
@@ -14,11 +16,8 @@ export const SignatureComponent = ({}: Props): JSX.Element => {
 
   // Called after ref.current.readSignature() reads a non-empty base64 string
   const handleOK = (signature: string) => {
-    console.log(signature);
-
     setUri(signature);
     onGet({ imgUri: signature, salesId: null });
-    // onOK(signature); // Callback from Component props
   };
 
   // Called after ref.current.readSignature() reads an empty string

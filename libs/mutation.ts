@@ -89,45 +89,45 @@ export const usePrint = () => {
 export const useDeliver = () => {
   const toast = useToast();
   const { imgUri, salesId } = useSignature();
+  console.log('🚀 ~ useDeliver ~ imgUri:', imgUri);
+  console.log('🚀 ~ useDeliver ~ salesId:', salesId);
   const formattedImgUri = imgUri?.split(',')[1];
+  console.log('🚀 ~ useDeliver ~ formattedImgUri:', formattedImgUri);
   const router = useRouter();
   const queryClient = useQueryClient();
-  const pickUp = async () => {
-    const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=uploadsignature&saleid=${salesId}&strB64Encoded=${formattedImgUri}`
-    );
 
-    return response.data;
-  };
   return useMutation({
     mutationKey: ['deliver'],
-    mutationFn: pickUp,
-    onSuccess: async (data) => {
-      console.log('data', data);
+    mutationFn: async () => {
       const response = await axios.post(
-        ` https://247pharmacy.net/Uploads/${imgUri}-${salesId}.png`
+        `https://247api.netpro.software/api.aspx?api=uploadsignature&saleid=${salesId}&strB64Encoded=${formattedImgUri}`
       );
-      if (response?.data === 'saved') {
-        router.push('/(tabs)/deliver');
-        queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
-        return toast.show('Product has been delivered successfully', {
-          type: 'success',
+
+      console.log('🚀 ~ mutationFn: ~ response:', response);
+
+      return response.data;
+    },
+    onSuccess: async (data) => {
+      if (data?.includes("{ 'result': 'failed' }")) {
+        toast.show('Something went wrong, please try again later', {
+          type: 'danger',
           placement: 'bottom',
           duration: 4000,
           animationType: 'slide-in',
         });
+        return;
       }
-
-      return toast.show('Something went wrong, please try again later', {
-        type: 'danger',
+      router.push('/(tabs)/deliver');
+      queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
+      return toast.show('Product has been delivered successfully', {
+        type: 'success',
         placement: 'bottom',
         duration: 4000,
         animationType: 'slide-in',
       });
     },
     onError: (error) => {
-      console.log('error', error);
-
+      console.log('🚀 ~ useDeliver ~ error:', error);
       return toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',

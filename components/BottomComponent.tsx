@@ -19,7 +19,7 @@ export const BottomComponent = ({
 }: Props): JSX.Element => {
   const { imgUri, onGet } = useSignature();
   const { isPending, mutateAsync } = useDeliver();
-  console.log('imgUri', imgUri);
+
   const mutate = async () => {
     onGet({ imgUri, salesId: id });
     await mutateAsync();
