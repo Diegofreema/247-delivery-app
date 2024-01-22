@@ -5,7 +5,7 @@ import { useToast } from 'react-native-toast-notifications';
 import { useSignature } from '../hooks/useGetSig';
 import { useReturnStore } from '../hooks/useReturn';
 import { useStoreId } from '../hooks/useAuth';
-
+import * as FileSystem from 'expo-file-system';
 export const usePickUp = () => {
   const toast = useToast();
   const router = useRouter();
@@ -89,36 +89,32 @@ export const usePrint = () => {
 export const useDeliver = () => {
   const toast = useToast();
   const { imgUri, salesId } = useSignature();
-  console.log('🚀 ~ useDeliver ~ imgUri:', imgUri);
-  console.log('🚀 ~ useDeliver ~ salesId:', salesId);
-  const formattedImgUri = imgUri?.split(',')[1];
-  console.log('🚀 ~ useDeliver ~ formattedImgUri:', formattedImgUri);
+
   const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['deliver'],
     mutationFn: async () => {
-      try {
-        const response = await fetch(
-          `https://blog.247pharmacy.net/users/handlesignature`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              sig: formattedImgUri,
-              salesid: salesId,
-            }),
-          }
-        );
+      const formData = new FormData();
 
-        console.log('🚀 ~ mutationFn: ~ response:', response);
-        return response.json();
-      } catch (error) {
-        console.log('🚀 ~ mutationFn: ~ error:', error);
-      }
+      formData.append('sig', imgUri as string);
+
+      formData.append('salesid', salesId as string);
+
+      const response = await fetch(
+        `https://blog.247pharmacy.net/users/handlesignature`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: formData,
+        }
+      );
+
+      console.log('🚀 ~ mutationFn: ~ response:', response);
+      return response.json();
     },
     onSuccess: async (data) => {
       console.log('🚀 ~ onSuccess: ~ data:', data);

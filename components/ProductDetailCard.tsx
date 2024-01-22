@@ -98,9 +98,21 @@ export const ProductDetailCard = ({
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <Feather name="user" size={24} color="#FF0000" />
-            <Text style={{ color: 'black' }}>Dealer name</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Dealer name
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins',
+              fontSize: 12,
+              flex: 1,
+              textAlign: 'right',
+              color: 'black',
+            }}
+          >
             {formattedName}
           </Text>
         </View>
@@ -112,20 +124,28 @@ export const ProductDetailCard = ({
               paddingHorizontal: 15,
               justifyContent: 'space-between',
               backgroundColor: 'white',
+              alignItems: 'flex-start',
             },
           ]}
         >
-          <View style={[styles.row, { backgroundColor: 'white' }]}>
+          <View
+            style={[styles.row, { backgroundColor: 'white', marginRight: 5 }]}
+          >
             <Entypo name="location-pin" size={24} color={colors.btnColor} />
-            <Text style={{ color: 'black' }}>Address</Text>
+            <Text
+              style={{ color: 'black', fontSize: 12, fontFamily: 'Poppins' }}
+            >
+              Address
+            </Text>
           </View>
           <Text
             style={{
-              fontWeight: 'bold',
-              color: 'black',
               fontFamily: 'Poppins',
+              fontSize: 12,
+              flex: 1,
+              color: 'black',
+              textAlign: 'right',
             }}
-            numberOfLines={3}
           >
             {formattedLocation}
           </Text>
@@ -151,9 +171,13 @@ export const ProductDetailCard = ({
             ]}
           >
             <Ionicons name="locate" size={24} color="black" />
-            <Text style={{ color: 'black' }}>State</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              State
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {formattedState}
           </Text>
         </View>
@@ -181,13 +205,19 @@ export const ProductDetailCard = ({
               source={require('../assets/images/phone.png')}
               style={{ width: 24, height: 24 }}
             />
-            <Text style={{ color: 'black' }}>Phone number</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Phone number
+            </Text>
           </View>
           <Pressable
             onPress={openDialScreen}
             style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
           >
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
               {formattedPhoneNumber}
             </Text>
           </Pressable>
@@ -208,24 +238,33 @@ export const ProductDetailCard = ({
               styles.row,
               {
                 gap: 6,
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 backgroundColor: 'white',
               },
             ]}
           >
             <MaterialIcons name="room-preferences" size={24} color="black" />
-            <Text style={{ color: 'black', marginRight: 5 }}>
+            <Text
+              style={{
+                color: 'black',
+
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                width: 150,
+              }}
+            >
               Transaction reference
             </Text>
           </View>
 
           <Text
             style={{
-              fontWeight: 'bold',
+              fontFamily: 'Poppins',
+              fontSize: 12,
               color: 'black',
               flex: 1,
-              marginRight: -10,
             }}
+            numberOfLines={3}
           >
             {singleProduct?.salesreference}
           </Text>
@@ -251,17 +290,21 @@ export const ProductDetailCard = ({
             ]}
           >
             <AntDesign name="calendar" size={24} color="black" />
-            <Text style={{ color: 'black' }}>Date</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Date
+            </Text>
           </View>
 
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {singleProduct?.datex}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
 
         <View style={{ paddingHorizontal: 15, backgroundColor: 'white' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             Product Info
           </Text>
         </View>
@@ -276,9 +319,15 @@ export const ProductDetailCard = ({
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <Feather name="shopping-bag" size={24} color={colors.btnColor} />
-            <Text style={{ color: 'black' }}>Product</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Product
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>{product}</Text>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
+            {product}
+          </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
         <View
@@ -291,9 +340,13 @@ export const ProductDetailCard = ({
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <FontAwesome5 name="weight-hanging" size={24} color="black" />
-            <Text style={{ color: 'black' }}>Quantity</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Quantity
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {singleProduct?.qty}
           </Text>
         </View>
@@ -308,9 +361,13 @@ export const ProductDetailCard = ({
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <Entypo name="price-tag" size={24} color="#FF0000" />
-            <Text style={{ color: 'black' }}>Price</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Price
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             ₦{singleProduct?.price}
           </Text>
         </View>

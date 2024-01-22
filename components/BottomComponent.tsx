@@ -2,10 +2,11 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { SignatureComponent } from './SignatureComponent';
 import { MyButton } from './Mybutton';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { BottomSheet } from '@rneui/themed';
 import { useSignature } from '../hooks/useGetSig';
 import { useDeliver } from '../libs/mutation';
+import axios from 'axios';
 type Props = {
   isVisible: boolean;
   id: string;
@@ -17,12 +18,36 @@ export const BottomComponent = ({
   id,
   onHide,
 }: Props): JSX.Element => {
-  const { imgUri, onGet } = useSignature();
+  const { imgUri, onGet, salesId } = useSignature();
+
   const { isPending, mutateAsync } = useDeliver();
+  const [loading, setLoading] = useState(false);
 
   const mutate = async () => {
-    onGet({ imgUri, salesId: id });
-    await mutateAsync();
+    const formData = new FormData();
+
+    formData.append('sig', 'imgUri' as string);
+
+    formData.append('salesid', id as string);
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `https://blog.247pharmacy.net/users/handlesignature`,
+        {
+          sig: imgUri,
+          salesid: id,
+        }
+      );
+
+      console.log('🚀 ~ mutationFn: ~ response:', response);
+      console.log('success');
+
+      return response;
+    } catch (error) {
+      console.log('🚀 ~ mutate ~ error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <BottomSheet isVisible={isVisible} onBackdropPress={onHide}>
@@ -67,9 +92,9 @@ export const BottomComponent = ({
         >
           <MyButton
             title="Deliver"
-            onPress={() => mutate()}
+            onPress={mutate}
             disabled={imgUri === null}
-            loading={isPending}
+            loading={loading}
           />
         </View>
       </View>

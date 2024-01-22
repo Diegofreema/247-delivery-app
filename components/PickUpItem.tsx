@@ -1,4 +1,9 @@
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import { PickUp } from '../types';
 import { textStyle } from '../constants';
@@ -33,8 +38,11 @@ export const PickUpItem = (item: Props): JSX.Element => {
     };
   }, []);
   const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
+  console.log('🚀 ~ PickUpItem ~ item:vv', item);
   const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
   const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
+
+  const formattedCommunity = formattedSellerInfo[3]?.split('Community: ');
 
   return (
     <Animated.View
@@ -49,7 +57,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
           paddingHorizontal: 10,
         }}
       >
-        <Text style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}>
+        <Text style={[textStyle, { fontFamily: 'Poppins', fontSize: 11 }]}>
           {checkTextLength(item?.product)}
         </Text>
         <Pressable
@@ -95,7 +103,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 33,
+              top: 39,
               borderRadius: 6,
             }}
           />
@@ -106,7 +114,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 12,
               width: 1,
               height: 37,
-              top: 45,
+              top: 49,
             }}
           />
           <View
@@ -116,19 +124,26 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 85,
+              top: 92,
               borderRadius: 6,
             }}
           />
           <Entypo name="location-pin" size={24} color={colors.btnColor} />
           <View style={{ backgroundColor: 'transparent' }}>
-            <Text style={{ color: 'gray' }}>Address</Text>
+            <Text
+              style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
+            >
+              Address
+            </Text>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: 12,
                 color: 'black',
-                fontWeight: '600',
+                fontFamily: 'Poppins',
+                flex: 1,
               }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
               {formattedLocation}
             </Text>
@@ -158,12 +173,17 @@ export const PickUpItem = (item: Props): JSX.Element => {
                 backgroundColor: 'transparent',
               }}
             >
-              <Text style={{ color: 'gray' }}>Name</Text>
+              <Text
+                style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
+              >
+                Name
+              </Text>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 12,
                   color: 'black',
-                  fontWeight: '600',
+
+                  fontFamily: 'Poppins',
                 }}
               >
                 {formattedName}

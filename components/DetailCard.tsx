@@ -86,9 +86,13 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={styles.row}>
             <Feather name="user" size={24} color="#FF0000" />
-            <Text style={{ color: 'black' }}>Buyer's name</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Buyer's name
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {formattedName}
           </Text>
         </View>
@@ -101,9 +105,21 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={styles.row}>
             <Entypo name="location-pin" size={24} color={colors.btnColor} />
-            <Text style={{ color: 'black' }}>Address</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Address
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins',
+              fontSize: 12,
+              color: 'black',
+              flex: 1,
+              textAlign: 'right',
+            }}
+          >
             {formattedAddress}
           </Text>
         </View>
@@ -116,9 +132,13 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={styles.row}>
             <Ionicons name="locate" size={24} color="black" />
-            <Text style={{ color: 'black' }}>Community</Text>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
+              Community
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {formattedCommunity}
           </Text>
         </View>
@@ -134,13 +154,19 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
               source={require('../assets/images/phone.png')}
               style={{ width: 24, height: 24 }}
             />
-            <Text style={{ color: 'black' }}>Phone number</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Phone number
+            </Text>
           </View>
           <Pressable
             onPress={openDialScreen}
             style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
           >
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
               {formattedNumber}
             </Text>
           </Pressable>
@@ -154,14 +180,23 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={styles.row}>
             <MaterialIcons name="room-preferences" size={24} color="black" />
-            <Text style={{ color: 'black', marginRight: 10 }}>
+            <Text
+              style={{
+                color: 'black',
+                marginRight: 10,
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                width: 150,
+              }}
+            >
               Transaction reference
             </Text>
           </View>
 
           <Text
             style={{
-              fontWeight: 'bold',
+              fontFamily: 'Poppins',
+              fontSize: 12,
               color: 'black',
               flex: 1,
               marginRight: -10,
@@ -179,10 +214,14 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={styles.row}>
             <AntDesign name="calendar" size={24} color="black" />
-            <Text style={{ color: 'black' }}>Date</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Date
+            </Text>
           </View>
 
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {singleData.datex}
           </Text>
         </View>
@@ -204,9 +243,26 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <Feather name="shopping-bag" size={24} color={colors.btnColor} />
-            <Text style={{ color: 'black' }}>Product</Text>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Poppins',
+                marginRight: 5,
+                fontSize: 12,
+              }}
+            >
+              Product
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins',
+              fontSize: 12,
+              color: 'black',
+              flex: 1,
+              textAlign: 'right',
+            }}
+          >
             {singleData?.product}
           </Text>
         </View>
@@ -221,9 +277,13 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <FontAwesome5 name="weight-hanging" size={24} color="black" />
-            <Text style={{ color: 'black' }}>Quantity</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Quantity
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {singleData?.qty}
           </Text>
         </View>
@@ -238,9 +298,13 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>
             <Entypo name="price-tag" size={24} color="#FF0000" />
-            <Text style={{ color: 'black' }}>Price</Text>
+            <Text
+              style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+            >
+              Price
+            </Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             ₦{singleData?.price}
           </Text>
         </View>

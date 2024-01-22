@@ -1,6 +1,6 @@
 export const checkTextLength = (text: string) => {
-  if (text.length > 37) {
-    return text.substring(0, 37) + '...';
+  if (text.length > 30) {
+    return text.substring(0, 30) + '...';
   }
 
   return text;

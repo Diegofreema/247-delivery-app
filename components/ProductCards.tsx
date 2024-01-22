@@ -1,4 +1,9 @@
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { Divider } from '@rneui/base';
 import { Animated, Pressable } from 'react-native';
 import { StyleSheet, View, Text } from 'react-native';
@@ -36,6 +41,7 @@ export const ProductCards = (item: Props): JSX.Element => {
     };
   }, []);
   const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
+  console.log('🚀 ~ ProductCards ~ item:', item);
 
   const formattedName = formattedBuyersInfo[0].replace(
     /<strong>(.*?)<\/strong>/g,
@@ -57,12 +63,7 @@ export const ProductCards = (item: Props): JSX.Element => {
           paddingHorizontal: 10,
         }}
       >
-        <Text
-          style={[
-            textStyle,
-            { fontWeight: 'bold', fontSize: 16, fontFamily: 'Poppins' },
-          ]}
-        >
+        <Text style={[textStyle, { fontFamily: 'Poppins', fontSize: 11 }]}>
           {checkTextLength(item?.product)}
         </Text>
         <Pressable
@@ -112,7 +113,7 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 33,
+              top: 39,
               borderRadius: 6,
             }}
           />
@@ -123,7 +124,7 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 12,
               width: 1,
               height: 37,
-              top: 45,
+              top: 49,
             }}
           />
           <View
@@ -133,19 +134,24 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 85,
+              top: 92,
               borderRadius: 6,
             }}
           />
           <Entypo name="location-pin" size={24} color={colors.btnColor} />
           <View style={{ backgroundColor: 'transparent' }}>
-            <Text style={{ color: 'gray' }}>Address</Text>
+            <Text
+              style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
+            >
+              Address
+            </Text>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: 12,
                 color: 'black',
-                fontWeight: '600',
+                fontFamily: 'Poppins',
               }}
+              numberOfLines={1}
             >
               {formattedAddress}
             </Text>
@@ -175,34 +181,52 @@ export const ProductCards = (item: Props): JSX.Element => {
                 backgroundColor: 'transparent',
               }}
             >
-              <Text style={{ color: 'gray' }}>Name</Text>
+              <Text
+                style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
+              >
+                Name
+              </Text>
               <Text
                 style={{
                   fontSize: 14,
                   color: 'black',
-                  fontWeight: '600',
+                  fontFamily: 'Poppins',
                 }}
               >
                 {formattedName}
               </Text>
             </View>
           </View>
-          {/* {item?.pickUp && (
-            <Pressable
-              onPress={() => router.push(`/map/${formattedCommunity}`)}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 5,
+            alignItems: 'center',
+            marginTop: 20,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="google-circles-communities"
+            size={24}
+            color="blue"
+          />
+          <View>
+            <Text
+              style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
+            >
+              Community
+            </Text>
+            <Text
               style={{
-                backgroundColor: '#ECECEC',
-                padding: 12,
-                borderRadius: 20,
-                gap: 5,
-                flexDirection: 'row',
-                alignItems: 'center',
+                fontSize: 12,
+                color: 'black',
+                fontFamily: 'Poppins',
               }}
             >
-              <Feather name="map" size={20} color="black" />
-              <Text style={{ color: 'black' }}>View on map</Text>
-            </Pressable>
-          )} */}
+              {formattedCommunity}
+            </Text>
+          </View>
         </View>
       </View>
     </Animated.View>
