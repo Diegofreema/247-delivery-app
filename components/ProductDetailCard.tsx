@@ -119,7 +119,14 @@ export const ProductDetailCard = ({
             <Entypo name="location-pin" size={24} color={colors.btnColor} />
             <Text style={{ color: 'black' }}>Address</Text>
           </View>
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: 'black',
+              fontFamily: 'Poppins',
+            }}
+            numberOfLines={3}
+          >
             {formattedLocation}
           </Text>
         </View>

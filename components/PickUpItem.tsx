@@ -7,6 +7,7 @@ import { colors } from '../constants/Colors';
 import { Divider } from '@rneui/themed';
 
 import { useEffect, useRef } from 'react';
+import { checkTextLength } from '../libs/helper';
 interface Props extends PickUp {
   index: number;
 }
@@ -48,9 +49,9 @@ export const PickUpItem = (item: Props): JSX.Element => {
           paddingHorizontal: 10,
         }}
       >
-        <Text
-          style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
-        >{`Product ${item?.index + 1}`}</Text>
+        <Text style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}>
+          {checkTextLength(item?.product)}
+        </Text>
         <Pressable
           onPress={() => router.push(`/productDetail/${item?.id}`)}
           style={({ pressed }) => [

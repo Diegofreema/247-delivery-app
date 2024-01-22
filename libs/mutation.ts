@@ -99,15 +99,29 @@ export const useDeliver = () => {
   return useMutation({
     mutationKey: ['deliver'],
     mutationFn: async () => {
-      const response = await axios.post(
-        `https://247api.netpro.software/api.aspx?api=uploadsignature&saleid=${salesId}&strB64Encoded=${formattedImgUri}`
-      );
+      try {
+        const response = await fetch(
+          `https://blog.247pharmacy.net/users/handlesignature`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              sig: formattedImgUri,
+              salesid: salesId,
+            }),
+          }
+        );
 
-      console.log('🚀 ~ mutationFn: ~ response:', response);
-
-      return response.data;
+        console.log('🚀 ~ mutationFn: ~ response:', response);
+        return response.json();
+      } catch (error) {
+        console.log('🚀 ~ mutationFn: ~ error:', error);
+      }
     },
     onSuccess: async (data) => {
+      console.log('🚀 ~ onSuccess: ~ data:', data);
       if (data?.includes("{ 'result': 'failed' }")) {
         toast.show('Something went wrong, please try again later', {
           type: 'danger',
@@ -117,7 +131,7 @@ export const useDeliver = () => {
         });
         return;
       }
-      router.push('/(tabs)/deliver');
+      // router.push('/(tabs)/deliver');
       queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
       return toast.show('Product has been delivered successfully', {
         type: 'success',

@@ -8,6 +8,7 @@ import { Delivered } from '../types';
 import { useRouter } from 'expo-router';
 
 import { useEffect, useRef } from 'react';
+import { checkTextLength } from '../libs/helper';
 
 interface Props extends Delivered {
   index: number;
@@ -57,8 +58,13 @@ export const ProductCards = (item: Props): JSX.Element => {
         }}
       >
         <Text
-          style={[textStyle, { fontWeight: 'bold', fontSize: 16 }]}
-        >{`Product ${item.index + 1}`}</Text>
+          style={[
+            textStyle,
+            { fontWeight: 'bold', fontSize: 16, fontFamily: 'Poppins' },
+          ]}
+        >
+          {checkTextLength(item?.product)}
+        </Text>
         <Pressable
           onPress={() =>
             router.push({

@@ -1,5 +1,4 @@
 import registerNNPushToken from 'native-notify';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -28,8 +27,7 @@ const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 export default function RootLayout() {
   registerNNPushToken(appId, appToken);
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
+    Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
