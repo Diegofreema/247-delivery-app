@@ -53,7 +53,7 @@ const ProductDetail = () => {
         <View style={{ marginHorizontal: 20 }}>
           <MyButton
             title="Print Receipt"
-            onPress={() => router.push(`/${product}`)}
+            onPress={() => router.push(`/print/${product}`)}
             color={colors.btnGray}
             textColor="black"
           />

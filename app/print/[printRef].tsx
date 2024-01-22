@@ -10,13 +10,13 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useGetPrint } from '../libs/queries';
+import { useGetPrint } from '../../libs/queries';
 import { useLocalSearchParams } from 'expo-router';
-import { NavHeader } from '../components/NavHeader';
+import { NavHeader } from '../../components/NavHeader';
 import { ActivityIndicator } from 'react-native';
-import { colors } from '../constants/Colors';
-import { MyButton } from '../components/Mybutton';
-import { defaultStyle } from '../constants';
+import { colors } from '../../constants/Colors';
+import { MyButton } from '../../components/Mybutton';
+import { defaultStyle } from '../../constants';
 import * as Print from 'expo-print';
 import { Button, Divider } from '@rneui/themed';
 import { shareAsync } from 'expo-sharing';
@@ -331,7 +331,7 @@ const PrintData = (props: Props) => {
                   ]}
                 >
                   <Image
-                    source={require('../assets/images/phone.png')}
+                    source={require('../../assets/images/phone.png')}
                     style={{ width: 24, height: 24 }}
                   />
                   <Text style={{ color: 'black' }}>Phone number</Text>
