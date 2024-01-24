@@ -5,7 +5,6 @@ import { useToast } from 'react-native-toast-notifications';
 import { useSignature } from '../hooks/useGetSig';
 import { useReturnStore } from '../hooks/useReturn';
 import { useStoreId } from '../hooks/useAuth';
-import * as FileSystem from 'expo-file-system';
 export const usePickUp = () => {
   const toast = useToast();
   const router = useRouter();

@@ -36,6 +36,7 @@ const ProductDetail = () => {
     return <LoadingSkeleton />;
   }
   const singleProduct = products?.find((item) => item?.id === product);
+  console.log('🚀 ~ ProductDetail ~ singleProduct:', singleProduct);
   return (
     <>
       <NavHeader title="Product details" />

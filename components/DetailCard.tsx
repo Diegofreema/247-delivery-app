@@ -239,6 +239,7 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             backgroundColor: 'white',
+            alignItems: 'flex-start',
           }}
         >
           <View style={[styles.row, { backgroundColor: 'white' }]}>

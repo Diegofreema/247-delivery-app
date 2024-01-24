@@ -44,6 +44,15 @@ export const PickUpItem = (item: Props): JSX.Element => {
 
   const formattedCommunity = formattedSellerInfo[3]?.split('Community: ');
 
+  const renderStrings = (stringArray: string[]) => {
+    return stringArray.map((str) => {
+      if (str.length > 15) {
+        return str.slice(0, 15) + '...';
+      } else {
+        return str;
+      }
+    });
+  };
   return (
     <Animated.View
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
@@ -186,7 +195,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
                   fontFamily: 'Poppins',
                 }}
               >
-                {formattedName}
+                {renderStrings(formattedName)}
               </Text>
             </View>
           </View>

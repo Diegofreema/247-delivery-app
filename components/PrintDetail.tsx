@@ -16,6 +16,7 @@ import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { PrintData } from '../types';
 import * as Print from 'expo-print';
+import { checkTextLength } from '../libs/helper';
 interface Props extends PrintData {
   openDialScreen: () => void;
 }
@@ -119,13 +120,26 @@ export const PrintDetail = (printData: Props): JSX.Element => {
               justifyContent: 'space-between',
               paddingHorizontal: 15,
               backgroundColor: 'white',
+              alignItems: 'flex-start',
             }}
           >
             <View style={[styles.row, { backgroundColor: 'white' }]}>
               <Feather name="shopping-bag" size={24} color={colors.btnColor} />
-              <Text style={{ color: 'black' }}>Product</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Product
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                color: 'black',
+                flex: 1,
+                textAlign: 'right',
+              }}
+            >
               {printData?.Product}
             </Text>
           </View>
@@ -141,9 +155,15 @@ export const PrintDetail = (printData: Props): JSX.Element => {
           >
             <View style={[styles.row, { backgroundColor: 'white' }]}>
               <Feather name="user" size={24} color="#FF0000" />
-              <Text style={{ color: 'black' }}>Customer Name</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Customer Name
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
               {printData?.customername}
             </Text>
           </View>
@@ -160,9 +180,21 @@ export const PrintDetail = (printData: Props): JSX.Element => {
           >
             <View style={[styles.row, { backgroundColor: 'white' }]}>
               <Entypo name="location-pin" size={24} color={colors.btnColor} />
-              <Text style={{ color: 'black' }}>Address</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Address
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                color: 'black',
+                flex: 1,
+                textAlign: 'right',
+              }}
+            >
               {printData?.addres}
             </Text>
           </View>
@@ -191,9 +223,21 @@ export const PrintDetail = (printData: Props): JSX.Element => {
                 size={24}
                 color="black"
               />
-              <Text style={{ color: 'black' }}>Community</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Community
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                color: 'black',
+                flex: 1,
+                textAlign: 'right',
+              }}
+            >
               {printData?.community}
             </Text>
           </View>
@@ -218,9 +262,15 @@ export const PrintDetail = (printData: Props): JSX.Element => {
               ]}
             >
               <Ionicons name="locate" size={24} color="black" />
-              <Text style={{ color: 'black' }}>State</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                State
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
               {printData?.Statename}
             </Text>
           </View>
@@ -248,13 +298,19 @@ export const PrintDetail = (printData: Props): JSX.Element => {
                 source={require('../assets/images/phone.png')}
                 style={{ width: 24, height: 24 }}
               />
-              <Text style={{ color: 'black' }}>Phone number</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Phone number
+              </Text>
             </View>
             <Pressable
               onPress={printData?.openDialScreen}
               style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
             >
-              <Text style={{ fontWeight: 'bold', color: 'black' }}>
+              <Text
+                style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+              >
                 {printData?.phone}
               </Text>
             </Pressable>
@@ -281,12 +337,27 @@ export const PrintDetail = (printData: Props): JSX.Element => {
               ]}
             >
               <MaterialIcons name="room-preferences" size={24} color="black" />
-              <Text style={{ color: 'black', marginRight: 5 }}>
+              <Text
+                style={{
+                  color: 'black',
+
+                  fontFamily: 'Poppins',
+                  fontSize: 12,
+                  width: 150,
+                }}
+              >
                 Transaction reference
               </Text>
             </View>
 
-            <Text style={{ fontWeight: 'bold', color: 'black', flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                color: 'black',
+                flex: 1,
+              }}
+            >
               {printData?.salesreference}
             </Text>
           </View>
@@ -302,9 +373,15 @@ export const PrintDetail = (printData: Props): JSX.Element => {
           >
             <View style={[styles.row, { backgroundColor: 'white' }]}>
               <FontAwesome5 name="weight-hanging" size={24} color="black" />
-              <Text style={{ color: 'black' }}>Quantity</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Quantity
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
+            >
               {printData?.qty}
             </Text>
           </View>
@@ -319,15 +396,26 @@ export const PrintDetail = (printData: Props): JSX.Element => {
           >
             <View style={[styles.row, { backgroundColor: 'white' }]}>
               <Entypo name="price-tag" size={24} color="#FF0000" />
-              <Text style={{ color: 'black' }}>Price</Text>
+              <Text
+                style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
+              >
+                Price
+              </Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'black' }}>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Poppins',
+                fontSize: 12,
+              }}
+            >
               ₦{printData?.total}
             </Text>
           </View>
         </View>
       </View>
       <View style={{ marginTop: 15 }} />
+
       <MyButton
         onPress={printReceipt}
         title="Print"

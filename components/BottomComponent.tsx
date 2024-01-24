@@ -1,36 +1,40 @@
 import { StyleSheet, View, Text } from 'react-native';
-
+import { useToast } from 'react-native-toast-notifications';
 import { SignatureComponent } from './SignatureComponent';
 import { MyButton } from './Mybutton';
-import { useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { BottomSheet } from '@rneui/themed';
 import { useSignature } from '../hooks/useGetSig';
 import { useDeliver } from '../libs/mutation';
 import axios from 'axios';
+import { router } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
 type Props = {
   isVisible: boolean;
   id: string;
   onHide: () => void;
 };
-
+const api = process.env.EXPO_PUBLIC_URL;
 export const BottomComponent = ({
   isVisible,
   id,
   onHide,
 }: Props): JSX.Element => {
-  const { imgUri, onGet, salesId } = useSignature();
-
+  const { imgUri, onGet, salesId, onReset } = useSignature();
+  const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useDeliver();
   const [loading, setLoading] = useState(false);
 
+  const toast = useToast();
+
   const mutate = async () => {
-    const formData = new FormData();
-
-    formData.append('sig', 'imgUri' as string);
-
-    formData.append('salesid', id as string);
     setLoading(true);
+
     try {
+      const res = await axios.post(
+        `https://247api.netpro.software/api.aspx?api=deliverydelivered&saleid=${id}`
+      );
+      console.log('🚀 ~ mutate ~ res:', res);
       const response = await axios.post(
         `https://blog.247pharmacy.net/users/handlesignature`,
         {
@@ -41,10 +45,25 @@ export const BottomComponent = ({
 
       console.log('🚀 ~ mutationFn: ~ response:', response);
       console.log('success');
-
+      queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
+      onReset();
+      router.push('/(tabs)/deliver');
+      toast.show('Product has been delivered successfully', {
+        type: 'success',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
       return response;
     } catch (error) {
       console.log('🚀 ~ mutate ~ error:', error);
+      console.log('🚀 ~ mutate ~ error:', 'error');
+      toast.show('Something went wrong, please try again later', {
+        type: 'danger',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
     } finally {
       setLoading(false);
     }

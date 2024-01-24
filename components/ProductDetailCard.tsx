@@ -116,8 +116,8 @@ export const ProductDetailCard = ({
             {formattedName}
           </Text>
         </View>
-        <Divider style={{ marginVertical: 13 }} />
-        <View
+        {/* <Divider style={{ marginVertical: 13 }} /> */}
+        {/* <View
           style={[
             styles.row,
             {
@@ -149,8 +149,8 @@ export const ProductDetailCard = ({
           >
             {formattedLocation}
           </Text>
-        </View>
-        <Divider style={{ marginVertical: 13 }} />
+        </View> */}
+        {/* <Divider style={{ marginVertical: 13 }} />
         <View
           style={[
             styles.row,
@@ -180,8 +180,8 @@ export const ProductDetailCard = ({
           <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
             {formattedState}
           </Text>
-        </View>
-        <Divider style={{ marginVertical: 13 }} />
+        </View> */}
+        {/* <Divider style={{ marginVertical: 13 }} />
         <View
           style={[
             styles.row,
@@ -221,7 +221,7 @@ export const ProductDetailCard = ({
               {formattedPhoneNumber}
             </Text>
           </Pressable>
-        </View>
+        </View> */}
         <Divider style={{ marginVertical: 13 }} />
         <View
           style={[
@@ -315,9 +315,15 @@ export const ProductDetailCard = ({
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             backgroundColor: 'white',
+            alignItems: 'flex-start',
           }}
         >
-          <View style={[styles.row, { backgroundColor: 'white' }]}>
+          <View
+            style={[
+              styles.row,
+              { backgroundColor: 'white', alignItems: 'center' },
+            ]}
+          >
             <Feather name="shopping-bag" size={24} color={colors.btnColor} />
             <Text
               style={{ color: 'black', fontFamily: 'Poppins', fontSize: 12 }}
@@ -325,8 +331,16 @@ export const ProductDetailCard = ({
               Product
             </Text>
           </View>
-          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
-            {product}
+          <Text
+            style={{
+              fontFamily: 'Poppins',
+              fontSize: 12,
+              color: 'black',
+              flex: 1,
+              textAlign: 'right',
+            }}
+          >
+            {singleProduct?.product}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />

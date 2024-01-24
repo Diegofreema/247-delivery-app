@@ -7,6 +7,7 @@ import { MyButton } from '../../components/Mybutton';
 
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
 import { PrintDetail } from '../../components/PrintDetail';
+import { ScrollView } from 'react-native';
 type Props = {};
 
 const PrintData = (props: Props) => {
@@ -57,9 +58,13 @@ const PrintData = (props: Props) => {
   return (
     <>
       <NavHeader title="Print" />
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, backgroundColor: 'white' }}
+      >
         <PrintDetail {...printData} openDialScreen={openDialScreen} />
-      </View>
+      </ScrollView>
     </>
   );
 };
