@@ -1,23 +1,17 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  useWindowDimensions,
-} from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
 import { View } from '../../components/Themed';
 import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
 import { colors } from '../../constants/Colors';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useGetDeliverQuery } from '../../libs/queries';
 import { EmptyBag } from '../../components/EmptyBag';
-import Animated, { SlideInUp } from 'react-native-reanimated';
 import { ProductCards } from '../../components/ProductCards';
 import { ErrorComponent } from '../../components/ErrorComponent';
+import { useCallback } from 'react';
 
 export default function TabTwoScreen() {
-  const { width } = useWindowDimensions();
   const {
     data,
     isFetching,
@@ -32,6 +26,12 @@ export default function TabTwoScreen() {
   if (isError || isPaused) {
     return <ErrorComponent refetch={refetch} />;
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   if (isPending) {
     return (

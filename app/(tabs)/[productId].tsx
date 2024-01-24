@@ -9,8 +9,9 @@ import { EmptyBag } from '../../components/EmptyBag';
 import { PickUpItem } from '../../components/PickUpItem';
 import { ErrorComponent } from '../../components/ErrorComponent';
 import axios from 'axios';
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useStoreId } from '../../hooks/useAuth';
+import { useCallback } from 'react';
 
 export default function TabOneScreen() {
   const { productId } = useLocalSearchParams<{ productId: string }>();
@@ -28,7 +29,11 @@ export default function TabOneScreen() {
     isRefetching,
   } = useGetPickupQuery(agentId);
 
-  //
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   if (isError || isPaused) {
     return <ErrorComponent refetch={refetch} />;

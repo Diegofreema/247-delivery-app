@@ -26,7 +26,10 @@ export const BottomComponent = ({
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
-
+  const hideModal = () => {
+    onHide();
+    onReset();
+  };
   const mutate = async () => {
     setLoading(true);
 
@@ -69,7 +72,7 @@ export const BottomComponent = ({
     }
   };
   return (
-    <BottomSheet isVisible={isVisible} onBackdropPress={onHide}>
+    <BottomSheet isVisible={isVisible} onBackdropPress={hideModal}>
       <View
         style={{
           backgroundColor: 'white',
