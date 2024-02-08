@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useStoreId } from '../hooks/useAuth';
 import { products } from './goods';
-import { Delivered, PickUp, PrintData } from '../types';
+import { Delivered, PickUp, PrintData, ReturnT, ReturnType } from '../types';
 
 export const useGetPickupQuery = (id: string) => {
   console.log('🚀 ~ useGetPickupQuery ~ id:', id);
@@ -139,6 +139,87 @@ export const useGetPrint = (id: string) => {
       }
 
       return data as PrintData[];
+    },
+  });
+};
+export const useGeReturnList = () => {
+  const { id } = useStoreId();
+  return useQuery({
+    queryKey: ['return', id],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://247api.netpro.software/api.aspx?api=deliveryreturnedproductlist&agentid=${id}`
+      );
+
+      console.log('response', response.status);
+
+      let data = [];
+      if (Object.prototype.toString.call(response.data) === '[object Object]') {
+        data.push(response.data);
+      } else if (
+        Object.prototype.toString.call(response.data) === '[object Array]'
+      ) {
+        data = [...response.data];
+      }
+
+      return data as ReturnType[];
+    },
+  });
+};
+export const useGetReturn = (id: string | undefined) => {
+  return useQuery({
+    queryKey: ['returnList', id],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://247api.netpro.software/api.aspx?api=deliveryreturncustomerproducts&agentid=1&myuserid${id}`
+      );
+
+      console.log('response', response.status);
+
+      let data = [];
+      if (Object.prototype.toString.call(response.data) === '[object Object]') {
+        data.push(response.data);
+      } else if (
+        Object.prototype.toString.call(response.data) === '[object Array]'
+      ) {
+        data = [...response.data];
+      }
+
+      return data as ReturnT[];
+    },
+  });
+};
+
+export type NameType = {
+  customer: string;
+  names: string;
+};
+export const useGeReturnName = () => {
+  const { id } = useStoreId();
+  return useQuery({
+    queryKey: ['name', id],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://247api.netpro.software/api.aspx?api=deliveryreturncustomers&agentid=${id}`
+      );
+
+      console.log('response', response.status);
+
+      let data = [];
+      if (Object.prototype.toString.call(response.data) === '[object Object]') {
+        data.push(response.data);
+      } else if (
+        Object.prototype.toString.call(response.data) === '[object Array]'
+      ) {
+        data = [...response.data];
+      }
+      let newArray = data?.map((item: { customer: string; names: string }) => {
+        return {
+          key: item?.customer,
+          value: item?.names,
+        };
+      });
+      return newArray;
     },
   });
 };

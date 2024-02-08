@@ -25,7 +25,7 @@ export const MyButton = ({
       color={color}
       onPress={onPress}
       buttonStyle={{ marginTop: 20, height: 50 }}
-      titleStyle={{ color: textColor }}
+      titleStyle={{ color: textColor, fontFamily: 'Poppins', fontSize: 12 }}
       radius={25}
       loading={loading}
     >

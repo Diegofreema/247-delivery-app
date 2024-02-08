@@ -84,7 +84,10 @@ export const ProductCards = (item: Props): JSX.Element => {
           ]}
         >
           <Text
-            style={[textStyle, { fontWeight: 'bold', color: colors.btnColor }]}
+            style={[
+              textStyle,
+              { fontFamily: 'Poppins', color: colors.btnColor, fontSize: 10 },
+            ]}
           >
             View details
           </Text>

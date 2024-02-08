@@ -146,12 +146,12 @@ export const useDeliver = () => {
     },
   });
 };
-export const useReturn = () => {
+export const useReturn = (id: string) => {
   const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { onGet } = useReturnStore();
-  const pickUp = async (id: string) => {
+  const returnFn = async () => {
     onGet(id);
     const response = await axios.post(
       `https://247api.netpro.software/api.aspx?api=deliveryreturnbutton&saleid=${id}`
@@ -160,13 +160,13 @@ export const useReturn = () => {
     return response.data;
   };
   return useMutation({
-    mutationKey: ['deliver'],
-    mutationFn: pickUp,
+    mutationKey: ['returnBtn'],
+    mutationFn: returnFn,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ['pickup', 'delivery'],
       });
-      router.push('/(tabs)/return');
+      router.push(`/(tabs)/return/${id}`);
       if (data !== '') {
         return toast.show('Product has been returned successfully', {
           type: 'success',

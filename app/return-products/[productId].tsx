@@ -1,29 +1,39 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { NavHeader } from '../../components/NavHeader';
 import { useReturn } from '../../libs/mutation';
-import { Params } from '../../types';
+import { Params, ReturnT } from '../../types';
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
 import { DetailCard } from '../../components/DetailCard';
+import { useGeReturnList } from '../../libs/queries';
+import { ErrorComponent } from '../../components/ErrorComponent';
+import { ReturnCard } from '../../components/ReturnCard';
+import { ReturnCom } from '../../components/ReturnCom';
+import { MyButton } from '../../components/Mybutton';
+import { colors } from '../../constants/Colors';
 
 const DetailDelivery = () => {
-  const {
-    address,
-    date,
-    id,
-    info,
-    name,
-    price,
-    product,
-    productId,
-    quantity,
-    salesreference,
-  }: Params = useLocalSearchParams();
-  const { mutateAsync, isPending } = useReturn();
+  const params = useLocalSearchParams<ReturnT>();
 
-  if (!id) {
+  const { BuyerInfo, datex, id, price, product, qty, salesreference } = params;
+  const {
+    data,
+    isPaused,
+    isPending: isPendingList,
+    refetch,
+    isError,
+    isFetching,
+  } = useGeReturnList();
+  const { mutateAsync, isPending } = useReturn(id);
+  console.log('🚀 ~ DetailDelivery ~ data:', data);
+
+  if (!id || isPendingList) {
     return <LoadingSkeleton />;
+  }
+
+  if (isError || isPaused) {
+    return <ErrorComponent refetch={refetch} />;
   }
 
   return (
@@ -38,15 +48,15 @@ const DetailDelivery = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <DetailCard
-          salesreference={salesreference}
-          BuyerInfo={info}
-          id={id}
-          datex={date}
-          price={price}
-          product={product}
-          qty={quantity}
-        />
+        <ReturnCom {...params} />
+        <View style={{ marginHorizontal: 20 }}>
+          <MyButton
+            color={colors.btnColor}
+            title="Return"
+            onPress={() => mutateAsync()}
+            loading={isPending}
+          />
+        </View>
       </ScrollView>
     </>
   );

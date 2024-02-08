@@ -4,20 +4,25 @@ import {
   FontAwesome,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
-import { PickUp } from '../types';
-import { textStyle } from '../constants';
-import { useRouter } from 'expo-router';
+import { Divider } from '@rneui/base';
+import { Animated, Pressable } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { colors } from '../constants/Colors';
-import { Divider } from '@rneui/themed';
+import { textStyle } from '../constants';
+import { Delivered, ReturnT, ReturnType } from '../types';
+import { useRouter } from 'expo-router';
 
 import { useEffect, useRef } from 'react';
 import { checkTextLength } from '../libs/helper';
-interface Props extends PickUp {
+
+interface Props extends ReturnT {
   index: number;
+  pickUp?: boolean;
 }
 
-export const PickUpItem = (item: Props): JSX.Element => {
+export const ReturnCard = (item: Props): JSX.Element => {
+  console.log('🚀 ~ PickUpCard ~ item:', item);
+
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
@@ -37,22 +42,16 @@ export const PickUpItem = (item: Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
-  console.log('🚀 ~ PickUpItem ~ item:vv', item);
-  const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
-  const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
+  const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
+  console.log('🚀 ~ ProductCards ~ item:', item);
 
-  const formattedCommunity = formattedSellerInfo[3]?.split('Community: ');
+  const formattedName = formattedBuyersInfo[0].replace(
+    /<strong>(.*?)<\/strong>/g,
+    '$1'
+  );
+  const formattedAddress = formattedBuyersInfo[2];
+  const formattedCommunity = formattedBuyersInfo[3];
 
-  const renderStrings = (stringArray: string[]) => {
-    return stringArray.map((str) => {
-      if (str.length > 15) {
-        return str.slice(0, 15) + '...';
-      } else {
-        return str;
-      }
-    });
-  };
   return (
     <Animated.View
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
@@ -70,7 +69,20 @@ export const PickUpItem = (item: Props): JSX.Element => {
           {checkTextLength(item?.product)}
         </Text>
         <Pressable
-          onPress={() => router.push(`/productDetail/${item?.id}`)}
+          onPress={() =>
+            router.push({
+              pathname: `/return-products/${item?.id}`,
+              params: {
+                product: item?.product,
+                datex: item.datex,
+                price: item?.price,
+                qty: item?.qty,
+                id: item?.id,
+                salesreference: item?.salesreference,
+                BuyerInfo: item?.BuyerInfo,
+              },
+            })
+          }
           style={({ pressed }) => [
             {
               flexDirection: 'row',
@@ -85,12 +97,16 @@ export const PickUpItem = (item: Props): JSX.Element => {
           <Text
             style={[
               textStyle,
-              { fontFamily: 'Poppins', color: colors.btnColor, fontSize: 10 },
+              {
+                fontFamily: 'Poppins',
+                color: colors.btnColor,
+                fontSize: 11,
+              },
             ]}
           >
             View details
           </Text>
-          <FontAwesome name="angle-right" size={24} color={colors.btnColor} />
+          <FontAwesome name="angle-right" size={24} color={colors?.btnColor} />
         </Pressable>
       </View>
       <Divider style={{ marginVertical: 13 }} />
@@ -152,12 +168,10 @@ export const PickUpItem = (item: Props): JSX.Element => {
                 fontSize: 12,
                 color: 'black',
                 fontFamily: 'Poppins',
-                flex: 1,
               }}
               numberOfLines={1}
-              ellipsizeMode="tail"
             >
-              {formattedLocation}
+              {formattedAddress}
             </Text>
           </View>
         </View>
@@ -192,34 +206,43 @@ export const PickUpItem = (item: Props): JSX.Element => {
               </Text>
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 14,
                   color: 'black',
-
                   fontFamily: 'Poppins',
                 }}
               >
-                {renderStrings(formattedName)}
+                {formattedName}
               </Text>
             </View>
           </View>
-          <View
-            style={{
-              backgroundColor: '#ECECEC',
-              padding: 12,
-              borderRadius: 20,
-              gap: 5,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Feather name="map" size={20} color="black" />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 5,
+            alignItems: 'center',
+            marginTop: 20,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="google-circles-communities"
+            size={24}
+            color="blue"
+          />
+          <View>
             <Text
-              onPress={() =>
-                router.push(`/map/${item?.Latitude + '-' + item?.Longitude}`)
-              }
-              style={{ color: 'black', fontSize: 9, fontFamily: 'Poppins' }}
+              style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
             >
-              View on map
+              Community
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: 'black',
+                fontFamily: 'Poppins',
+              }}
+            >
+              {formattedCommunity}
             </Text>
           </View>
         </View>

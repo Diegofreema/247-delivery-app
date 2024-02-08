@@ -5,6 +5,8 @@ import { colors } from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text } from '@rneui/themed';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -45,8 +47,8 @@ export default function TabLayout() {
               <Text
                 style={{
                   color: focused ? colors.btnColor : '#000',
-                  fontWeight: 'bold',
-                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
                 }}
               >
                 Pick up
@@ -70,8 +72,8 @@ export default function TabLayout() {
               <Text
                 style={{
                   color: focused ? colors.btnColor : '#000',
-                  fontWeight: 'bold',
-                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
                 }}
               >
                 Deliver
@@ -80,7 +82,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="return"
+          name="return/[returnId]"
           options={{
             title: 'Return',
             tabBarIcon: ({ size, focused }) => (
@@ -96,8 +98,8 @@ export default function TabLayout() {
               <Text
                 style={{
                   color: focused ? colors.btnColor : '#000',
-                  fontWeight: 'bold',
-                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
                 }}
               >
                 Return

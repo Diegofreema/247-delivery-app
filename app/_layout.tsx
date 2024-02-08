@@ -93,13 +93,14 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="return/[productId]"
+          name="return-products/[productId]"
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="map/[communityName]"
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="list" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );
