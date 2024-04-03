@@ -6,22 +6,22 @@ import {
   View,
 } from 'react-native';
 
-import { defaultStyle } from '../../../constants';
-import { HeaderComponent } from '../../../components/Header';
-import { colors } from '../../../constants/Colors';
+import { defaultStyle } from '../../../../constants';
+import { HeaderComponent } from '../../../../components/Header';
+import { colors } from '../../../../constants/Colors';
 // import { useGeReturn, useGetDeliverQuery } from '../../libs/queries';
 import { useCallback, useState } from 'react';
 
-import { EmptyBag } from '../../../components/EmptyBag';
-import { ReturnT } from '../../../types';
+import { EmptyBag } from '../../../../components/EmptyBag';
+import { ReturnT } from '../../../../types';
 import axios from 'axios';
-import { useStoreId } from '../../../hooks/useAuth';
-import { useReturnStore } from '../../../hooks/useReturn';
-import { useGeReturnName } from '../../../libs/queries';
-import { ErrorComponent } from '../../../components/ErrorComponent';
+import { useStoreId } from '../../../../hooks/useAuth';
+import { useReturnStore } from '../../../../hooks/useReturn';
+import { useGeReturnName } from '../../../../libs/queries';
+import { ErrorComponent } from '../../../../components/ErrorComponent';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { SelectList } from 'react-native-dropdown-select-list';
-import { ReturnCard } from '../../../components/RetutnCard';
+import { ReturnCard } from '../../../../components/RetutnCard';
 export default function TabTwoScreen() {
   const { id } = useStoreId();
   const { salesId } = useReturnStore();
@@ -51,7 +51,7 @@ export default function TabTwoScreen() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://247api.netpro.software/api.aspx?api=deliveryreturncustomerproducts&agentid=${id}&myuserid=${customerId}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=${id}&myuserid=${customerId}`
       );
 
       console.log('response', response.data);

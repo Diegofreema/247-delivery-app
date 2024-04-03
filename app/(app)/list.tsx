@@ -1,11 +1,11 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import React from 'react';
-import { NavHeader } from '../components/NavHeader';
-import { useGeReturnList } from '../libs/queries';
-import { EmptyBag } from '../components/EmptyBag';
-import { ErrorComponent } from '../components/ErrorComponent';
-import { LoadingSkeleton } from '../components/LoadingSkeleton';
-import { PickUpCard } from '../components/PickUpCard';
+import { NavHeader } from '../../components/NavHeader';
+import { useGeReturnList } from '../../libs/queries';
+import { EmptyBag } from '../../components/EmptyBag';
+import { ErrorComponent } from '../../components/ErrorComponent';
+import { LoadingSkeleton } from '../../components/LoadingSkeleton';
+import { PickUpCard } from '../../components/PickUpCard';
 
 type Props = {};
 

@@ -1,14 +1,14 @@
 import { ScrollView, View } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useGetPickupQuery2 } from '../../libs/queries';
-import { NavHeader } from '../../components/NavHeader';
-import { colors } from '../../constants/Colors';
-import { MyButton } from '../../components/Mybutton';
-import { usePickUp } from '../../libs/mutation';
-import { LoadingSkeleton } from '../../components/LoadingSkeleton';
-import { ProductDetailCard } from '../../components/ProductDetailCard';
-import { ErrorComponent } from '../../components/ErrorComponent';
+import { useGetPickupQuery2 } from '../../../libs/queries';
+import { NavHeader } from '../../../components/NavHeader';
+import { colors } from '../../../constants/Colors';
+import { MyButton } from '../../../components/Mybutton';
+import { usePickUp } from '../../../libs/mutation';
+import { LoadingSkeleton } from '../../../components/LoadingSkeleton';
+import { ProductDetailCard } from '../../../components/ProductDetailCard';
+import { ErrorComponent } from '../../../components/ErrorComponent';
 
 type Props = {
   product: string;

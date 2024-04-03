@@ -6,9 +6,9 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Image } from 'expo-image';
 
-import { Back } from '../../components/Back';
+import { Back } from '../../../components/Back';
 
-import { MapSkeleton } from '../../components/MapSkeleton';
+import { MapSkeleton } from '../../../components/MapSkeleton';
 type Props = {};
 const apiKey = process.env.EXPO_PUBLIC_API_KEY || '';
 const MapScreen = (props: Props) => {
@@ -133,7 +133,7 @@ const MapScreen = (props: Props) => {
           title="Your current location"
         >
           <Image
-            source={require('../../assets/images/truckk.png')}
+            source={require('../../../assets/images/truckk.png')}
             style={styles.img}
           />
         </Marker>

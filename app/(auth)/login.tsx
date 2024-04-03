@@ -3,18 +3,18 @@ import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { defaultStyle } from '../constants';
-import { HeaderComponent } from '../components/Header';
-import { TextComponent } from '../components/TextComponent';
+import { defaultStyle } from '../../constants';
+import { HeaderComponent } from '../../components/Header';
+import { TextComponent } from '../../components/TextComponent';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { colors } from '../constants/Colors';
-import { InputComponent } from '../components/InputComponent';
+import { colors } from '../../constants/Colors';
+import { InputComponent } from '../../components/InputComponent';
 import { useToast } from 'react-native-toast-notifications';
-import { Modal } from '../components/Modal';
-import { useStoreId } from '../hooks/useAuth';
+import { Modal } from '../../components/Modal';
+import { useStoreId } from '../../hooks/useAuth';
 import { useRouter } from 'expo-router';
-import { MyButton } from '../components/Mybutton';
+import { MyButton } from '../../components/Mybutton';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -25,30 +25,14 @@ const appId = process.env.EXPO_PUBLIC_APP_ID;
 const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = () => {
   const toast = useToast();
-  const { setId, id, getId } = useStoreId();
-  console.log('🚀 ~ Login ~ id:', id);
+  const { setId } = useStoreId();
 
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
 
   // const loginFunc = (subId: string) => {
 
   //   console.log('🚀 ~ loginFunc ~ id:', subId);
   // };
-
-  useEffect(() => {
-    getId();
-
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    if (id !== null) {
-      router.replace(`/(tabs)/${id}`);
-    }
-  }, [mounted, id, router]);
 
   const {
     values,
@@ -67,7 +51,7 @@ const Login = () => {
     validationSchema,
     onSubmit: async (values) => {
       const response = await axios.post(
-        `https://247api.netpro.software/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
       );
 
       if (response?.data === 'incorrect credentials') {
@@ -96,7 +80,7 @@ const Login = () => {
       setId(response.data);
 
       resetForm();
-      router.replace(`/(tabs)/${response.data}`);
+      router.replace('/(app)/(tabs)/');
     },
   });
   const errorMessageEmail = touched.email && errors.email && errors.email;

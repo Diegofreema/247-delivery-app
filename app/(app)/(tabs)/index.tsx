@@ -1,24 +1,22 @@
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
-import { View } from '../../components/Themed';
-import { defaultStyle } from '../../constants';
-import { HeaderComponent } from '../../components/Header';
-import { colors } from '../../constants/Colors';
-import { useGetPickupQuery } from '../../libs/queries';
-import { EmptyBag } from '../../components/EmptyBag';
+import { View } from '../../../components/Themed';
+import { defaultStyle } from '../../../constants';
+import { HeaderComponent } from '../../../components/Header';
+import { colors } from '../../../constants/Colors';
+import { useGetPickupQuery } from '../../../libs/queries';
+import { EmptyBag } from '../../../components/EmptyBag';
 // import Animated, { SlideInUp } from 'react-native-reanimated';
-import { PickUpItem } from '../../components/PickUpItem';
-import { ErrorComponent } from '../../components/ErrorComponent';
+import { PickUpItem } from '../../../components/PickUpItem';
+import { ErrorComponent } from '../../../components/ErrorComponent';
 import axios from 'axios';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useStoreId } from '../../hooks/useAuth';
+import { useStoreId } from '../../../hooks/useAuth';
 import { useCallback } from 'react';
 
 export default function TabOneScreen() {
-  const { productId } = useLocalSearchParams<{ productId: string }>();
   const { id } = useStoreId();
   console.log('🚀 ~ TabOneScreen ~ id:', id);
 
-  const agentId = productId || id;
   const {
     data,
 
@@ -27,7 +25,7 @@ export default function TabOneScreen() {
     isPending,
     refetch,
     isRefetching,
-  } = useGetPickupQuery(agentId);
+  } = useGetPickupQuery(id);
 
   useFocusEffect(
     useCallback(() => {

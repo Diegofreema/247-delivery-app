@@ -1,14 +1,14 @@
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
-import { View } from '../../components/Themed';
-import { defaultStyle } from '../../constants';
-import { HeaderComponent } from '../../components/Header';
-import { colors } from '../../constants/Colors';
+import { View } from '../../../components/Themed';
+import { defaultStyle } from '../../../constants';
+import { HeaderComponent } from '../../../components/Header';
+import { colors } from '../../../constants/Colors';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useGetDeliverQuery } from '../../libs/queries';
-import { EmptyBag } from '../../components/EmptyBag';
-import { ProductCards } from '../../components/ProductCards';
-import { ErrorComponent } from '../../components/ErrorComponent';
+import { useGetDeliverQuery } from '../../../libs/queries';
+import { EmptyBag } from '../../../components/EmptyBag';
+import { ProductCards } from '../../../components/ProductCards';
+import { ErrorComponent } from '../../../components/ErrorComponent';
 import { useCallback } from 'react';
 
 export default function TabTwoScreen() {

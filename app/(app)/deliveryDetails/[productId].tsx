@@ -1,12 +1,12 @@
 import { ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { useGetDeliverQuery2 } from '../../libs/queries';
-import { NavHeader } from '../../components/NavHeader';
-import { BottomComponent } from '../../components/BottomComponent';
-import { DetailCard } from '../../components/DetailCard';
-import { LoadingSkeleton } from '../../components/LoadingSkeleton';
-import { ErrorComponent } from '../../components/ErrorComponent';
+import { useGetDeliverQuery2 } from '../../../libs/queries';
+import { NavHeader } from '../../../components/NavHeader';
+import { BottomComponent } from '../../../components/BottomComponent';
+import { DetailCard } from '../../../components/DetailCard';
+import { LoadingSkeleton } from '../../../components/LoadingSkeleton';
+import { ErrorComponent } from '../../../components/ErrorComponent';
 type Props = {
   productId: string;
 };

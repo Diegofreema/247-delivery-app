@@ -1,12 +1,12 @@
 import { Linking, Platform, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import { useGetPrint } from '../../libs/queries';
+import { useGetPrint } from '../../../libs/queries';
 import { useLocalSearchParams } from 'expo-router';
-import { NavHeader } from '../../components/NavHeader';
-import { MyButton } from '../../components/Mybutton';
+import { NavHeader } from '../../../components/NavHeader';
+import { MyButton } from '../../../components/Mybutton';
 
-import { LoadingSkeleton } from '../../components/LoadingSkeleton';
-import { PrintDetail } from '../../components/PrintDetail';
+import { LoadingSkeleton } from '../../../components/LoadingSkeleton';
+import { PrintDetail } from '../../../components/PrintDetail';
 import { ScrollView } from 'react-native';
 type Props = {};
 

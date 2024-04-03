@@ -35,9 +35,9 @@ export const BottomComponent = ({
 
     try {
       const res = await axios.post(
-        `https://247api.netpro.software/api.aspx?api=deliverydelivered&saleid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverydelivered&saleid=${id}`
       );
-      console.log('🚀 ~ mutate ~ res:', res);
+
       const response = await axios.post(
         `https://blog.247pharmacy.net/users/handlesignature`,
         {
@@ -46,18 +46,15 @@ export const BottomComponent = ({
         }
       );
 
-      console.log('🚀 ~ mutationFn: ~ response:', response);
-      console.log('success');
       queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
       onReset();
-      router.push('/(tabs)/deliver');
+      router.push('/deliver');
       toast.show('Product has been delivered successfully', {
         type: 'success',
         placement: 'bottom',
         duration: 4000,
         animationType: 'slide-in',
       });
-      return response;
     } catch (error) {
       console.log('🚀 ~ mutate ~ error:', error);
       console.log('🚀 ~ mutate ~ error:', 'error');

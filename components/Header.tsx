@@ -33,7 +33,7 @@ export const HeaderComponent = ({
       <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 25 }}>
         {children}
       </Text>
-      {pathname !== '/' && (
+      {pathname !== '/login' && (
         <Pressable
           onPress={handleLogout}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}

@@ -1,17 +1,15 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { NavHeader } from '../../components/NavHeader';
-import { useReturn } from '../../libs/mutation';
-import { Params, ReturnT } from '../../types';
-import { LoadingSkeleton } from '../../components/LoadingSkeleton';
-import { DetailCard } from '../../components/DetailCard';
-import { useGeReturnList } from '../../libs/queries';
-import { ErrorComponent } from '../../components/ErrorComponent';
-import { ReturnCard } from '../../components/ReturnCard';
-import { ReturnCom } from '../../components/ReturnCom';
-import { MyButton } from '../../components/Mybutton';
-import { colors } from '../../constants/Colors';
+import { NavHeader } from '../../../components/NavHeader';
+import { useReturn } from '../../../libs/mutation';
+import { ReturnT } from '../../../types';
+import { LoadingSkeleton } from '../../../components/LoadingSkeleton';
+import { useGeReturnList } from '../../../libs/queries';
+import { ErrorComponent } from '../../../components/ErrorComponent';
+import { ReturnCom } from '../../../components/ReturnCom';
+import { MyButton } from '../../../components/Mybutton';
+import { colors } from '../../../constants/Colors';
 
 const DetailDelivery = () => {
   const params = useLocalSearchParams<ReturnT>();

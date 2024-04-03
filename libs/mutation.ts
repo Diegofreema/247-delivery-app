@@ -13,7 +13,7 @@ export const usePickUp = () => {
   const pickUp = async (id: string) => {
     console.log('id', id);
     const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=deliverypickupbutton&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupbutton&saleid=${id}`
     );
     console.log('response', response);
 
@@ -57,7 +57,7 @@ export const usePrint = () => {
   const toast = useToast();
   const pickUp = async (id: string) => {
     const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=deliveryprint&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryprint&saleid=${id}`
     );
 
     return response.data;
@@ -154,7 +154,7 @@ export const useReturn = (id: string) => {
   const returnFn = async () => {
     onGet(id);
     const response = await axios.post(
-      `https://247api.netpro.software/api.aspx?api=deliveryreturnbutton&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturnbutton&saleid=${id}`
     );
 
     return response.data;

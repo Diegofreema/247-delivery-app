@@ -2,7 +2,7 @@ import registerNNPushToken from 'native-notify';
 
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -77,31 +77,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <StatusBar barStyle={'dark-content'} />
-      <Stack initialRouteName="index">
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="productDetail/[product]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="print/[printRef]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="deliveryDetails/[productId]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="return-products/[productId]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="map/[communityName]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="list" options={{ headerShown: false }} />
-      </Stack>
+      <Slot screenOptions={{ headerShown: false }} />
     </ThemeProvider>
   );
 }

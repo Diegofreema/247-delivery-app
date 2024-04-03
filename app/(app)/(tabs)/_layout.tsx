@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
-import { colors } from '../../constants/Colors';
+import { colors } from '../../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text } from '@rneui/themed';
@@ -32,7 +32,7 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="[productId]"
+          name="index"
           options={{
             title: 'Pick up',
             tabBarIcon: ({ size, focused }) => (

@@ -9,8 +9,13 @@ interface AuthStore {
   getId: () => void;
 }
 
+const getUserId = async () => {
+  const id = await AsyncStorage.getItem('id');
+  return id;
+};
+
 export const useStoreId = create<AuthStore>((set) => ({
-  id: null,
+  id: getUserId() || null,
   setId: async (newId) => {
     try {
       await AsyncStorage.setItem('id', newId.toString());
@@ -31,7 +36,6 @@ export const useStoreId = create<AuthStore>((set) => ({
   getId: async () => {
     try {
       const id = await AsyncStorage.getItem('id');
-
       set({ id: id });
     } catch (error) {
       console.error('Error getting ID from local storage:', error);
