@@ -116,7 +116,7 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 39,
+              top: '95%',
               borderRadius: 6,
             }}
           />
@@ -127,7 +127,7 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 12,
               width: 1,
               height: 37,
-              top: 49,
+              top: '138%',
             }}
           />
           <View
@@ -137,7 +137,7 @@ export const ProductCards = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 92,
+              top: '250%',
               borderRadius: 6,
             }}
           />

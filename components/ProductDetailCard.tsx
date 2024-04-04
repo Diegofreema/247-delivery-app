@@ -23,15 +23,7 @@ import { colors } from '../constants/Colors';
 import { Image } from 'expo-image';
 import { useEffect, useRef } from 'react';
 type Prop = {
-  singleProduct?: {
-    product: string;
-    datex: string;
-    price: string;
-    qty: string;
-    id: string;
-    salesreference: string;
-    sellerinfo: string;
-  };
+  singleProduct?: PickUp;
   product: string;
 };
 export const ProductDetailCard = ({
@@ -54,18 +46,13 @@ export const ProductDetailCard = ({
       }).start();
     };
   }, []);
-  const formattedSellerInfo = singleProduct?.sellerinfo?.split('<br/>');
-  const formattedName = formattedSellerInfo?.[0]?.split('Dealer Name: ');
-  const formattedLocation = formattedSellerInfo?.[2]?.split('Location: ');
-  const formattedPhoneNumber =
-    formattedSellerInfo?.[1]?.split('Phone Number: ');
-  const formattedState = formattedSellerInfo?.[3]?.split('State: ');
+
   const openDialScreen = () => {
     let number = '';
     if (Platform.OS === 'ios') {
-      number = `telprompt:${formattedPhoneNumber}`;
+      number = `telprompt:${singleProduct?.sellerphone}`;
     } else {
-      number = `tel:${formattedPhoneNumber}`;
+      number = `tel:${singleProduct?.sellerphone}`;
     }
     Linking.openURL(number);
   };
@@ -113,7 +100,7 @@ export const ProductDetailCard = ({
               color: 'black',
             }}
           >
-            {formattedName}
+            {singleProduct?.sellername}
           </Text>
         </View>
         {/* <Divider style={{ marginVertical: 13 }} /> */}

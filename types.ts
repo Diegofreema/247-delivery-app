@@ -15,9 +15,11 @@ export type PickUp = {
   qty: string;
   id: string;
   salesreference: string;
-  sellerinfo: string;
   Latitude?: string;
   Longitude?: string;
+  selleraddress: string;
+  sellername: string;
+  sellerphone: string;
 };
 
 export type PrintData = {

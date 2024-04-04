@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import { LoggedUserType } from '../types';
 
 interface AuthStore {
@@ -15,11 +16,11 @@ const getUserId = async () => {
 };
 
 export const useStoreId = create<AuthStore>((set) => ({
-  id: getUserId() || null,
+  id: null,
   setId: async (newId) => {
+    set({ id: newId });
     try {
       await AsyncStorage.setItem('id', newId.toString());
-      set({ id: newId });
     } catch (error) {
       console.error('Error storing ID in local storage:', error);
     }
@@ -39,7 +40,6 @@ export const useStoreId = create<AuthStore>((set) => ({
       set({ id: id });
     } catch (error) {
       console.error('Error getting ID from local storage:', error);
-      return null;
     }
   },
 }));

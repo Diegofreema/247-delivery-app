@@ -25,7 +25,7 @@ export const usePickUp = () => {
     onSuccess: (data) => {
       if (data === 'saved') {
         queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
-        router.push(`/(tabs)/${id}`);
+        router.push('/');
         return toast.show('Product has been picked up', {
           type: 'success',
           placement: 'bottom',
@@ -166,7 +166,7 @@ export const useReturn = (id: string) => {
       queryClient.invalidateQueries({
         queryKey: ['pickup', 'delivery'],
       });
-      router.push(`/(tabs)/return/${id}`);
+      router.push(`/return/${id}`);
       if (data !== '') {
         return toast.show('Product has been returned successfully', {
           type: 'success',

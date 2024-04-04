@@ -7,6 +7,7 @@ type Props = {};
 
 const AuthLayout = (props: Props) => {
   const { id, getId } = useStoreId();
+  console.log('🚀 ~ AuthLayout ~ id:', id);
 
   useEffect(() => {
     getId();
@@ -14,7 +15,7 @@ const AuthLayout = (props: Props) => {
 
   if (id) {
     // @ts-ignore
-    <Redirect href={`/(tabs)/${id}`} />;
+    return <Redirect href={'/'} />;
   }
   return <Stack screenOptions={{ headerShown: false }} />;
 };

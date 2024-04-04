@@ -18,6 +18,7 @@ interface Props extends PickUp {
 }
 
 export const PickUpItem = (item: Props): JSX.Element => {
+  console.log('🚀 ~ PickUpItem ~ item:', item);
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
@@ -37,21 +38,13 @@ export const PickUpItem = (item: Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedSellerInfo = item?.sellerinfo?.split('<br/>');
-  console.log('🚀 ~ PickUpItem ~ item:vv', item);
-  const formattedName = formattedSellerInfo[0]?.split('Dealer Name: ');
-  const formattedLocation = formattedSellerInfo[2]?.split('Location: ');
 
-  const formattedCommunity = formattedSellerInfo[3]?.split('Community: ');
-
-  const renderStrings = (stringArray: string[]) => {
-    return stringArray.map((str) => {
-      if (str.length > 15) {
-        return str.slice(0, 15) + '...';
-      } else {
-        return str;
-      }
-    });
+  const renderStrings = (stringArray: string) => {
+    if (stringArray?.length > 15) {
+      return stringArray.slice(0, 15) + '...';
+    } else {
+      return stringArray;
+    }
   };
   return (
     <Animated.View
@@ -115,7 +108,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 39,
+              top: '95%',
               borderRadius: 6,
             }}
           />
@@ -126,7 +119,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 12,
               width: 1,
               height: 37,
-              top: 49,
+              top: '138%',
             }}
           />
           <View
@@ -136,7 +129,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 92,
+              top: '250%',
               borderRadius: 6,
             }}
           />
@@ -152,12 +145,10 @@ export const PickUpItem = (item: Props): JSX.Element => {
                 fontSize: 12,
                 color: 'black',
                 fontFamily: 'Poppins',
-                flex: 1,
               }}
               numberOfLines={1}
-              ellipsizeMode="tail"
             >
-              {formattedLocation}
+              {item?.selleraddress}
             </Text>
           </View>
         </View>
@@ -198,7 +189,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
                   fontFamily: 'Poppins',
                 }}
               >
-                {renderStrings(formattedName)}
+                {renderStrings(item?.sellername)}
               </Text>
             </View>
           </View>

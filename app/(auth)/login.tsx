@@ -25,7 +25,7 @@ const appId = process.env.EXPO_PUBLIC_APP_ID;
 const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 const Login = () => {
   const toast = useToast();
-  const { setId } = useStoreId();
+  const { setId, getId } = useStoreId();
 
   const router = useRouter();
 
@@ -53,6 +53,7 @@ const Login = () => {
       const response = await axios.post(
         `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
       );
+      console.log(response.data);
 
       if (response?.data === 'incorrect credentials') {
         return toast.show('Incorrect credentials', {
@@ -73,12 +74,12 @@ const Login = () => {
           animationType: 'slide-in',
         });
       }
+      setId(response.data);
       const stringId: string = response.data.toString();
 
       registerIndieID(stringId, appId, appToken);
 
-      setId(response.data);
-
+      getId();
       resetForm();
       router.replace('/(app)/(tabs)/');
     },
