@@ -46,23 +46,13 @@ export const ReturnCom = (singleData: ReturnT & Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedBuyersInfo = singleData?.BuyerInfo?.split('<br/>');
-
-  const formattedName = formattedBuyersInfo[0].replace(
-    /<strong>(.*?)<\/strong>/g,
-    '$1'
-  );
-
-  const formattedAddress = formattedBuyersInfo[2];
-  const formattedNumber = formattedBuyersInfo[1];
-  const formattedCommunity = formattedBuyersInfo[3];
 
   const openDialScreen = () => {
     let number = '';
     if (Platform.OS === 'ios') {
-      number = `telprompt:${formattedNumber}`;
+      number = `telprompt:${singleData?.Buyerphone}`;
     } else {
-      number = `tel:${formattedNumber}`;
+      number = `tel:${singleData?.Buyerphone}`;
     }
     Linking.openURL(number);
   };
@@ -96,7 +86,7 @@ export const ReturnCom = (singleData: ReturnT & Props): JSX.Element => {
             </Text>
           </View>
           <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
-            {formattedName}
+            {singleData?.Buyername}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
@@ -123,7 +113,7 @@ export const ReturnCom = (singleData: ReturnT & Props): JSX.Element => {
               textAlign: 'right',
             }}
           >
-            {formattedAddress}
+            {singleData?.Buyeraddress}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
@@ -142,7 +132,7 @@ export const ReturnCom = (singleData: ReturnT & Props): JSX.Element => {
             </Text>
           </View>
           <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
-            {formattedCommunity}
+            {singleData?.BuyerCommunity}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
@@ -170,7 +160,7 @@ export const ReturnCom = (singleData: ReturnT & Props): JSX.Element => {
             <Text
               style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
             >
-              {formattedNumber}
+              {singleData?.Buyerphone}
             </Text>
           </Pressable>
         </View>

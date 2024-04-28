@@ -42,15 +42,6 @@ export const ReturnCard = (item: Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedBuyersInfo = item?.BuyerInfo?.split('<br/>');
-  console.log('🚀 ~ ProductCards ~ item:', item);
-
-  const formattedName = formattedBuyersInfo[0].replace(
-    /<strong>(.*?)<\/strong>/g,
-    '$1'
-  );
-  const formattedAddress = formattedBuyersInfo[2];
-  const formattedCommunity = formattedBuyersInfo[3];
 
   return (
     <Animated.View
@@ -79,7 +70,10 @@ export const ReturnCard = (item: Props): JSX.Element => {
                 qty: item?.qty,
                 id: item?.id,
                 salesreference: item?.salesreference,
-                BuyerInfo: item?.BuyerInfo,
+                BuyerCommunity: item?.BuyerCommunity,
+                Buyeraddress: item?.Buyeraddress,
+                Buyername: item?.Buyername,
+                Buyerphone: item?.Buyerphone,
               },
             })
           }
@@ -171,7 +165,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
               }}
               numberOfLines={1}
             >
-              {formattedAddress}
+              {item?.Buyeraddress}
             </Text>
           </View>
         </View>
@@ -211,7 +205,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
                   fontFamily: 'Poppins',
                 }}
               >
-                {formattedName}
+                {item?.Buyername}
               </Text>
             </View>
           </View>
@@ -242,7 +236,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
                 fontFamily: 'Poppins',
               }}
             >
-              {formattedCommunity}
+              {item?.BuyerCommunity}
             </Text>
           </View>
         </View>

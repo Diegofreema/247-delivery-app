@@ -35,7 +35,7 @@ export const BottomComponent = ({
 
     try {
       const res = await axios.post(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverydelivered&saleid=${id}`
+        ` https://test.omega12x.net/api.aspx?api=deliverydelivered&saleid=${id}`
       );
 
       const response = await axios.post(

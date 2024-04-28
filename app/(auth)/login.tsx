@@ -51,7 +51,7 @@ const Login = () => {
     validationSchema,
     onSubmit: async (values) => {
       const response = await axios.post(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
+        ` https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
       );
       console.log(response.data);
 

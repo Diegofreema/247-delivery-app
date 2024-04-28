@@ -14,7 +14,18 @@ import { colors } from '../../../constants/Colors';
 const DetailDelivery = () => {
   const params = useLocalSearchParams<ReturnT>();
 
-  const { BuyerInfo, datex, id, price, product, qty, salesreference } = params;
+  const {
+    BuyerCommunity,
+    Buyeraddress,
+    Buyername,
+    Buyerphone,
+    datex,
+    id,
+    price,
+    product,
+    qty,
+    salesreference,
+  } = params;
   const {
     data,
     isPaused,

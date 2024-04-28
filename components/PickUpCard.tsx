@@ -42,15 +42,6 @@ export const PickUpCard = (item: Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedBuyersInfo = item?.sellerinfo?.split('<br/>');
-  console.log('🚀 ~ ProductCards ~ item:', item);
-
-  const formattedName = formattedBuyersInfo[0].replace(
-    /<strong>(.*?)<\/strong>/g,
-    '$1'
-  );
-  const formattedAddress = formattedBuyersInfo[2];
-  const formattedCommunity = formattedBuyersInfo[3];
 
   return (
     <Animated.View
@@ -162,7 +153,7 @@ export const PickUpCard = (item: Props): JSX.Element => {
               }}
               numberOfLines={1}
             >
-              {formattedAddress}
+              {item?.selleraddress}
             </Text>
           </View>
         </View>
@@ -202,7 +193,7 @@ export const PickUpCard = (item: Props): JSX.Element => {
                   fontFamily: 'Poppins',
                 }}
               >
-                {formattedName}
+                {item?.sellername}
               </Text>
             </View>
           </View>
@@ -220,22 +211,6 @@ export const PickUpCard = (item: Props): JSX.Element => {
             size={24}
             color="blue"
           />
-          <View>
-            <Text
-              style={{ color: 'gray', fontFamily: 'Poppins', fontSize: 11 }}
-            >
-              Community
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                color: 'black',
-                fontFamily: 'Poppins',
-              }}
-            >
-              {formattedCommunity}
-            </Text>
-          </View>
         </View>
       </View>
     </Animated.View>

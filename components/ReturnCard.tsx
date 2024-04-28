@@ -46,26 +46,13 @@ export const ReturnCard = (singleData: ReturnType & Props): JSX.Element => {
       }).start();
     };
   }, []);
-  const formattedBuyersInfo = singleData?.sellerinfo?.split('<br/>');
-  console.log(
-    '🚀 ~ DetailCard ~ singleData?.sellerinfo:',
-    singleData?.sellerinfo
-  );
-  const formattedName = formattedBuyersInfo[0].replace(
-    /<strong>(.*?)<\/strong>/g,
-    '$1'
-  );
-
-  const formattedAddress = formattedBuyersInfo[2];
-  const formattedNumber = formattedBuyersInfo[1];
-  const formattedCommunity = formattedBuyersInfo[3];
 
   const openDialScreen = () => {
     let number = '';
     if (Platform.OS === 'ios') {
-      number = `telprompt:${formattedNumber}`;
+      number = `telprompt:${singleData?.sellerphone}`;
     } else {
-      number = `tel:${formattedNumber}`;
+      number = `tel:${singleData?.sellerphone}`;
     }
     Linking.openURL(number);
   };
@@ -99,7 +86,7 @@ export const ReturnCard = (singleData: ReturnType & Props): JSX.Element => {
             </Text>
           </View>
           <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
-            {formattedName}
+            {singleData?.sellername}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
@@ -126,26 +113,7 @@ export const ReturnCard = (singleData: ReturnType & Props): JSX.Element => {
               textAlign: 'right',
             }}
           >
-            {formattedAddress}
-          </Text>
-        </View>
-        <Divider style={{ marginVertical: 13 }} />
-        <View
-          style={[
-            styles.row,
-            { paddingHorizontal: 15, justifyContent: 'space-between' },
-          ]}
-        >
-          <View style={styles.row}>
-            <Ionicons name="locate" size={24} color="black" />
-            <Text
-              style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
-            >
-              Community
-            </Text>
-          </View>
-          <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}>
-            {formattedCommunity}
+            {singleData?.selleraddress}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />
@@ -173,7 +141,7 @@ export const ReturnCard = (singleData: ReturnType & Props): JSX.Element => {
             <Text
               style={{ fontFamily: 'Poppins', fontSize: 12, color: 'black' }}
             >
-              {formattedNumber}
+              {singleData?.sellerphone}
             </Text>
           </Pressable>
         </View>
