@@ -51,7 +51,7 @@ export default function TabTwoScreen() {
     setLoading(true);
     try {
       const response = await axios.get(
-        ` https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${id}&myuserid=${customerId}`
+        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${id}&myuserid=${customerId}`
       );
 
       console.log('response', response.data);
