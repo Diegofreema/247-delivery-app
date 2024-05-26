@@ -15,7 +15,7 @@ import { Modal } from '../../components/Modal';
 import { useStoreId } from '../../hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { MyButton } from '../../components/Mybutton';
-
+import * as SecureStore from 'expo-secure-store';
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
@@ -50,8 +50,11 @@ const Login = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      const formattedPassword = values.password
+        .replace(/[#?\/\\%&]/g, '')
+        .replace(/:/g, '');
       const response = await axios.post(
-        `https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${values.password}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${formattedPassword}`
       );
       console.log(response.data);
 
@@ -75,9 +78,11 @@ const Login = () => {
         });
       }
       setId(response.data);
-      const stringId: string = response.data.toString();
+      const stringData = JSON.stringify(values);
+      SecureStore.setItem('credentials', stringData);
+      // const stringId: string = response.data.toString();
 
-      registerIndieID(stringId, appId, appToken);
+      // registerIndieID(stringId, appId, appToken);
 
       getId();
       resetForm();

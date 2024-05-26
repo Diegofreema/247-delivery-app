@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useStoreId } from '../hooks/useAuth';
 import { router, usePathname } from 'expo-router';
+import { CustomMenu } from './CustomMenu';
 
 type Props = {
   children: PropsWithChildren<any>;
@@ -33,14 +34,7 @@ export const HeaderComponent = ({
       <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 25 }}>
         {children}
       </Text>
-      {pathname !== '/login' && (
-        <Pressable
-          onPress={handleLogout}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-        >
-          <Feather name="log-out" size={24} color="black" />
-        </Pressable>
-      )}
+      {pathname !== '/login' && <CustomMenu />}
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 import { useToast } from 'react-native-toast-notifications';
 import { useSignature } from '../hooks/useGetSig';
 import { useReturnStore } from '../hooks/useReturn';
@@ -9,11 +9,11 @@ export const usePickUp = () => {
   const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   const pickUp = async (id: string) => {
     console.log('id', id);
     const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliverypickupbutton&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupbutton&saleid=${profile?.id}`
     );
     console.log('response', response);
 
@@ -57,7 +57,7 @@ export const usePrint = () => {
   const toast = useToast();
   const pickUp = async (id: string) => {
     const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliveryprint&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryprint&saleid=${id}`
     );
 
     return response.data;
@@ -154,7 +154,7 @@ export const useReturn = (id: string) => {
   const returnFn = async () => {
     onGet(id);
     const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliveryreturnbutton&saleid=${id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturnbutton&saleid=${id}`
     );
 
     return response.data;
@@ -175,6 +175,72 @@ export const useReturn = (id: string) => {
           animationType: 'slide-in',
         });
       }
+    },
+    onError: (error) => {
+      return toast.show('Something went wrong, please try again later', {
+        type: 'danger',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    },
+  });
+};
+export const useDeleteAccount = () => {
+  const toast = useToast();
+  const { profile, removeId } = useStoreId();
+  const onDelete = async () => {
+    const response = await axios.post(
+      `https://247delivery.net/api.aspx/api.aspx?api=deleteaccount&agentid=${profile.id}`
+    );
+
+    return response.data;
+  };
+  return useMutation({
+    mutationFn: onDelete,
+    onSuccess: (data) => {
+      removeId();
+      router.push(`/login`);
+
+      return toast.show('Your profile has been deleted', {
+        type: 'success',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    },
+    onError: (error) => {
+      return toast.show('Something went wrong, please try again later', {
+        type: 'danger',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    },
+  });
+};
+export const useReject = (id: string) => {
+  const toast = useToast();
+  const { profile } = useStoreId();
+  const queryClient = useQueryClient();
+  const onReject = async () => {
+    const response = await axios.post(
+      `https://247delivery.net/api.aspx/api.aspx?api=selectcloset&productsaleid=${id}&statename=${profile.statename}&agentid=${profile?.id}`
+    );
+
+    return response.data;
+  };
+  return useMutation({
+    mutationFn: onReject,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['pickup'] });
+
+      return toast.show('Your rejected a pickup', {
+        type: 'success',
+        placement: 'bottom',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
     },
     onError: (error) => {
       return toast.show('Something went wrong, please try again later', {

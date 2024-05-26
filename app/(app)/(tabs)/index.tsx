@@ -14,8 +14,7 @@ import { useStoreId } from '../../../hooks/useAuth';
 import { useCallback } from 'react';
 
 export default function TabOneScreen() {
-  const { id } = useStoreId();
-  console.log('🚀 ~ TabOneScreen ~ id:', id);
+  const { profile } = useStoreId();
 
   const {
     data,
@@ -25,7 +24,7 @@ export default function TabOneScreen() {
     isPending,
     refetch,
     isRefetching,
-  } = useGetPickupQuery(id);
+  } = useGetPickupQuery(profile.id);
 
   useFocusEffect(
     useCallback(() => {

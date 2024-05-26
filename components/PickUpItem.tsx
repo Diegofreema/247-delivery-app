@@ -7,22 +7,25 @@ import {
 import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import { PickUp } from '../types';
 import { textStyle } from '../constants';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { colors } from '../constants/Colors';
 import { Divider } from '@rneui/themed';
 
 import { useEffect, useRef } from 'react';
 import { checkTextLength } from '../libs/helper';
+import { MyButton } from './Mybutton';
+import { useReject } from '../libs/mutation';
 interface Props extends PickUp {
   index: number;
 }
 
 export const PickUpItem = (item: Props): JSX.Element => {
   console.log('🚀 ~ PickUpItem ~ item:', item);
+  const { mutateAsync, isPending } = useReject(item?.id);
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
-
+  const pathname = usePathname();
   useEffect(() => {
     Animated.timing(slideAnim, {
       toValue: 0,
@@ -38,7 +41,9 @@ export const PickUpItem = (item: Props): JSX.Element => {
       }).start();
     };
   }, []);
-
+  const handleReject = async () => {
+    await mutateAsync();
+  };
   const renderStrings = (stringArray: string) => {
     if (stringArray?.length > 15) {
       return stringArray.slice(0, 15) + '...';
@@ -214,6 +219,17 @@ export const PickUpItem = (item: Props): JSX.Element => {
             </Text>
           </View>
         </View>
+      </View>
+      <View style={{ marginHorizontal: 15 }}>
+        {pathname === '/' && (
+          <MyButton
+            color={'red'}
+            loading={isPending}
+            // disabled={isPending}
+            title={'Reject Pickup'}
+            onPress={handleReject}
+          />
+        )}
       </View>
     </Animated.View>
   );

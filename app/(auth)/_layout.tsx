@@ -6,14 +6,14 @@ import { useStoreId } from '../../hooks/useAuth';
 type Props = {};
 
 const AuthLayout = (props: Props) => {
-  const { id, getId } = useStoreId();
-  console.log('🚀 ~ AuthLayout ~ id:', id);
+  const { profile, getId } = useStoreId();
+  console.log('🚀 ~ AuthLayout ~ id:');
 
   useEffect(() => {
     getId();
   }, []);
 
-  if (id) {
+  if (profile.id) {
     // @ts-ignore
     return <Redirect href={'/'} />;
   }

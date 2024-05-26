@@ -11,7 +11,7 @@ export const useGetPickupQuery = (id: string) => {
     queryKey: ['pickup'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverypickupdata&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupdata&agentid=${id}`
       );
 
       let data = [];
@@ -31,13 +31,13 @@ export const useGetPickupQuery = (id: string) => {
   });
 };
 export const useGetPickupQuery2 = () => {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
 
   return useQuery({
     queryKey: ['pickup2'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverypickupdata&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupdata&agentid=${profile.id}`
       );
 
       let data = [];
@@ -54,12 +54,12 @@ export const useGetPickupQuery2 = () => {
   });
 };
 export const useGetDeliverQuery = () => {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   return useQuery({
     queryKey: ['delivery'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverylist&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylist&agentid=${profile?.id}`
       );
 
       let data = [];
@@ -76,12 +76,12 @@ export const useGetDeliverQuery = () => {
   });
 };
 export const useGetDeliverQuery2 = () => {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   return useQuery({
     queryKey: ['delivery2'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverylist&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylist&agentid=${profile?.id}`
       );
 
       let data = [];
@@ -124,7 +124,7 @@ export const useGetPrint = (id: string) => {
     queryKey: ['printData', id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryprint&saleid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryprint&saleid=${id}`
       );
 
       console.log('response', response.status);
@@ -143,12 +143,12 @@ export const useGetPrint = (id: string) => {
   });
 };
 export const useGeReturnList = () => {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   return useQuery({
-    queryKey: ['return', id],
+    queryKey: ['return', profile?.id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturnedproductlist&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturnedproductlist&agentid=${profile?.id}`
       );
 
       console.log('response', response.status);
@@ -171,7 +171,7 @@ export const useGetReturn = (id: string | undefined) => {
     queryKey: ['returnList', id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=1&myuserid${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=1&myuserid${id}`
       );
 
       console.log('response', response.status);
@@ -195,12 +195,12 @@ export type NameType = {
   names: string;
 };
 export const useGeReturnName = () => {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   return useQuery({
-    queryKey: ['name', id],
+    queryKey: ['name', profile?.id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomers&agentid=${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomers&agentid=${profile?.id}`
       );
 
       console.log('response', response.status);

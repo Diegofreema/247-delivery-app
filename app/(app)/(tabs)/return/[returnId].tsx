@@ -23,7 +23,7 @@ import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { ReturnCard } from '../../../../components/RetutnCard';
 export default function TabTwoScreen() {
-  const { id } = useStoreId();
+  const { profile } = useStoreId();
   const { salesId } = useReturnStore();
   const { returnId } = useLocalSearchParams();
 
@@ -51,7 +51,7 @@ export default function TabTwoScreen() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${id}&myuserid=${customerId}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile?.id}&myuserid=${customerId}`
       );
 
       console.log('response', response.data);
