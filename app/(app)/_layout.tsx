@@ -11,8 +11,28 @@ type Props = {
   email: string;
   password: string;
 };
-const LOCATION_TASK_NAME = 'background-location-task';
 
+const profile = JSON.parse(SecureStore.getItem('profile') || '{}');
+const LOCATION_TASK_NAME = 'background-location-task';
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }: any) => {
+  if (error) {
+    console.log('🚀 ~ error:', error);
+
+    // Error occurred - check `error.message` for more details.
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    console.log('🚀 ~ AppLayout ~ locations:', 'logged latest location');
+    const updateCords = async () => {
+      await axios.get(
+        `https://247delivery.net/api.aspx/api.aspx?api=sharelocation&longitude=${locations?.[0].coords.longitude}&latitude=${locations?.[0].coords.latitude}&statename=Imo&agentid=${profile.id}`
+      );
+    };
+    updateCords();
+    // do something with the locations captured in the background
+  }
+});
 const AppLayout = (props: Props) => {
   const { profile, getId, removeId } = useStoreId();
 
@@ -41,25 +61,7 @@ const AppLayout = (props: Props) => {
 
     checkIfBlocked();
   }, []);
-  TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }: any) => {
-    if (error) {
-      console.log('🚀 ~ error:', error);
 
-      // Error occurred - check `error.message` for more details.
-      return;
-    }
-    if (data) {
-      const { locations } = data;
-      console.log('🚀 ~ AppLayout ~ locations:', locations);
-      const updateCords = async () => {
-        await axios.get(
-          `https://247delivery.net/api.aspx/api.aspx?api=sharelocation&longitude=${locations?.[0].coords.longitude}&latitude=${locations?.[0].coords.latitude}&statename=Imo&agentid=${profile.id}`
-        );
-      };
-      updateCords();
-      // do something with the locations captured in the background
-    }
-  });
   useEffect(() => {
     getId();
   }, []);
@@ -73,6 +75,8 @@ const AppLayout = (props: Props) => {
       }
       let { status: backgroundStatus } =
         await Location.requestBackgroundPermissionsAsync();
+      console.log('backgroundStatus', backgroundStatus);
+
       if (backgroundStatus !== 'granted') {
         Alert.alert(
           'Permission to access location was denied',

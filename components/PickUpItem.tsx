@@ -20,7 +20,6 @@ interface Props extends PickUp {
 }
 
 export const PickUpItem = (item: Props): JSX.Element => {
-  console.log('🚀 ~ PickUpItem ~ item:', item);
   const { mutateAsync, isPending } = useReject(item?.id);
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;

@@ -29,7 +29,7 @@ const MapScreen = (props: Props) => {
       }).start();
     };
   }, []);
-  console.log('communityName', communityName);
+ 
   const lat = Number(communityName?.split('-')[0]);
   const lng = Number(communityName?.split('-')[1]);
   const [location, setLocation] = useState<Location.LocationObject | null>(

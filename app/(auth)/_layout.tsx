@@ -7,7 +7,6 @@ type Props = {};
 
 const AuthLayout = (props: Props) => {
   const { profile, getId } = useStoreId();
-  console.log('🚀 ~ AuthLayout ~ id:');
 
   useEffect(() => {
     getId();

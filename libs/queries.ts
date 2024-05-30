@@ -5,8 +5,6 @@ import { products } from './goods';
 import { Delivered, PickUp, PrintData, ReturnT, ReturnType } from '../types';
 
 export const useGetPickupQuery = (id: string) => {
-  console.log('🚀 ~ useGetPickupQuery ~ id:', id);
-
   return useQuery({
     queryKey: ['pickup'],
     queryFn: async () => {
@@ -25,9 +23,9 @@ export const useGetPickupQuery = (id: string) => {
 
       return data as PickUp[];
     },
-    // refetchInterval: 60000 / 2,
+    refetchInterval: 1000 * 60,
     refetchIntervalInBackground: true,
-    staleTime: 60000 / 2,
+    staleTime: 1000 * 60,
   });
 };
 export const useGetPickupQuery2 = () => {

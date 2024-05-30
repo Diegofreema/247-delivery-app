@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
 import { colors } from '../../../constants/Colors';
@@ -7,13 +7,37 @@ import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text } from '@rneui/themed';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
+import { useStoreId } from '../../../hooks/useAuth';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { removeId } = useStoreId();
+  const credentials: { email: string; password: string } = JSON.parse(
+    SecureStore.getItem('credentials') || '{}'
+  );
+
+  useEffect(() => {
+    if (!credentials.email || !credentials.password) return;
+    const checkIfUserBlocked = async () => {
+      const formattedPassword = credentials.password
+        .replace(/[#?\/\\%&]/g, '')
+        .replace(/:/g, '');
+      const { data } = await axios.post(
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${credentials?.email}&pasword=${formattedPassword}`
+      );
+
+      if (!data?.id) {
+        removeId();
+        router.replace('/login');
+      }
+    };
+    checkIfUserBlocked();
+  }, [credentials]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>

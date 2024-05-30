@@ -13,7 +13,7 @@ type Props = {};
 export const CustomMenu = ({}: Props): JSX.Element => {
   const actionSheetRef = useRef<ActionSheetRef>(null);
   const { removeId, profile } = useStoreId();
-  console.log('🚀 ~ CustomMenu ~ profile:', profile);
+
   const { onOpen } = useDelete();
 
   const showSheet = () => {

@@ -35,7 +35,6 @@ const DetailDelivery = () => {
     isFetching,
   } = useGeReturnList();
   const { mutateAsync, isPending } = useReturn(id);
-  console.log('🚀 ~ DetailDelivery ~ data:', data);
 
   if (!id || isPendingList) {
     return <LoadingSkeleton />;
