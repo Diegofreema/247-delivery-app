@@ -8,6 +8,12 @@ export type LoggedUserType = {
   statename: string;
 };
 
+export type HistoryType = {
+  deliverycost: string;
+  datex: string;
+  Location: string;
+};
+
 export type PickUp = {
   product: string;
   datex: string;

@@ -191,7 +191,7 @@ export const useDeleteAccount = () => {
   const { profile, removeId } = useStoreId();
   const onDelete = async () => {
     const response = await axios.post(
-      `https://247delivery.net/api.aspx/api.aspx?api=deleteaccount&agentid=${profile.id}`
+      `https://247delivery.net/api.aspx?api=deleteaccount&agentid=${profile?.id}`
     );
 
     return response.data;
@@ -200,7 +200,7 @@ export const useDeleteAccount = () => {
     mutationFn: onDelete,
     onSuccess: (data) => {
       removeId();
-      router.push(`/login`);
+      router.replace(`/login`);
 
       return toast.show('Your profile has been deleted', {
         type: 'success',
@@ -225,7 +225,7 @@ export const useReject = (id: string) => {
   const queryClient = useQueryClient();
   const onReject = async () => {
     const response = await axios.post(
-      `https://247delivery.net/api.aspx/api.aspx?api=selectcloset&productsaleid=${id}&statename=${profile.statename}&agentid=${profile?.id}`
+      `https://247delivery.net/api.aspx?api=selectcloset&productsaleid=${id}&statename=${profile?.statename}&agentid=${profile?.id}`
     );
 
     return response.data;

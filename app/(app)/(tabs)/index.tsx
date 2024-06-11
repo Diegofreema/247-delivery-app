@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Platform } from 'react-native';
 import { View } from '../../../components/Themed';
 import { defaultStyle } from '../../../constants';
 import { HeaderComponent } from '../../../components/Header';
@@ -8,103 +8,68 @@ import { EmptyBag } from '../../../components/EmptyBag';
 // import Animated, { SlideInUp } from 'react-native-reanimated';
 import { PickUpItem } from '../../../components/PickUpItem';
 import { ErrorComponent } from '../../../components/ErrorComponent';
-import axios from 'axios';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 import { useStoreId } from '../../../hooks/useAuth';
-import { useCallback, useEffect, useState } from 'react';
-import { Audio, InterruptionModeAndroid } from 'expo-av';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@rneui/themed';
-import * as BackgroundFetch from 'expo-background-fetch';
-import * as TaskManager from 'expo-task-manager';
-const BACKGROUND_FETCH_TASK = 'background-fetch';
-
-// 1. Define the task by providing a name and the function that should be executed
-// Note: This needs to be called in the global scope (e.g outside of your React components)
-// TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
-//   const now = Date.now();
-
-//   console.log(
-//     `Got background fetch call at date: ${new Date(now).toISOString()}`
-//   );
-
-//   // Be sure to return the successful result type!
-//   return BackgroundFetch.BackgroundFetchResult.NewData;
-// });
-
-// 2. Register the task at some point in your app by providing the same name,
-// and some configuration options for how the background fetch should behave
-// Note: This does NOT need to be in the global scope and CAN be used in your React components!
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import axios from 'axios';
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function TabOneScreen() {
-  // const [isRegistered, setIsRegistered] = useState(false);
-  // const [status, setStatus] =
-  //   useState<BackgroundFetch.BackgroundFetchStatus | null>(null);
-
-  // useEffect(() => {
-  //   checkStatusAsync();
-  // }, []);
-  // async function registerBackgroundFetchAsync() {
-  //   return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-  //     minimumInterval: 1 * 60, // 15 minutes
-  //     stopOnTerminate: false, // android only,
-  //     startOnBoot: true, // android only
-  //   });
-  // }
-
-  // async function unregisterBackgroundFetchAsync() {
-  //   return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
-  // }
-
-  // const checkStatusAsync = async () => {
-  //   const status = await BackgroundFetch.getStatusAsync();
-  //   const isRegistered = await TaskManager.isTaskRegisteredAsync(
-  //     BACKGROUND_FETCH_TASK
-  //   );
-  //   setStatus(status);
-  //   setIsRegistered(isRegistered);
-  // };
-
-  // const toggleFetchTask = async () => {
-  //   if (isRegistered) {
-  //     await unregisterBackgroundFetchAsync();
-  //   } else {
-  //     await registerBackgroundFetchAsync();
-  //   }
-
-  //   checkStatusAsync();
-  // };
   const { profile } = useStoreId();
-  // console.log('vddmfkgdkfng');
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [channels, setChannels] = useState<Notifications.NotificationChannel[]>(
+    []
+  );
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync(profile?.id).then(
+      (token) => token && setExpoPushToken(token)
+    );
+
+    if (Platform.OS === 'android') {
+      Notifications.getNotificationChannelsAsync().then((value) =>
+        setChannels(value ?? [])
+      );
+    }
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const { data, isError, isPaused, isPending, refetch, isRefetching } =
     useGetPickupQuery(profile.id);
-  // const [sound, setSound] = useState<Audio.Sound>();
 
-  // async function playSound() {
-  //   console.log('Loading Sound');
-  //   const { sound } = await Audio.Sound.createAsync(
-  //     require('../../../assets/sound.mp3')
-  //   );
-  //   setSound(sound);
-
-  //   console.log('Playing Sound');
-  //   await sound.playAsync();
-  // }
-
-  // useEffect(() => {
-  //   Audio.setAudioModeAsync({
-  //     staysActiveInBackground: true,
-  //     playThroughEarpieceAndroid: true,
-  //     interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
-  //     shouldDuckAndroid: true,
-  //   });
-  //   return sound
-  //     ? () => {
-  //         console.log('Unloading Sound');
-  //         sound.unloadAsync();
-  //       }
-  //     : undefined;
-  // }, [sound]);
   useFocusEffect(
     useCallback(() => {
       refetch();
@@ -142,18 +107,8 @@ export default function TabOneScreen() {
     <View style={[{ flex: 1, paddingTop: 20, backgroundColor: 'white' }]}>
       <View style={[defaultStyle.container, { backgroundColor: 'white' }]}>
         <HeaderComponent>Products To Pick Up</HeaderComponent>
-        {/* <Button
-          title={
-            isRegistered
-              ? 'Unregister BackgroundFetch task'
-              : 'Register BackgroundFetch task'
-          }
-          onPress={toggleFetchTask}
-        />
-        <Text>{status && BackgroundFetch.BackgroundFetchStatus[status]}</Text> */}
-        {/* <Text>
-          {isRegistered ? BACKGROUND_FETCH_TASK : 'Not registered yet!'}
-        </Text> */}
+        {/* <Button title={'send'} onPress={schedulePushNotification} /> */}
+
         <View style={{ marginBottom: 10 }} />
         <FlatList
           onRefresh={refetch}
@@ -175,4 +130,67 @@ export default function TabOneScreen() {
       </View>
     </View>
   );
+}
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You've got mail! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here', test: { test1: 'more data' } },
+      sound: 'noti.wav',
+    },
+    trigger: { seconds: 2, channelId: 'preview' },
+  });
+}
+
+async function registerForPushNotificationsAsync(id: string) {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    // Learn more about projectId:
+    // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+    // EAS projectId is used here.
+    try {
+      const projectId =
+        Constants?.expoConfig?.extra?.eas?.projectId ??
+        Constants?.easConfig?.projectId;
+      if (!projectId) {
+        throw new Error('Project ID not found');
+      }
+      token = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId,
+        })
+      ).data;
+      console.log(token);
+    } catch (e) {
+      token = `${e}`;
+    }
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+  await axios.get(
+    `https://247delivery.net/api.aspx?api=updatemobileref&agentid=${id}&agentmobileref=${token}`
+  );
+  return token;
 }

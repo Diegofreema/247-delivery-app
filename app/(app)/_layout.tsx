@@ -12,27 +12,6 @@ type Props = {
   password: string;
 };
 
-const profile = JSON.parse(SecureStore.getItem('profile') || '{}');
-const LOCATION_TASK_NAME = 'background-location-task';
-TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }: any) => {
-  if (error) {
-    console.log('🚀 ~ error:', error);
-
-    // Error occurred - check `error.message` for more details.
-    return;
-  }
-  if (data) {
-    const { locations } = data;
-    console.log('🚀 ~ AppLayout ~ locations:', 'logged latest location');
-    const updateCords = async () => {
-      await axios.get(
-        `https://247delivery.net/api.aspx/api.aspx?api=sharelocation&longitude=${locations?.[0].coords.longitude}&latitude=${locations?.[0].coords.latitude}&statename=Imo&agentid=${profile.id}`
-      );
-    };
-    updateCords();
-    // do something with the locations captured in the background
-  }
-});
 const AppLayout = (props: Props) => {
   const { profile, getId, removeId } = useStoreId();
 
@@ -64,30 +43,6 @@ const AppLayout = (props: Props) => {
 
   useEffect(() => {
     getId();
-  }, []);
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission to access location was denied');
-
-        return;
-      }
-      let { status: backgroundStatus } =
-        await Location.requestBackgroundPermissionsAsync();
-      console.log('backgroundStatus', backgroundStatus);
-
-      if (backgroundStatus !== 'granted') {
-        Alert.alert(
-          'Permission to access location was denied',
-          'Location permission is required'
-        );
-      }
-      await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-        accuracy: Location.Accuracy.Balanced,
-        timeInterval: 3000,
-      });
-    })();
   }, []);
 
   if (!profile.id) {

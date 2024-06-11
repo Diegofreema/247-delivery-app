@@ -62,7 +62,8 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/images/icon.png"
+          "icon": "./assets/images/icon.png",
+          "sound": "./assets/noti.wav"
         }
       ],
       [
@@ -83,7 +84,8 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-firebase/app"
     ],
     "experiments": {
       "typedRoutes": true

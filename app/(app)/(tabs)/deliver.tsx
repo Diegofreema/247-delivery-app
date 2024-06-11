@@ -14,7 +14,7 @@ import { useCallback } from 'react';
 export default function TabTwoScreen() {
   const {
     data,
-    isFetching,
+
     isError,
     isPaused,
     refetch,

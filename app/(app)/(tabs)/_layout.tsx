@@ -131,6 +131,32 @@ export default function TabLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="history"
+          options={{
+            title: 'History',
+            tabBarIcon: ({ size, focused }) => (
+              <Entypo
+                name="calendar"
+                size={size}
+                style={{ marginBottom: -3 }}
+                color={focused ? colors.btnColor : 'black'}
+              />
+            ),
+
+            tabBarLabel: ({ focused }) => (
+              <Text
+                style={{
+                  color: focused ? colors.btnColor : '#000',
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
+                }}
+              >
+                History
+              </Text>
+            ),
+          }}
+        />
       </Tabs>
     </SafeAreaView>
   );

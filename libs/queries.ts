@@ -2,7 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useStoreId } from '../hooks/useAuth';
 import { products } from './goods';
-import { Delivered, PickUp, PrintData, ReturnT, ReturnType } from '../types';
+import {
+  Delivered,
+  HistoryType,
+  PickUp,
+  PrintData,
+  ReturnT,
+  ReturnType,
+} from '../types';
 
 export const useGetPickupQuery = (id: string) => {
   return useQuery({
@@ -26,6 +33,31 @@ export const useGetPickupQuery = (id: string) => {
     refetchInterval: 1000 * 60,
     refetchIntervalInBackground: true,
     staleTime: 1000 * 60,
+  });
+};
+export const useHistory = (
+  id: string,
+  lowerDate: string,
+  higherDate: string
+) => {
+  return useQuery({
+    queryKey: ['history', id, lowerDate, higherDate],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverymonthlydelivery&agentid=2&lowerdate=${lowerDate}&higherdate=${higherDate}`
+      );
+
+      let data = [];
+      if (Object.prototype.toString.call(response.data) === '[object Object]') {
+        data.push(response.data);
+      } else if (
+        Object.prototype.toString.call(response.data) === '[object Array]'
+      ) {
+        data = [...response.data];
+      }
+
+      return data as HistoryType[];
+    },
   });
 };
 export const useGetPickupQuery2 = () => {
