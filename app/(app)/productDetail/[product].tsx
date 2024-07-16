@@ -17,6 +17,7 @@ type Props = {
 const ProductDetail = () => {
   const { product } = useLocalSearchParams<Props>();
   const router = useRouter();
+  console.log(product);
 
   const { isPending: isPickUpPending, mutateAsync } = usePickUp();
   const {
@@ -49,7 +50,7 @@ const ProductDetail = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <ProductDetailCard product={product} singleProduct={singleProduct} />
+        <ProductDetailCard product={product!} singleProduct={singleProduct} />
 
         <View style={{ marginHorizontal: 20 }}>
           <MyButton
@@ -60,7 +61,7 @@ const ProductDetail = () => {
           />
           <MyButton
             title="Pick up from Merchant"
-            onPress={() => mutateAsync(product)}
+            onPress={() => mutateAsync(product!)}
             color={colors.btnColor}
             loading={isPickUpPending}
           />

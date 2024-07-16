@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { Redirect, Stack, router } from 'expo-router';
-import { User, useStoreId } from '../../hooks/useAuth';
+import { useStoreId } from '../../hooks/useAuth';
 import { DeleteModal } from '../../components/DeleteAccount';
-import * as Location from 'expo-location';
-import { Alert } from 'react-native';
-import * as TaskManager from 'expo-task-manager';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 type Props = {

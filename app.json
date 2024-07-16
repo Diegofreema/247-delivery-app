@@ -63,7 +63,7 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png",
-          "sound": "./assets/noti.wav"
+          "sound": ["./assets/noti.wav"]
         }
       ],
       [
@@ -85,7 +85,18 @@
       ],
       "expo-font",
       "expo-secure-store",
-      "@react-native-firebase/app"
+
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "extraProguardRules": "-keep public class com.horcrux.svg.** {*;}",
+            "allowBackup": false,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

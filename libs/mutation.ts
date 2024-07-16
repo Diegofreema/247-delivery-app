@@ -13,7 +13,7 @@ export const usePickUp = () => {
   const pickUp = async (id: string) => {
     console.log('id', id);
     const response = await axios.post(
-      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupbutton&saleid=${profile?.id}`
+      `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverypickupbutton&saleid=${id}`
     );
     console.log('response', response);
 
@@ -25,13 +25,14 @@ export const usePickUp = () => {
     onSuccess: (data) => {
       if (data === 'saved') {
         queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
-        router.push('/');
-        return toast.show('Product has been picked up', {
+        toast.show('Product has been picked up', {
           type: 'success',
           placement: 'bottom',
           duration: 4000,
           animationType: 'slide-in',
         });
+
+        return router.push('/');
       }
 
       return toast.show('Something went wrong, please try again later', {
@@ -88,6 +89,7 @@ export const usePrint = () => {
 export const useDeliver = () => {
   const toast = useToast();
   const { imgUri, salesId } = useSignature();
+  console.log({ salesId });
 
   const router = useRouter();
   const queryClient = useQueryClient();

@@ -1,5 +1,5 @@
 import { View, Text, FlatList, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { HeaderComponent } from '../../../components/Header';
 import { useHistory } from '../../../libs/queries';
 import { ErrorComponent } from '../../../components/ErrorComponent';
@@ -9,8 +9,12 @@ import { useStoreId } from '../../../hooks/useAuth';
 import { HistoryType } from '../../../types';
 import { defaultStyle } from '../../../constants';
 import { EmptyBag } from '../../../components/EmptyBag';
-import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated';
-import { format, parseISO } from 'date-fns';
+import Animated, {
+  SlideInDown,
+  SlideInLeft,
+  SlideInRight,
+} from 'react-native-reanimated';
+import { endOfMonth, format, parseISO, startOfMonth } from 'date-fns';
 import {
   DateTimePickerAndroid,
   DateTimePickerEvent,
@@ -24,18 +28,30 @@ const unixTimestamp = parsedDate.getTime();
 const secondDate = '2024-12-17';
 const parsedSecond = parseISO(secondDate);
 const unixSecond = parsedSecond.getTime();
+const currentDate = new Date();
+const beginDate = startOfMonth(currentDate);
+const endDate = endOfMonth(currentDate);
+const beginDateString = format(beginDate, 'MM-dd-yyyy');
+const endDateString = format(endDate, 'MM-dd-yyyy');
 const history = () => {
   const { profile } = useStoreId();
-  const [lowerDate, setLowerDate] = useState('11-24-2023');
-  const [finalLastDate, setFinalLastDate] = useState('11-24-2023');
-  const [higherDate, setHigherDate] = useState('12-17-2024');
-  const [finalHigherDate, setFinalHigherDate] = useState('12-17-2024');
-  const [firstDate, setFirstDate] = useState(new Date(unixTimestamp));
-  const [secondDate, setSecondDate] = useState(new Date(unixSecond));
+  const [lowerDate, setLowerDate] = useState(beginDateString);
+  const [finalLastDate, setFinalLastDate] = useState(beginDateString);
+  const [higherDate, setHigherDate] = useState(endDateString);
+  const [finalHigherDate, setFinalHigherDate] = useState(endDateString);
+  const [firstDate, setFirstDate] = useState(beginDate);
+  const [secondDate, setSecondDate] = useState(endDate);
 
   const { data, isError, isPaused, refetch, isPending, isRefetching } =
     useHistory(profile?.id, finalLastDate, finalHigherDate);
-
+  const totalPrice = useMemo(
+    () =>
+      data?.reduce(
+        (total, { deliverycost }) => total + Number(deliverycost),
+        0
+      ),
+    [data]
+  );
   if (isError || isPaused) {
     return <ErrorComponent refetch={refetch} />;
   }
@@ -87,6 +103,7 @@ const history = () => {
     setFinalLastDate(lowerDate);
     setFinalHigherDate(higherDate);
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View
@@ -143,6 +160,7 @@ const history = () => {
           keyExtractor={(item, i) => i.toString()}
           ListEmptyComponent={<EmptyBag text="Nothing history yet!!!" />}
           contentContainerStyle={{ gap: 10, paddingBottom: 50 }}
+          ListFooterComponent={() => <Footer totalPrice={totalPrice || 0} />}
         />
       </View>
     </View>
@@ -150,6 +168,28 @@ const history = () => {
 };
 
 export default history;
+
+const Footer = ({ totalPrice }: { totalPrice: number }) => {
+  return (
+    <Animated.View
+      entering={SlideInDown.delay(500).duration(500)}
+      style={{
+        marginTop: 10,
+        alignItems: 'center',
+        backgroundColor: colors.productCard,
+        paddingVertical: 16,
+        borderRadius: 8,
+      }}
+    >
+      <Text style={{ color: 'black', fontSize: 15, fontFamily: 'Poppins' }}>
+        Total
+      </Text>
+      <Text style={{ color: 'black', fontSize: 18, fontFamily: 'PoppinsBold' }}>
+        ₦{totalPrice}
+      </Text>
+    </Animated.View>
+  );
+};
 
 const HistoryItem = ({
   history,
@@ -163,24 +203,42 @@ const HistoryItem = ({
     <Animated.View
       entering={AnimationDirection.delay(500).springify()}
       style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         backgroundColor: colors.productCard,
         paddingHorizontal: 10,
         paddingVertical: 16,
         borderRadius: 10,
       }}
     >
-      <Text style={{ color: 'black', fontSize: 13, fontFamily: 'Poppins' }}>
-        {history?.datex}
+      <Text
+        style={{
+          color: 'black',
+          fontSize: 15,
+          fontFamily: 'PoppinsBold',
+          flex: 1,
+        }}
+      >
+        {history?.Location}
       </Text>
-      <Text style={{ color: 'black', fontSize: 13, fontFamily: 'Poppins' }}>
-        {history?.deliverycost}
-      </Text>
-      <Text style={{ color: 'black', fontSize: 13, fontFamily: 'Poppins' }}>
-        {history.Location}
-      </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 13,
+            fontFamily: 'Poppins',
+          }}
+        >
+          {history?.datex}
+        </Text>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 13,
+            fontFamily: 'Poppins',
+          }}
+        >
+          ₦{history?.deliverycost}
+        </Text>
+      </View>
     </Animated.View>
   );
 };

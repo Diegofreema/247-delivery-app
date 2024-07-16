@@ -11,16 +11,17 @@ import { ErrorComponent } from '../../../components/ErrorComponent';
 import { useFocusEffect } from 'expo-router';
 import { useStoreId } from '../../../hooks/useAuth';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '@rneui/themed';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import axios from 'axios';
+import { Button } from '@rneui/themed';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
-    shouldSetBadge: false,
+    shouldSetBadge: true,
+    priority: Notifications.AndroidNotificationPriority.HIGH,
   }),
 });
 

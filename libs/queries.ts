@@ -32,7 +32,6 @@ export const useGetPickupQuery = (id: string) => {
     },
     refetchInterval: 1000 * 60,
     refetchIntervalInBackground: true,
-    staleTime: 1000 * 60,
   });
 };
 export const useHistory = (
@@ -40,11 +39,12 @@ export const useHistory = (
   lowerDate: string,
   higherDate: string
 ) => {
+  const { profile } = useStoreId();
   return useQuery({
     queryKey: ['history', id, lowerDate, higherDate],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverymonthlydelivery&agentid=2&lowerdate=${lowerDate}&higherdate=${higherDate}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverymonthlydelivery&agentid=${profile.id}&lowerdate=${lowerDate}&higherdate=${higherDate}`
       );
 
       let data = [];
