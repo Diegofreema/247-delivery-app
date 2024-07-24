@@ -98,9 +98,7 @@ export const useDeliver = () => {
     mutationKey: ['deliver'],
     mutationFn: async () => {
       const formData = new FormData();
-
       formData.append('sig', imgUri as string);
-
       formData.append('salesid', salesId as string);
 
       const response = await fetch(

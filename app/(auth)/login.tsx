@@ -1,7 +1,6 @@
-import { registerIndieID } from 'native-notify';
 import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { defaultStyle } from '../../constants';
 import { HeaderComponent } from '../../components/Header';
@@ -58,12 +57,11 @@ const Login = () => {
       );
       console.log(response.data);
 
-      if (response?.data === 'incorrect credentials') {
+      if (response?.data.result === 'incorrect credentials') {
         return toast.show('Incorrect credentials', {
           type: 'danger',
-          placement: 'bottom',
+          placement: 'top',
           duration: 4000,
-
           animationType: 'slide-in',
         });
       }

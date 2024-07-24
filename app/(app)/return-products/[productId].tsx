@@ -56,6 +56,7 @@ const DetailDelivery = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
+        {/* @ts-ignore */}
         <ReturnCom {...params} />
         <View style={{ marginHorizontal: 20 }}>
           <MyButton

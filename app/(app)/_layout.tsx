@@ -9,7 +9,7 @@ type Props = {
   password: string;
 };
 
-const AppLayout = (props: Props) => {
+const AppLayout = () => {
   const { profile, getId, removeId } = useStoreId();
 
   useEffect(() => {

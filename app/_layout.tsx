@@ -1,8 +1,6 @@
-import registerNNPushToken from 'native-notify';
-
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen } from 'expo-router';
 
 import { StatusBar } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -24,7 +22,7 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
-    priority: Notifications.AndroidNotificationPriority.HIGH,
+    priority: Notifications?.AndroidNotificationPriority.HIGH,
   }),
 });
 
@@ -34,7 +32,7 @@ function useNotificationObserver() {
     let isMounted = true;
 
     function redirect(notification: Notifications.Notification) {
-      const url = notification.request.content.data?.url;
+      const url = notification?.request?.content?.data?.url;
       if (url) {
         router.push(url);
       }
@@ -47,31 +45,34 @@ function useNotificationObserver() {
       redirect(response?.notification);
     });
 
-    const subscription = Notifications.addNotificationResponseReceivedListener(
+    const subscription = Notifications?.addNotificationResponseReceivedListener(
       (response) => {
-        redirect(response.notification);
+        redirect(response?.notification);
       }
     );
 
     return () => {
       isMounted = false;
-      subscription.remove();
+      subscription?.remove();
     };
   }, []);
 }
-const appId = process.env.EXPO_PUBLIC_APP_ID;
-const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
+// const appId = process.env.EXPO_PUBLIC_APP_ID;
+// const appToken = process.env.EXPO_PUBLIC_APP_TOKEN;
 export default function RootLayout() {
   useNotificationObserver();
-  registerNNPushToken(appId, appToken);
+
   const [loaded, error] = useFonts({
     Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
     PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
   });
-
+  //
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
+    if (error) {
+      console.log(error.message);
+      throw error;
+    }
   }, [error]);
 
   useEffect(() => {

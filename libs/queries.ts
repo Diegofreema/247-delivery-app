@@ -181,7 +181,7 @@ export const useGeReturnList = () => {
         `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturnedproductlist&agentid=${profile?.id}`
       );
 
-      console.log('response', response.status);
+      console.log(response, 'list');
 
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {
@@ -197,11 +197,12 @@ export const useGeReturnList = () => {
   });
 };
 export const useGetReturn = (id: string | undefined) => {
+  const { profile } = useStoreId();
   return useQuery({
     queryKey: ['returnList', id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=1&myuserid${id}`
+        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile.id}&myuserid${id}`
       );
 
       console.log('response', response.status);
@@ -226,14 +227,15 @@ export type NameType = {
 };
 export const useGeReturnName = () => {
   const { profile } = useStoreId();
+  console.log(profile?.id);
+
   return useQuery({
     queryKey: ['name', profile?.id],
     queryFn: async () => {
       const response = await axios.get(
         `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomers&agentid=${profile?.id}`
       );
-
-      console.log('response', response.status);
+      console.log(response);
 
       let data = [];
       if (Object.prototype.toString.call(response.data) === '[object Object]') {

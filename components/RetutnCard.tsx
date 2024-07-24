@@ -135,7 +135,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
               position: 'absolute',
               left: 12,
               width: 1,
-              height: 37,
+              height: 30,
               top: 49,
             }}
           />
@@ -146,7 +146,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
               left: 8,
               width: 9,
               height: 9,
-              top: 92,
+              top: 80,
               borderRadius: 6,
             }}
           />
