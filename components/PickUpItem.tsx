@@ -1,20 +1,15 @@
-import {
-  Entypo,
-  Feather,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
-import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
-import { PickUp } from '../types';
-import { textStyle } from '../constants';
-import { usePathname, useRouter } from 'expo-router';
-import { colors } from '../constants/Colors';
+import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Divider } from '@rneui/themed';
+import { usePathname, useRouter } from 'expo-router';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { textStyle } from '../constants';
+import { colors } from '../constants/Colors';
+import { PickUp } from '../types';
 
 import { useEffect, useRef } from 'react';
 import { checkTextLength } from '../libs/helper';
-import { MyButton } from './Mybutton';
 import { useReject } from '../libs/mutation';
+import { MyButton } from './Mybutton';
 interface Props extends PickUp {
   index: number;
 }
@@ -39,7 +34,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
   const handleReject = async () => {
     await mutateAsync();
   };

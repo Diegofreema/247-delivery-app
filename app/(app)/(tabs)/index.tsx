@@ -1,21 +1,20 @@
 import { ActivityIndicator, FlatList, Platform } from 'react-native';
+import { EmptyBag } from '../../../components/EmptyBag';
+import { HeaderComponent } from '../../../components/Header';
 import { View } from '../../../components/Themed';
 import { defaultStyle } from '../../../constants';
-import { HeaderComponent } from '../../../components/Header';
 import { colors } from '../../../constants/Colors';
 import { useGetPickupQuery } from '../../../libs/queries';
-import { EmptyBag } from '../../../components/EmptyBag';
 // import Animated, { SlideInUp } from 'react-native-reanimated';
-import { PickUpItem } from '../../../components/PickUpItem';
-import { ErrorComponent } from '../../../components/ErrorComponent';
-import { useFocusEffect } from 'expo-router';
-import { useStoreId } from '../../../hooks/useAuth';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
-import axios from 'axios';
-import { Button } from '@rneui/themed';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ErrorComponent } from '../../../components/ErrorComponent';
+import { PickUpItem } from '../../../components/PickUpItem';
+import { useStoreId } from '../../../hooks/useAuth';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -28,11 +27,11 @@ Notifications.setNotificationHandler({
 export default function TabOneScreen() {
   const { profile } = useStoreId();
 
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [channels, setChannels] = useState<Notifications.NotificationChannel[]>(
+  const [, setExpoPushToken] = useState('');
+  const [, setChannels] = useState<Notifications.NotificationChannel[]>(
     []
   );
-  const [notification, setNotification] = useState<
+  const [, setNotification] = useState<
     Notifications.Notification | undefined
   >(undefined);
   const notificationListener = useRef<Notifications.Subscription>();
@@ -66,7 +65,7 @@ export default function TabOneScreen() {
       responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  }, [profile?.id]);
 
   const { data, isError, isPaused, isPending, refetch, isRefetching } =
     useGetPickupQuery(profile.id);
@@ -74,7 +73,7 @@ export default function TabOneScreen() {
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, [refetch])
   );
 
   if (isError || isPaused) {
@@ -132,17 +131,17 @@ export default function TabOneScreen() {
     </View>
   );
 }
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You've got mail! 📬",
-      body: 'Here is the notification body',
-      data: { data: 'goes here', test: { test1: 'more data' } },
-      sound: 'noti.wav',
-    },
-    trigger: { seconds: 2, channelId: 'preview' },
-  });
-}
+// async function schedulePushNotification() {
+//   await Notifications.scheduleNotificationAsync({
+//     content: {
+//       title: "You've got mail! 📬",
+//       body: 'Here is the notification body',
+//       data: { data: 'goes here', test: { test1: 'more data' } },
+//       sound: 'noti.wav',
+//     },
+//     trigger: { seconds: 2, channelId: 'preview' },
+//   });
+// }
 
 async function registerForPushNotificationsAsync(id: string) {
   let token;
@@ -176,7 +175,7 @@ async function registerForPushNotificationsAsync(id: string) {
         Constants?.expoConfig?.extra?.eas?.projectId ??
         Constants?.easConfig?.projectId;
       if (!projectId) {
-        throw new Error('Project ID not found');
+         new Error('Project ID not found');
       }
       token = (
         await Notifications.getExpoPushTokenAsync({

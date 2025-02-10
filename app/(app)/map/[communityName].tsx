@@ -1,17 +1,17 @@
-import { Alert, StyleSheet, View, Animated } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
-import MapViewDirections from 'react-native-maps-directions';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import * as Location from 'expo-location';
 import { Image } from 'expo-image';
+import * as Location from 'expo-location';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert, Animated, StyleSheet } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 import { Back } from '../../../components/Back';
 
 import { MapSkeleton } from '../../../components/MapSkeleton';
-type Props = {};
+
 const apiKey = process.env.EXPO_PUBLIC_API_KEY || '';
-const MapScreen = (props: Props) => {
+const MapScreen = () => {
   const { communityName } = useLocalSearchParams<{ communityName: string }>();
   const mapContainerAnim = useRef(new Animated.Value(1000)).current;
   useEffect(() => {
@@ -28,8 +28,8 @@ const MapScreen = (props: Props) => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
- 
+  }, [mapContainerAnim]);
+
   const lat = Number(communityName?.split('-')[0]);
   const lng = Number(communityName?.split('-')[1]);
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -102,9 +102,8 @@ const MapScreen = (props: Props) => {
     }
 
     const degrees = (bearing * (120 / Math.PI) + 360) % 360;
-    const adjustedDegrees = (degrees + 180) % 360; // add 180 degrees
+    return (degrees + 180) % 360; // add 180 degrees
 
-    return adjustedDegrees;
   };
 
   return (

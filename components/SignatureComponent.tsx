@@ -1,14 +1,11 @@
 import { useRef, useState } from 'react';
-import { Image } from 'react-native';
-import { StyleSheet, View, Text } from 'react-native';
+import { Image, View } from 'react-native';
 import Signature, { SignatureViewRef } from 'react-native-signature-canvas';
 import { MyButton } from './Mybutton';
 
 import { useSignature } from '../hooks/useGetSig';
 
-type Props = {};
-
-export const SignatureComponent = ({}: Props): JSX.Element => {
+export const SignatureComponent = (): JSX.Element => {
   const ref = useRef<SignatureViewRef | null>(null);
   const { onGet, onReset } = useSignature();
 
@@ -85,5 +82,3 @@ export const SignatureComponent = ({}: Props): JSX.Element => {
     />
   );
 };
-
-const styles = StyleSheet.create({});

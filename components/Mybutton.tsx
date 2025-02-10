@@ -1,5 +1,4 @@
 import { Button } from '@rneui/themed';
-import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
   loading?: boolean;
@@ -33,5 +32,3 @@ export const MyButton = ({
     </Button>
   );
 };
-
-const styles = StyleSheet.create({});

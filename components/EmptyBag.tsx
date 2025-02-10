@@ -1,4 +1,4 @@
-import { StyleSheet, View, useWindowDimensions, Animated } from 'react-native';
+import { Animated, View, useWindowDimensions } from 'react-native';
 
 import { Image } from 'expo-image';
 import { usePathname } from 'expo-router';
@@ -60,5 +60,3 @@ export const EmptyBag = ({ text }: Props): JSX.Element => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});

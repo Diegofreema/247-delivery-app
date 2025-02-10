@@ -1,16 +1,15 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
 import { Redirect, Stack } from 'expo-router';
+import React, { useEffect } from 'react';
 import { useStoreId } from '../../hooks/useAuth';
 
-type Props = {};
 
-const AuthLayout = (props: Props) => {
+
+const AuthLayout = () => {
   const { profile, getId } = useStoreId();
 
   useEffect(() => {
     getId();
-  }, []);
+  }, [getId]);
 
   if (profile.id) {
     // @ts-ignore

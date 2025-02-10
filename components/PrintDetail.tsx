@@ -1,6 +1,3 @@
-import { StyleSheet, View, Text } from 'react-native';
-import { MyButton } from './Mybutton';
-import { colors } from '../constants/Colors';
 import {
   Entypo,
   Feather,
@@ -10,13 +7,13 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons';
 import { Divider } from '@rneui/themed';
-import { Pressable } from 'react-native';
 import { Image } from 'expo-image';
-import { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
-import { PrintData } from '../types';
 import * as Print from 'expo-print';
-import { checkTextLength } from '../libs/helper';
+import { useEffect, useRef } from 'react';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { colors } from '../constants/Colors';
+import { PrintData } from '../types';
+import { MyButton } from './Mybutton';
 interface Props extends PrintData {
   openDialScreen: () => void;
 }
@@ -37,11 +34,11 @@ export const PrintDetail = (printData: Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
   const html = `
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /><title></title>
   </head>
   <body style="text-align: center background-color: white;">
     <div style='display: flex; flex-direction: column ; align-items: center'>

@@ -1,31 +1,22 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
-import { defaultStyle } from '../../../../constants';
 import { HeaderComponent } from '../../../../components/Header';
+import { defaultStyle } from '../../../../constants';
 import { colors } from '../../../../constants/Colors';
 // import { useGeReturn, useGetDeliverQuery } from '../../libs/queries';
 import { useCallback, useState } from 'react';
 
-import { EmptyBag } from '../../../../components/EmptyBag';
-import { ReturnT } from '../../../../types';
 import axios from 'axios';
-import { useStoreId } from '../../../../hooks/useAuth';
-import { useReturnStore } from '../../../../hooks/useReturn';
-import { useGeReturnName } from '../../../../libs/queries';
-import { ErrorComponent } from '../../../../components/ErrorComponent';
-import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { SelectList } from 'react-native-dropdown-select-list';
+import { EmptyBag } from '../../../../components/EmptyBag';
+import { ErrorComponent } from '../../../../components/ErrorComponent';
 import { ReturnCard } from '../../../../components/RetutnCard';
+import { useStoreId } from '../../../../hooks/useAuth';
+import { useGeReturnName } from '../../../../libs/queries';
+import { ReturnT } from '../../../../types';
 export default function TabTwoScreen() {
   const { profile } = useStoreId();
-  const { salesId } = useReturnStore();
-  const { returnId } = useLocalSearchParams();
 
   const [loading, setLoading] = useState(false);
 
@@ -44,14 +35,14 @@ export default function TabTwoScreen() {
     useCallback(() => {
       refetchCustomer();
       setReturnProducts([]);
-    }, [])
+    }, [refetchCustomer])
   );
 
   const handleChange = async (customerId: any) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile?.id}&myuserid=${customerId}`
+        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile?.id}&myuserid=${customerId}`
       );
 
       console.log('response', response.data);
@@ -102,7 +93,7 @@ export default function TabTwoScreen() {
         <HeaderComponent>Products To Return</HeaderComponent>
         <View style={{ marginBottom: 20 }} />
         {isPending ? (
-          <View style={styles2.border}>
+          <View>
             <View
               style={{
                 justifyContent: 'center',
@@ -117,7 +108,7 @@ export default function TabTwoScreen() {
         ) : (
           <SelectList
             boxStyles={{
-              ...styles2.border,
+              // ...styles2.border,
               justifyContent: 'flex-start',
               backgroundColor: 'white',
             }}
@@ -163,47 +154,3 @@ export default function TabTwoScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-
-  container: {
-    flex: 1,
-    marginTop: 15,
-    backgroundColor: 'white',
-
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'lightgrey',
-    marginBottom: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-});
-
-const styles2 = StyleSheet.create({
-  border: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 8,
-    minHeight: 50,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-});

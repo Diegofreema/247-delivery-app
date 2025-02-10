@@ -1,7 +1,7 @@
-import { Input } from '@rneui/themed';
-import { StyleSheet, View, Text, KeyboardTypeOptions } from 'react-native';
-import { colors } from '../constants/Colors';
 import { IconNode } from '@rneui/base';
+import { Input } from '@rneui/themed';
+import { KeyboardTypeOptions } from 'react-native';
+import { colors } from '../constants/Colors';
 
 type Props = {
   value: string;
@@ -46,5 +46,3 @@ export const InputComponent = ({
     />
   );
 };
-
-const styles = StyleSheet.create({});

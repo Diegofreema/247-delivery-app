@@ -12,7 +12,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -22,7 +24,8 @@
           "remote-notification",
           "audio"
         ]
-      }
+      },
+      "bundleIdentifier": "com.diegodark.riderapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,8 +45,9 @@
         "android.permission.ACCESS_BACKGROUND_LOCATION",
         "android.permission.FOREGROUND_SERVICE",
         "android.permission.FOREGROUND_SERVICE_LOCATION",
-        "WAKE_LOCK",
-        "RECEIVE_BOOT_COMPLETED"
+        "android.permission.WAKE_LOCK",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -63,7 +67,9 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png",
-          "sound": ["./assets/noti.wav"]
+          "sound": [
+            "./assets/noti.wav"
+          ]
         }
       ],
       [
@@ -85,7 +91,6 @@
       ],
       "expo-font",
       "expo-secure-store",
-
       [
         "expo-build-properties",
         {

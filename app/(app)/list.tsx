@@ -7,9 +7,9 @@ import { ErrorComponent } from '../../components/ErrorComponent';
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
 import { PickUpCard } from '../../components/PickUpCard';
 
-type Props = {};
 
-const list = (props: Props) => {
+
+const List = () => {
   const { data, isPending, refetch, isError, isPaused } = useGeReturnList();
   if (isError || isPaused) {
     return <ErrorComponent refetch={refetch} />;
@@ -43,4 +43,4 @@ const list = (props: Props) => {
   );
 };
 
-export default list;
+export default List;

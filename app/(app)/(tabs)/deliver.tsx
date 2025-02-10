@@ -1,15 +1,15 @@
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { EmptyBag } from '../../../components/EmptyBag';
+import { ErrorComponent } from '../../../components/ErrorComponent';
+import { HeaderComponent } from '../../../components/Header';
+import { ProductCards } from '../../../components/ProductCards';
 import { View } from '../../../components/Themed';
 import { defaultStyle } from '../../../constants';
-import { HeaderComponent } from '../../../components/Header';
 import { colors } from '../../../constants/Colors';
-import { useFocusEffect, useRouter } from 'expo-router';
 import { useGetDeliverQuery } from '../../../libs/queries';
-import { EmptyBag } from '../../../components/EmptyBag';
-import { ProductCards } from '../../../components/ProductCards';
-import { ErrorComponent } from '../../../components/ErrorComponent';
-import { useCallback } from 'react';
 
 export default function TabTwoScreen() {
   const {
@@ -21,17 +21,15 @@ export default function TabTwoScreen() {
     isPending,
     isRefetching,
   } = useGetDeliverQuery();
-  const router = useRouter();
-
-  if (isError || isPaused) {
-    return <ErrorComponent refetch={refetch} />;
-  }
 
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, [refetch])
   );
+  if (isError || isPaused) {
+    return <ErrorComponent refetch={refetch} />;
+  }
 
   if (isPending) {
     return (
@@ -78,36 +76,3 @@ export default function TabTwoScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-
-  container: {
-    flex: 1,
-    marginTop: 15,
-    backgroundColor: 'white',
-
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'lightgrey',
-    marginBottom: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-});

@@ -1,28 +1,25 @@
-import { StyleSheet, View, Text } from 'react-native';
-import { useToast } from 'react-native-toast-notifications';
-import { SignatureComponent } from './SignatureComponent';
-import { MyButton } from './Mybutton';
-import { useState } from 'react';
 import { BottomSheet } from '@rneui/themed';
-import { useSignature } from '../hooks/useGetSig';
-import { useDeliver } from '../libs/mutation';
-import axios from 'axios';
-import { router } from 'expo-router';
 import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Text, View } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
+import { useSignature } from '../hooks/useGetSig';
+import { MyButton } from './Mybutton';
+import { SignatureComponent } from './SignatureComponent';
 type Props = {
   isVisible: boolean;
   id: string;
   onHide: () => void;
 };
-const api = process.env.EXPO_PUBLIC_URL;
+
 export const BottomComponent = ({
   isVisible,
-  id,
   onHide,
 }: Props): JSX.Element => {
-  const { imgUri, onGet, salesId, onReset } = useSignature();
+  const { imgUri, onReset } = useSignature();
   const queryClient = useQueryClient();
-  const { isPending, mutateAsync } = useDeliver();
+
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
@@ -34,18 +31,6 @@ export const BottomComponent = ({
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverydelivered&saleid=${id}`
-      );
-
-      const response = await axios.post(
-        `https://blog.247pharmacy.net/users/handlesignature`,
-        {
-          sig: imgUri,
-          salesid: id,
-        }
-      );
-
       queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
       onReset();
       router.push('/deliver');
@@ -120,5 +105,3 @@ export const BottomComponent = ({
     </BottomSheet>
   );
 };
-
-const styles = StyleSheet.create({});

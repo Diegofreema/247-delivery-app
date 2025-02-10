@@ -44,16 +44,16 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
 
-  const openDialScreen = () => {
-    let number = '';
+  const openDialScreen =  async () => {
+    let number;
     if (Platform.OS === 'ios') {
       number = `telprompt:${singleData?.Buyerphone}`;
     } else {
       number = `tel:${singleData?.Buyerphone}`;
     }
-    Linking.openURL(number);
+   await Linking.openURL(number);
   };
   return (
     <Animated.View

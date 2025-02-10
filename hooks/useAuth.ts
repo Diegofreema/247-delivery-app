@@ -1,7 +1,5 @@
-import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
-import { LoggedUserType } from '../types';
+import { create } from 'zustand';
 export type User = { id: string; statename: string; agent: string };
 interface AuthStore {
   profile: User;

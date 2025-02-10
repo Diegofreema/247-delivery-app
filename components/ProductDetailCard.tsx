@@ -1,33 +1,23 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Platform,
-  Linking,
-  Pressable,
-  Animated,
-} from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 
-import { defaultStyle } from '../constants';
-import { Divider } from '@rneui/base';
 import {
   AntDesign,
   Entypo,
   Feather,
   FontAwesome5,
-  Ionicons,
   MaterialIcons,
 } from '@expo/vector-icons';
-import { PickUp } from '../types';
-import { colors } from '../constants/Colors';
-import { Image } from 'expo-image';
+import { Divider } from '@rneui/base';
 import { useEffect, useRef } from 'react';
+import { defaultStyle } from '../constants';
+import { colors } from '../constants/Colors';
+import { PickUp } from '../types';
 type Prop = {
   singleProduct?: PickUp;
   product: string;
 };
 export const ProductDetailCard = ({
-  product,
+
   singleProduct,
 }: Prop): JSX.Element => {
   const slideAnim = useRef(new Animated.Value(1000)).current;
@@ -45,17 +35,8 @@ export const ProductDetailCard = ({
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
 
-  const openDialScreen = () => {
-    let number = '';
-    if (Platform.OS === 'ios') {
-      number = `telprompt:${singleProduct?.sellerphone}`;
-    } else {
-      number = `tel:${singleProduct?.sellerphone}`;
-    }
-    Linking.openURL(number);
-  };
   return (
     <Animated.View
       style={[

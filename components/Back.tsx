@@ -1,10 +1,8 @@
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-type Props = {};
-
-export const Back = ({}: Props): JSX.Element => {
+export const Back = (): JSX.Element => {
   const router = useRouter();
   return (
     <View style={styles.container}>

@@ -5,8 +5,6 @@ import { Skeleton } from '@rneui/base';
 import { LinearComponent } from './LinearComponent';
 import { useEffect, useRef } from 'react';
 
-type Props = {};
-
 export const LoadingSkeleton = (): JSX.Element => {
   const skeletonAnim = useRef(new Animated.Value(-1000)).current;
   useEffect(() => {
@@ -23,7 +21,7 @@ export const LoadingSkeleton = (): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [skeletonAnim]);
   return (
     <View
       style={{

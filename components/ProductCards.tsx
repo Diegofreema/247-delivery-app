@@ -39,7 +39,7 @@ export const ProductCards = (item: Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
 
   console.log('🚀 ~ ProductCards ~ item:', item);
 

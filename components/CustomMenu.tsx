@@ -1,18 +1,15 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { useRef, useState } from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
-import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
-import { useStoreId } from '../hooks/useAuth';
-import { router } from 'expo-router';
-import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
-import { MyButton } from './Mybutton';
 import { Divider } from '@rneui/themed';
+import { router } from 'expo-router';
+import { useRef } from 'react';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
+import { useStoreId } from '../hooks/useAuth';
 import { useDelete } from '../hooks/useDelete';
-type Props = {};
 
-export const CustomMenu = ({}: Props): JSX.Element => {
+export const CustomMenu = (): JSX.Element => {
   const actionSheetRef = useRef<ActionSheetRef>(null);
-  const { removeId, profile } = useStoreId();
+  const { removeId } = useStoreId();
 
   const { onOpen } = useDelete();
 

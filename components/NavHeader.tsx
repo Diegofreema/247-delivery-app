@@ -1,7 +1,7 @@
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { Header } from '@rneui/themed';
 import { useRouter } from 'expo-router';
-import { StyleSheet, View, Text } from 'react-native';
+import { Text } from 'react-native';
 
 type Props = {
   title?: string;
@@ -27,5 +27,3 @@ export const NavHeader = ({ title }: Props): JSX.Element => {
     </Header>
   );
 };
-
-const styles = StyleSheet.create({});

@@ -1,25 +1,24 @@
-import { Linking, Platform, Text, View } from 'react-native';
-import React, { useState } from 'react';
-import { useGetPrint } from '../../../libs/queries';
 import { useLocalSearchParams } from 'expo-router';
-import { NavHeader } from '../../../components/NavHeader';
+import React, { useState } from 'react';
+import { Linking, Platform, Text, View } from 'react-native';
 import { MyButton } from '../../../components/Mybutton';
+import { NavHeader } from '../../../components/NavHeader';
+import { useGetPrint } from '../../../libs/queries';
 
+import { ScrollView } from 'react-native';
 import { LoadingSkeleton } from '../../../components/LoadingSkeleton';
 import { PrintDetail } from '../../../components/PrintDetail';
-import { ScrollView } from 'react-native';
-type Props = {};
 
-const PrintData = (props: Props) => {
+
+const PrintData = () => {
   const { printRef } = useLocalSearchParams();
-  const [selectedPrinter, setSelectedPrinter] = React.useState();
 
   const { data, isFetching, isError, isPending, refetch, isPaused } =
     useGetPrint(printRef as string);
-  const [retry, setRetry] = useState(false);
+  const [, setRetry] = useState(false);
 
-  const handleRetry = () => {
-    refetch();
+  const handleRetry = async () => {
+   await refetch();
     setRetry((prev) => !prev);
   };
   if (isError || isPaused) {
@@ -46,14 +45,14 @@ const PrintData = (props: Props) => {
 
   const printData = data[0];
 
-  const openDialScreen = () => {
+  const openDialScreen = async () => {
     let number = '';
     if (Platform.OS === 'ios') {
       number = `telprompt:${data[0]?.phone}`;
     } else {
       number = `tel:${data[0]?.phone}`;
     }
-    Linking.openURL(number);
+   await Linking.openURL(number);
   };
   return (
     <>

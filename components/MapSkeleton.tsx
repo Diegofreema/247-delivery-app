@@ -1,11 +1,9 @@
 import { Skeleton } from '@rneui/themed';
 import { useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { LinearComponent } from './LinearComponent';
 
-type Props = {};
-
-export const MapSkeleton = ({}: Props): JSX.Element => {
+export const MapSkeleton = (): JSX.Element => {
   const skeletonAnim = useRef(new Animated.Value(-1000)).current;
   useEffect(() => {
     Animated.timing(skeletonAnim, {
@@ -21,7 +19,7 @@ export const MapSkeleton = ({}: Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [skeletonAnim]);
   return (
     <Animated.View style={{ flex: 1 }}>
       <Skeleton

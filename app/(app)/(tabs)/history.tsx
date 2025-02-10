@@ -1,39 +1,38 @@
-import { View, Text, FlatList, Pressable } from 'react-native';
-import React, { useMemo, useState } from 'react';
-import { HeaderComponent } from '../../../components/Header';
-import { useHistory } from '../../../libs/queries';
-import { ErrorComponent } from '../../../components/ErrorComponent';
-import { ActivityIndicator } from 'react-native';
-import { colors } from '../../../constants/Colors';
-import { useStoreId } from '../../../hooks/useAuth';
-import { HistoryType } from '../../../types';
-import { defaultStyle } from '../../../constants';
-import { EmptyBag } from '../../../components/EmptyBag';
-import Animated, {
-  SlideInDown,
-  SlideInLeft,
-  SlideInRight,
-} from 'react-native-reanimated';
-import { endOfMonth, format, parseISO, startOfMonth } from 'date-fns';
 import {
   DateTimePickerAndroid,
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import { Input } from '@rneui/themed';
+import { endOfMonth, format, startOfMonth } from 'date-fns';
+import React, { useMemo, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
+import Animated, {
+  SlideInDown,
+  SlideInLeft,
+  SlideInRight,
+} from 'react-native-reanimated';
+import { EmptyBag } from '../../../components/EmptyBag';
+import { ErrorComponent } from '../../../components/ErrorComponent';
+import { HeaderComponent } from '../../../components/Header';
 import { MyButton } from '../../../components/Mybutton';
+import { defaultStyle } from '../../../constants';
+import { colors } from '../../../constants/Colors';
+import { useStoreId } from '../../../hooks/useAuth';
+import { useHistory } from '../../../libs/queries';
+import { HistoryType } from '../../../types';
 
-const targetDate = '2023-10-24';
-const parsedDate = parseISO(targetDate);
-const unixTimestamp = parsedDate.getTime();
-const secondDate = '2024-12-17';
-const parsedSecond = parseISO(secondDate);
-const unixSecond = parsedSecond.getTime();
 const currentDate = new Date();
 const beginDate = startOfMonth(currentDate);
 const endDate = endOfMonth(currentDate);
 const beginDateString = format(beginDate, 'MM-dd-yyyy');
 const endDateString = format(endDate, 'MM-dd-yyyy');
-const history = () => {
+const History = () => {
   const { profile } = useStoreId();
   const [lowerDate, setLowerDate] = useState(beginDateString);
   const [finalLastDate, setFinalLastDate] = useState(beginDateString);
@@ -167,7 +166,7 @@ const history = () => {
   );
 };
 
-export default history;
+export default History;
 
 const Footer = ({ totalPrice }: { totalPrice: number }) => {
   return (

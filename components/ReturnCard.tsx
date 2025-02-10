@@ -1,28 +1,27 @@
 import {
-  StyleSheet,
-  View,
-  Text,
-  Linking,
-  Pressable,
-  Animated,
-} from 'react-native';
-import { MyButton } from './Mybutton';
-import {
   AntDesign,
   Entypo,
   Feather,
   FontAwesome5,
-  Ionicons,
   MaterialIcons,
 } from '@expo/vector-icons';
+import {
+  Animated,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { MyButton } from './Mybutton';
 
-import { defaultStyle } from '../constants';
 import { Divider } from '@rneui/base';
-import { Platform } from 'react-native';
-import { Delivered, ReturnType } from '../types';
-import { colors } from '../constants/Colors';
 import { Image } from 'expo-image';
 import { useEffect, useRef } from 'react';
+import { Platform } from 'react-native';
+import { defaultStyle } from '../constants';
+import { colors } from '../constants/Colors';
+import { ReturnType } from '../types';
 
 type Props = {
   setIsVisible?: (val: boolean) => void;
@@ -45,16 +44,16 @@ export const ReturnCard = (singleData: ReturnType & Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
 
-  const openDialScreen = () => {
-    let number = '';
+  const openDialScreen = async () => {
+    let number;
     if (Platform.OS === 'ios') {
       number = `telprompt:${singleData?.sellerphone}`;
     } else {
       number = `tel:${singleData?.sellerphone}`;
     }
-    Linking.openURL(number);
+   await Linking.openURL(number);
   };
   return (
     <Animated.View

@@ -1,11 +1,9 @@
-import { Feather } from '@expo/vector-icons';
-import { Header, Text } from '@rneui/themed';
-import { PropsWithChildren } from 'react';
+import {Text} from '@rneui/themed';
+import {PropsWithChildren} from 'react';
 
-import { Pressable, StyleSheet, View } from 'react-native';
-import { useStoreId } from '../hooks/useAuth';
-import { router, usePathname } from 'expo-router';
-import { CustomMenu } from './CustomMenu';
+import {usePathname} from 'expo-router';
+import {View} from 'react-native';
+import {CustomMenu} from './CustomMenu';
 
 type Props = {
   children: PropsWithChildren<any>;
@@ -14,15 +12,10 @@ type Props = {
 
 export const HeaderComponent = ({
   children,
-  placement,
+
 }: Props): JSX.Element => {
-  const { removeId } = useStoreId();
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    removeId();
-    router.replace('/');
-  };
   return (
     <View
       style={{
@@ -38,5 +31,3 @@ export const HeaderComponent = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({});

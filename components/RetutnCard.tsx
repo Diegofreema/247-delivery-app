@@ -5,12 +5,11 @@ import {
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { Divider } from '@rneui/base';
-import { Animated, Pressable } from 'react-native';
-import { StyleSheet, View, Text } from 'react-native';
-import { colors } from '../constants/Colors';
-import { textStyle } from '../constants';
-import { Delivered, ReturnT, ReturnType } from '../types';
 import { useRouter } from 'expo-router';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { textStyle } from '../constants';
+import { colors } from '../constants/Colors';
+import { ReturnT } from '../types';
 
 import { useEffect, useRef } from 'react';
 import { checkTextLength } from '../libs/helper';
@@ -41,7 +40,7 @@ export const ReturnCard = (item: Props): JSX.Element => {
         useNativeDriver: true,
       }).start();
     };
-  }, []);
+  }, [slideAnim]);
 
   return (
     <Animated.View

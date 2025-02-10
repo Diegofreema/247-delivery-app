@@ -27,10 +27,6 @@ const DetailDelivery = () => {
 
   const singleData = data?.filter((product) => product?.id === productId)[0];
 
-  const next = () => {
-    setIsVisible(true);
-  };
-
   return (
     <>
       <NavHeader title="Product details" />

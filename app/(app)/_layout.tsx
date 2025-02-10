@@ -26,7 +26,7 @@ const AppLayout = () => {
         .replace(/[#?\/\\%&]/g, '')
         .replace(/:/g, '');
       const { data } = await axios.post(
-        `https://test.ngpoolsbetting.com.ng/api.aspx?api=deliverylogin&emailaddress=${credentials.email}&pasword=${formattedPassword}`
+        `https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${credentials.email}&pasword=${formattedPassword}`
       );
 
       if (!data?.id) {
@@ -36,11 +36,11 @@ const AppLayout = () => {
     };
 
     checkIfBlocked();
-  }, []);
+  }, [removeId]);
 
   useEffect(() => {
     getId();
-  }, []);
+  }, [getId]);
 
   if (!profile.id) {
     return <Redirect href="/login" />;

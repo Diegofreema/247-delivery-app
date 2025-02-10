@@ -1,11 +1,7 @@
-import { ActivityIndicator, View } from 'react-native';
 import { Button, Dialog, Text } from '@rneui/themed';
-import { colors } from '../constants/Colors';
+import { View } from 'react-native';
 import { useDelete } from '../hooks/useDelete';
 import { useDeleteAccount } from '../libs/mutation';
-type Props = {
-  isSubmitting: boolean;
-};
 
 export const DeleteModal = (): JSX.Element => {
   const { isOpen, onClose } = useDelete();
