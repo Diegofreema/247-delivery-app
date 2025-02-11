@@ -20,8 +20,6 @@ interface Props extends ReturnType {
 }
 
 export const PickUpCard = (item: Props): JSX.Element => {
-  console.log('🚀 ~ PickUpCard ~ item:', item);
-
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
@@ -59,11 +57,7 @@ export const PickUpCard = (item: Props): JSX.Element => {
           {checkTextLength(item?.product)}
         </Text>
         <Pressable
-          onPress={() =>
-            router.push({
-              pathname: `/return/${item?.id}`,
-            })
-          }
+          onPress={() => router.push(`/return/${item?.id}`)}
           style={({ pressed }) => [
             {
               flexDirection: 'row',

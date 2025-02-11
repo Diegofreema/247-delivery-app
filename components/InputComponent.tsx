@@ -37,6 +37,7 @@ export const InputComponent = ({
         padding: 8,
         borderRadius: 5,
       }}
+      autoCapitalize="none"
       placeholderTextColor={colors.placeHolderColor}
       value={value}
       onChangeText={onChangeText}

@@ -7,20 +7,17 @@ import { useToast } from 'react-native-toast-notifications';
 import { useSignature } from '../hooks/useGetSig';
 import { MyButton } from './Mybutton';
 import { SignatureComponent } from './SignatureComponent';
+import { useDeliver } from '../libs/mutation';
 type Props = {
   isVisible: boolean;
   id: string;
   onHide: () => void;
 };
 
-export const BottomComponent = ({
-  isVisible,
-  onHide,
-}: Props): JSX.Element => {
+export const BottomComponent = ({ isVisible, onHide }: Props): JSX.Element => {
   const { imgUri, onReset } = useSignature();
   const queryClient = useQueryClient();
-
-  const [loading, setLoading] = useState(false);
+  const { mutateAsync, isPending } = useDeliver();
 
   const toast = useToast();
   const hideModal = () => {
@@ -28,11 +25,11 @@ export const BottomComponent = ({
     onReset();
   };
   const mutate = async () => {
-    setLoading(true);
-
     try {
-      queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
-      onReset();
+      await mutateAsync();
+      queryClient.invalidateQueries({ queryKey: ['pickup'] });
+      queryClient.invalidateQueries({ queryKey: ['delivery'] });
+      hideModal();
       router.push('/deliver');
       toast.show('Product has been delivered successfully', {
         type: 'success',
@@ -42,15 +39,12 @@ export const BottomComponent = ({
       });
     } catch (error) {
       console.log('🚀 ~ mutate ~ error:', error);
-      console.log('🚀 ~ mutate ~ error:', 'error');
       toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',
         duration: 4000,
         animationType: 'slide-in',
       });
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -98,7 +92,7 @@ export const BottomComponent = ({
             title="Deliver"
             onPress={mutate}
             disabled={imgUri === null}
-            loading={loading}
+            loading={isPending}
           />
         </View>
       </View>

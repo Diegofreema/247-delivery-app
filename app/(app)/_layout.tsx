@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, Stack, router } from 'expo-router';
+import { Redirect, Stack, router, usePathname } from 'expo-router';
 import { useStoreId } from '../../hooks/useAuth';
 import { DeleteModal } from '../../components/DeleteAccount';
 import axios from 'axios';
@@ -11,6 +11,8 @@ type Props = {
 
 const AppLayout = () => {
   const { profile, getId, removeId } = useStoreId();
+  const pathname = usePathname();
+  console.log(pathname);
 
   useEffect(() => {
     const checkIfBlocked = async () => {
@@ -18,11 +20,11 @@ const AppLayout = () => {
         SecureStore.getItem('credentials') || '{}'
       );
 
-      if (!credentials) {
+      if (!credentials.password) {
         return;
       }
 
-      const formattedPassword = credentials.password
+      const formattedPassword = credentials?.password
         .replace(/[#?\/\\%&]/g, '')
         .replace(/:/g, '');
       const { data } = await axios.post(

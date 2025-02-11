@@ -23,6 +23,7 @@ import { Delivered } from '../types';
 import { colors } from '../constants/Colors';
 import { Image } from 'expo-image';
 import { useEffect, useRef } from 'react';
+import { checkTextLength } from '../libs/helper';
 
 type Props = {
   setIsVisible?: (val: boolean) => void;
@@ -46,14 +47,14 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
     };
   }, [slideAnim]);
 
-  const openDialScreen =  async () => {
+  const openDialScreen = async () => {
     let number;
     if (Platform.OS === 'ios') {
       number = `telprompt:${singleData?.Buyerphone}`;
     } else {
       number = `tel:${singleData?.Buyerphone}`;
     }
-   await Linking.openURL(number);
+    await Linking.openURL(number);
   };
   return (
     <Animated.View
@@ -194,7 +195,7 @@ export const DetailCard = (singleData: Delivered & Props): JSX.Element => {
               marginRight: -10,
             }}
           >
-            {singleData?.salesreference}
+            {checkTextLength(singleData?.salesreference)}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />

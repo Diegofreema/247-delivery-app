@@ -29,7 +29,6 @@ export default function TabTwoScreen() {
     refetch: refetchCustomer,
     isPaused,
   } = useGeReturnName();
-  console.log(customerData);
 
   useFocusEffect(
     useCallback(() => {

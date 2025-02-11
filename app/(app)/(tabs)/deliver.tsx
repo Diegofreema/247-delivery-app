@@ -12,15 +12,8 @@ import { colors } from '../../../constants/Colors';
 import { useGetDeliverQuery } from '../../../libs/queries';
 
 export default function TabTwoScreen() {
-  const {
-    data,
-
-    isError,
-    isPaused,
-    refetch,
-    isPending,
-    isRefetching,
-  } = useGetDeliverQuery();
+  const { data, isError, isPaused, refetch, isPending, isRefetching } =
+    useGetDeliverQuery();
 
   useFocusEffect(
     useCallback(() => {
@@ -45,7 +38,6 @@ export default function TabTwoScreen() {
       </View>
     );
   }
-  console.log(data);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>

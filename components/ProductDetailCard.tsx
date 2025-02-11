@@ -12,14 +12,12 @@ import { useEffect, useRef } from 'react';
 import { defaultStyle } from '../constants';
 import { colors } from '../constants/Colors';
 import { PickUp } from '../types';
+import { checkTextLength } from '../libs/helper';
 type Prop = {
   singleProduct?: PickUp;
   product: string;
 };
-export const ProductDetailCard = ({
-
-  singleProduct,
-}: Prop): JSX.Element => {
+export const ProductDetailCard = ({ singleProduct }: Prop): JSX.Element => {
   const slideAnim = useRef(new Animated.Value(1000)).current;
   useEffect(() => {
     Animated.timing(slideAnim, {
@@ -234,7 +232,7 @@ export const ProductDetailCard = ({
             }}
             numberOfLines={3}
           >
-            {singleProduct?.salesreference}
+            {checkTextLength(singleProduct?.salesreference || '', 15)}
           </Text>
         </View>
         <Divider style={{ marginVertical: 13 }} />

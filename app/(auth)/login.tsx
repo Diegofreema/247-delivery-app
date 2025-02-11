@@ -122,7 +122,6 @@ const Login = () => {
                 value={values.password}
                 onChangeText={handleChange('password')}
                 placeholder="Password"
-                secured
                 errorMessage={errorMessagePassword}
               />
             </>

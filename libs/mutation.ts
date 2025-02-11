@@ -11,7 +11,6 @@ export const usePickUp = () => {
   const queryClient = useQueryClient();
 
   const pickUp = async (id: string) => {
-    console.log('id', id);
     const response = await axios.post(
       `https://test.omega12x.net/api.aspx?api=deliverypickupbutton&saleid=${id}`
     );
@@ -77,7 +76,7 @@ export const usePrint = () => {
       }
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       return toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',
@@ -100,6 +99,7 @@ export const useDeliver = () => {
       const formData = new FormData();
       formData.append('sig', imgUri as string);
       formData.append('salesid', salesId as string);
+      console.log(formData.toString());
 
       const response = await fetch(
         `https://blog.247pharmacy.net/users/handlesignature`,
@@ -127,7 +127,8 @@ export const useDeliver = () => {
         return;
       }
       // router.push('/(tabs)/deliver');
-      queryClient.invalidateQueries({ queryKey: ['pickup', 'delivery'] });
+      queryClient.invalidateQueries({ queryKey: ['pickup'] });
+      queryClient.invalidateQueries({ queryKey: ['delivery'] });
       return toast.show('Product has been delivered successfully', {
         type: 'success',
         placement: 'bottom',
@@ -177,7 +178,7 @@ export const useReturn = (id: any) => {
       }
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       return toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',
@@ -200,7 +201,6 @@ export const useDeleteAccount = () => {
   return useMutation({
     mutationFn: onDelete,
     onSuccess: () => {
-
       removeId();
       router.replace(`/login`);
 

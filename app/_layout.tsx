@@ -16,7 +16,8 @@ export { ErrorBoundary } from 'expo-router';
 export const unstable_settings = {
   initialRouteName: 'index',
 };
-const query = new QueryClient();Notifications.setNotificationHandler({
+const query = new QueryClient();
+Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
@@ -99,7 +100,6 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
