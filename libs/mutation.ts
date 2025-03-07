@@ -86,47 +86,56 @@ export const usePrint = () => {
     },
   });
 };
-export const useDeliver = () => {
-  const toast = useToast();
-  const { imgUri, salesId } = useSignature();
-  console.log({ salesId });
+export const useDeliver = (id: string) => {
+  console.log({ id });
 
+  const toast = useToast();
+  const { imgUri } = useSignature();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['deliver'],
     mutationFn: async () => {
+      const response = await axios.get(
+        `https://test.omega12x.net/api.aspx?api=deliverydelivered&saleid=${id}`
+      );
+      console.log('response', response.status, response.data);
+
+      return response.data;
+    },
+    onSuccess: async () => {
+      // console.log(data);
+
       const formData = new FormData();
       formData.append('sig', imgUri as string);
-      formData.append('salesid', salesId as string);
-      console.log(formData.toString());
+      formData.append('salesid', id as string);
 
-      const response = await fetch(
-        `https://blog.247pharmacy.net/users/handlesignature`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: formData,
-        }
-      );
+      await fetch(`https://blog.247pharmacy.net/users/handlesignature`, {
+        method: 'POST',
+        body: formData,
+      });
 
-      console.log('🚀 ~ mutationFn: ~ response:', response);
-      return response.json();
-    },
-    onSuccess: async (data) => {
-      console.log('🚀 ~ onSuccess: ~ data:', data);
-      if (data?.includes("{ 'result': 'failed' }")) {
-        toast.show('Something went wrong, please try again later', {
-          type: 'danger',
-          placement: 'bottom',
-          duration: 4000,
-          animationType: 'slide-in',
-        });
-        return;
-      }
-      // router.push('/(tabs)/deliver');
+      // try {
+      //   // Then try to parse it as JSON
+      //   const data = JSON.parse(text);
+      //   return data;
+      // } catch (e) {
+      //   console.error('🚀 ~ useDeliver ~ e:', e);
+      //   // If it's not valid JSON, return the text response
+      //   return text;
+      // }
+
+      // if (result.includes('failed') || result.includes('error')) {
+      //   toast.show('Something went wrong, please try again later', {
+      //     type: 'danger',
+      //     placement: 'bottom',
+      //     duration: 4000,
+      //     animationType: 'slide-in',
+      //   });
+      //   return;
+      // }
+      router.push('/deliver');
+
       queryClient.invalidateQueries({ queryKey: ['pickup'] });
       queryClient.invalidateQueries({ queryKey: ['delivery'] });
       return toast.show('Product has been delivered successfully', {
@@ -137,7 +146,7 @@ export const useDeliver = () => {
       });
     },
     onError: (error) => {
-      console.log('🚀 ~ useDeliver ~ error:', error);
+      console.error('🚀 ~ useDeliver ~ error:', error);
       return toast.show('Something went wrong, please try again later', {
         type: 'danger',
         placement: 'bottom',

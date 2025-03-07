@@ -1,51 +1,31 @@
 import { BottomSheet } from '@rneui/themed';
-import { useQueryClient } from '@tanstack/react-query';
-import { router } from 'expo-router';
-import { useState } from 'react';
 import { Text, View } from 'react-native';
-import { useToast } from 'react-native-toast-notifications';
 import { useSignature } from '../hooks/useGetSig';
+import { useDeliver } from '../libs/mutation';
 import { MyButton } from './Mybutton';
 import { SignatureComponent } from './SignatureComponent';
-import { useDeliver } from '../libs/mutation';
 type Props = {
   isVisible: boolean;
   id: string;
   onHide: () => void;
 };
 
-export const BottomComponent = ({ isVisible, onHide }: Props): JSX.Element => {
+export const BottomComponent = ({
+  isVisible,
+  onHide,
+  id,
+}: Props): JSX.Element => {
   const { imgUri, onReset } = useSignature();
-  const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useDeliver();
 
-  const toast = useToast();
+  const { mutateAsync, isPending } = useDeliver(id);
+
   const hideModal = () => {
     onHide();
     onReset();
   };
   const mutate = async () => {
-    try {
-      await mutateAsync();
-      queryClient.invalidateQueries({ queryKey: ['pickup'] });
-      queryClient.invalidateQueries({ queryKey: ['delivery'] });
-      hideModal();
-      router.push('/deliver');
-      toast.show('Product has been delivered successfully', {
-        type: 'success',
-        placement: 'bottom',
-        duration: 4000,
-        animationType: 'slide-in',
-      });
-    } catch (error) {
-      console.log('🚀 ~ mutate ~ error:', error);
-      toast.show('Something went wrong, please try again later', {
-        type: 'danger',
-        placement: 'bottom',
-        duration: 4000,
-        animationType: 'slide-in',
-      });
-    }
+    await mutateAsync();
+    hideModal();
   };
   return (
     <BottomSheet isVisible={isVisible} onBackdropPress={hideModal}>

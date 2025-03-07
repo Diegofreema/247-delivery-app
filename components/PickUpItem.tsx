@@ -1,6 +1,6 @@
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Divider } from '@rneui/themed';
-import { usePathname, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { textStyle } from '../constants';
 import { colors } from '../constants/Colors';
@@ -8,18 +8,16 @@ import { PickUp } from '../types';
 
 import { useEffect, useRef } from 'react';
 import { checkTextLength } from '../libs/helper';
-import { useReject } from '../libs/mutation';
-import { MyButton } from './Mybutton';
 interface Props extends PickUp {
   index: number;
 }
 
 export const PickUpItem = (item: Props): JSX.Element => {
-  const { mutateAsync, isPending } = useReject(item?.id);
+  // const { mutateAsync, isPending } = useReject(item?.id);
   const router = useRouter();
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
-  const pathname = usePathname();
+  // const pathname = usePathname();
   useEffect(() => {
     Animated.timing(slideAnim, {
       toValue: 0,
@@ -35,9 +33,9 @@ export const PickUpItem = (item: Props): JSX.Element => {
       }).start();
     };
   }, [slideAnim]);
-  const handleReject = async () => {
-    await mutateAsync();
-  };
+  // const handleReject = async () => {
+  //   await mutateAsync();
+  // };
   const renderStrings = (stringArray: string) => {
     if (stringArray?.length > 15) {
       return stringArray.slice(0, 15) + '...';
@@ -147,7 +145,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
               }}
               numberOfLines={1}
             >
-              {item?.selleraddress}
+              {checkTextLength(item?.selleraddress, 40)}
             </Text>
           </View>
         </View>
@@ -214,7 +212,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
           </View>
         </View>
       </View>
-      <View style={{ marginHorizontal: 15 }}>
+      {/* <View style={{ marginHorizontal: 15 }}>
         {pathname === '/' && (
           <MyButton
             color={'red'}
@@ -224,7 +222,7 @@ export const PickUpItem = (item: Props): JSX.Element => {
             onPress={handleReject}
           />
         )}
-      </View>
+      </View> */}
     </Animated.View>
   );
 };

@@ -22,6 +22,8 @@ interface Props extends Delivered {
 
 export const ProductCards = (item: Props): JSX.Element => {
   const router = useRouter();
+  console.log({ item: item.id });
+
   const animatedDirection = item?.index % 2 === 0 ? -1000 : 1000;
   const slideAnim = useRef(new Animated.Value(animatedDirection)).current;
 
@@ -41,8 +43,6 @@ export const ProductCards = (item: Props): JSX.Element => {
     };
   }, [slideAnim]);
 
-  console.log('🚀 ~ ProductCards ~ item:', item);
-
   return (
     <Animated.View
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
@@ -60,11 +60,7 @@ export const ProductCards = (item: Props): JSX.Element => {
           {checkTextLength(item?.product)}
         </Text>
         <Pressable
-          onPress={() =>
-            router.push({
-              pathname: `/deliveryDetails/${item?.id}`,
-            })
-          }
+          onPress={() => router.push(`/deliveryDetails/${item?.id}`)}
           style={({ pressed }) => [
             {
               flexDirection: 'row',
