@@ -5,6 +5,7 @@ import { useToast } from 'react-native-toast-notifications';
 import { useStoreId } from '../hooks/useAuth';
 import { useSignature } from '../hooks/useGetSig';
 import { useReturnStore } from '../hooks/useReturn';
+import { api } from './helper';
 export const usePickUp = () => {
   const toast = useToast();
   const router = useRouter();
@@ -12,7 +13,7 @@ export const usePickUp = () => {
 
   const pickUp = async (id: string) => {
     const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliverypickupbutton&saleid=${id}`
+      `${api}=deliverypickupbutton&saleid=${id}`
     );
     console.log('response', response);
 
@@ -56,9 +57,7 @@ export const usePickUp = () => {
 export const usePrint = () => {
   const toast = useToast();
   const pickUp = async (id: string) => {
-    const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliveryprint&saleid=${id}`
-    );
+    const response = await axios.post(`${api}=deliveryprint&saleid=${id}`);
 
     return response.data;
   };
@@ -96,9 +95,7 @@ export const useDeliver = (id: string) => {
   return useMutation({
     mutationKey: ['deliver'],
     mutationFn: async () => {
-      const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverydelivered&saleid=${id}`
-      );
+      const response = await axios.get(`${api}=deliverydelivered&saleid=${id}`);
       console.log('response', response.status, response.data);
 
       return response.data;
@@ -164,7 +161,7 @@ export const useReturn = (id: any) => {
   const returnFn = async () => {
     onGet(id);
     const response = await axios.post(
-      `https://test.omega12x.net/api.aspx?api=deliveryreturnbutton&saleid=${id}`
+      `${api}=deliveryreturnbutton&saleid=${id}`
     );
 
     return response.data;

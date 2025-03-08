@@ -9,13 +9,14 @@ import {
   ReturnT,
   ReturnType,
 } from '../types';
+import { api } from './helper';
 
 export const useGetPickupQuery = (id: string) => {
   return useQuery({
     queryKey: ['pickup'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverypickupdata&agentid=${id}`
+        `${api}=deliverypickupdata&agentid=${id}`
       );
 
       let data = [];
@@ -43,7 +44,7 @@ export const useHistory = (
     queryKey: ['history', id, lowerDate, higherDate],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverymonthlydelivery&agentid=${profile.id}&lowerdate=${lowerDate}&higherdate=${higherDate}`
+        `${api}=deliverymonthlydelivery&agentid=${profile.id}&lowerdate=${lowerDate}&higherdate=${higherDate}`
       );
 
       let data = [];
@@ -66,7 +67,7 @@ export const useGetPickupQuery2 = () => {
     queryKey: ['pickup2'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverypickupdata&agentid=${profile.id}`
+        `${api}=deliverypickupdata&agentid=${profile.id}`
       );
 
       let data = [];
@@ -88,7 +89,7 @@ export const useGetDeliverQuery = () => {
     queryKey: ['delivery'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverylist&agentid=${profile?.id}`
+        `${api}=deliverylist&agentid=${profile?.id}`
       );
 
       let data = [];
@@ -110,7 +111,7 @@ export const useGetDeliverQuery2 = () => {
     queryKey: ['delivery2'],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliverylist&agentid=${profile?.id}`
+        `${api}=deliverylist&agentid=${profile?.id}`
       );
 
       let data = [];
@@ -152,9 +153,7 @@ export const useGetPrint = (id: string) => {
   return useQuery({
     queryKey: ['printData', id],
     queryFn: async () => {
-      const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryprint&saleid=${id}`
-      );
+      const response = await axios.get(`${api}=deliveryprint&saleid=${id}`);
 
       console.log('response', response.status);
 
@@ -177,7 +176,7 @@ export const useGeReturnList = () => {
     queryKey: ['return', profile?.id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturnedproductlist&agentid=${profile?.id}`
+        `${api}=deliveryreturnedproductlist&agentid=${profile?.id}`
       );
 
       console.log(response, 'list');
@@ -201,7 +200,7 @@ export const useGetReturn = (id: string | undefined) => {
     queryKey: ['returnList', id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile.id}&myuserid${id}`
+        `${api}=deliveryreturncustomerproducts&agentid=${profile.id}&myuserid${id}`
       );
 
       console.log('response', response.status);
@@ -232,7 +231,7 @@ export const useGeReturnName = () => {
     queryKey: ['name', profile?.id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomers&agentid=${profile?.id}`
+        `${api}=deliveryreturncustomers&agentid=${profile?.id}`
       );
       console.log(response);
 

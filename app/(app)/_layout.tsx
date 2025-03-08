@@ -4,6 +4,7 @@ import { useStoreId } from '../../hooks/useAuth';
 import { DeleteModal } from '../../components/DeleteAccount';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { api } from '../../libs/helper';
 type Props = {
   email: string;
   password: string;
@@ -28,7 +29,7 @@ const AppLayout = () => {
         .replace(/[#?\/\\%&]/g, '')
         .replace(/:/g, '');
       const { data } = await axios.post(
-        `https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${credentials.email}&pasword=${formattedPassword}`
+        `${api}=deliverylogin&emailaddress=${credentials.email}&pasword=${formattedPassword}`
       );
 
       if (!data?.id) {

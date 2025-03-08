@@ -5,3 +5,5 @@ export const checkTextLength = (text: string, length = 30) => {
 
   return text;
 };
+
+export const api = 'https://247pharmacyapi.netpro.software/api.aspx?api';

@@ -15,6 +15,7 @@ import { TextComponent } from '../../components/TextComponent';
 import { defaultStyle } from '../../constants';
 import { colors } from '../../constants/Colors';
 import { useStoreId } from '../../hooks/useAuth';
+import { api } from '../../libs/helper';
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
@@ -52,7 +53,7 @@ const Login = () => {
           .replace(/[#?\/\\%&]/g, '')
           .replace(/:/g, '');
         const response = await axios.post(
-          `https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${values.email}&pasword=${formattedPassword}`
+          `${api}=deliverylogin&emailaddress=${values.email}&pasword=${formattedPassword}`
         );
         console.log({ r: response });
 

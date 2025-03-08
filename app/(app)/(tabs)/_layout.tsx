@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../../constants/Colors';
 import { useStoreId } from '../../../hooks/useAuth';
+import { api } from '../../../libs/helper';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -25,7 +26,7 @@ export default function TabLayout() {
         .replace(/[#?\/\\%&]/g, '')
         .replace(/:/g, '');
       const { data } = await axios.post(
-        `https://test.omega12x.net/api.aspx?api=deliverylogin&emailaddress=${credentials?.email}&pasword=${formattedPassword}`
+        `${api}=deliverylogin&emailaddress=${credentials?.email}&pasword=${formattedPassword}`
       );
 
       if (!data?.id) {

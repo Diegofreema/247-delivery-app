@@ -15,6 +15,7 @@ import { ReturnCard } from '../../../../components/RetutnCard';
 import { useStoreId } from '../../../../hooks/useAuth';
 import { useGeReturnName } from '../../../../libs/queries';
 import { ReturnT } from '../../../../types';
+import { api } from '../../../../libs/helper';
 export default function TabTwoScreen() {
   const { profile } = useStoreId();
 
@@ -41,7 +42,7 @@ export default function TabTwoScreen() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://test.omega12x.net/api.aspx?api=deliveryreturncustomerproducts&agentid=${profile?.id}&myuserid=${customerId}`
+        `${api}=deliveryreturncustomerproducts&agentid=${profile?.id}&myuserid=${customerId}`
       );
 
       console.log('response', response.data);
